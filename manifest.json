@@ -1,0 +1,10 @@
+{
+  "name": "Criador IA",
+  "short_name": "Criador IA",
+  "description": "Crie imagens, vídeos, áudios e textos com IA",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#0b1020",
+  "theme_color": "#111827",
+  "lang": "pt-BR"
+}
