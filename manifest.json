@@ -1,0 +1,12 @@
+{
+  "name": "Criador IA 2",
+  "short_name": "Criador IA 2",
+  "description": "Crie imagens, vídeos, áudios e textos com IA.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0b1020",
+  "theme_color": "#0b1020",
+  "lang": "pt-BR",
+  "icons": []
+}
