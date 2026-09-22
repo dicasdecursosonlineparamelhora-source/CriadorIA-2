@@ -3,37 +3,34 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#111827">
+<meta name="theme-color" content="#0b1020">
 <title>Criador IA</title>
 
 <style>
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
   margin:0;
-  font-family:Arial,Helvetica,sans-serif;
+  font-family:Arial,sans-serif;
   background:#0b1020;
   color:#fff;
 }
 
 .container{
-  width:100%;
   max-width:900px;
   margin:auto;
-  padding:18px;
+  padding:16px;
 }
 
 h1{
   text-align:center;
-  margin:8px 0 5px;
+  margin:8px 0;
 }
 
 .subtitle{
   text-align:center;
-  color:#aeb7cc;
-  margin-bottom:20px;
+  color:#aab4ca;
+  margin-bottom:18px;
 }
 
 .card{
@@ -44,17 +41,14 @@ h1{
   margin-bottom:16px;
 }
 
-button,
-select,
-input,
-textarea{
+button,input,textarea,select{
   font:inherit;
 }
 
 button{
   border:0;
   border-radius:10px;
-  padding:12px 16px;
+  padding:12px;
   cursor:pointer;
 }
 
@@ -66,6 +60,7 @@ button{
 }
 
 .logout{
+  width:100%;
   background:#374151;
   color:white;
   margin-top:8px;
@@ -75,12 +70,11 @@ button{
   display:grid;
   grid-template-columns:repeat(4,1fr);
   gap:8px;
-  margin-top:12px;
 }
 
 .mode{
   background:#273149;
-  color:#fff;
+  color:white;
 }
 
 .mode.active{
@@ -90,20 +84,18 @@ button{
 label{
   display:block;
   margin:14px 0 6px;
-  color:#d9e0ef;
   font-weight:bold;
 }
 
 textarea,
-input[type="text"],
+input[type=text],
 select{
   width:100%;
-  padding:12px;
-  border-radius:10px;
-  border:1px solid #394661;
   background:#0f1526;
   color:white;
-  outline:none;
+  border:1px solid #394661;
+  border-radius:10px;
+  padding:12px;
 }
 
 textarea{
@@ -120,9 +112,8 @@ textarea{
 .upload{
   border:2px dashed #465474;
   border-radius:12px;
-  padding:16px;
+  padding:15px;
   text-align:center;
-  margin-top:8px;
 }
 
 .upload input{
@@ -130,8 +121,8 @@ textarea{
 }
 
 .preview{
-  margin-top:12px;
   text-align:center;
+  margin-top:12px;
 }
 
 .preview img{
@@ -141,23 +132,29 @@ textarea{
 }
 
 .music-box{
+  margin-top:14px;
+  padding:14px;
+  border:1px solid #405174;
   background:#10182b;
-  border:1px solid #3c4b6b;
   border-radius:12px;
-  padding:12px;
-  margin-top:12px;
 }
 
-.checkbox-row{
+.checkbox{
   display:flex;
   align-items:center;
   gap:10px;
-  font-weight:bold;
 }
 
-.checkbox-row input{
+.checkbox input{
   width:20px;
   height:20px;
+}
+
+.small{
+  color:#9eabc2;
+  font-size:13px;
+  line-height:1.5;
+  margin-top:8px;
 }
 
 .generate{
@@ -175,8 +172,8 @@ textarea{
 
 .status{
   margin-top:12px;
-  color:#b8c2d9;
   white-space:pre-wrap;
+  line-height:1.5;
 }
 
 .result{
@@ -192,18 +189,11 @@ textarea{
 
 .result video{
   width:100%;
-  max-height:600px;
   background:#000;
 }
 
 .hidden{
   display:none;
-}
-
-.small{
-  color:#9ca8bf;
-  font-size:13px;
-  line-height:1.5;
 }
 
 .success{
@@ -215,17 +205,15 @@ textarea{
 }
 
 @media(max-width:600px){
-  .grid{
-    grid-template-columns:1fr;
-  }
 
   .modes{
     grid-template-columns:1fr 1fr;
   }
 
-  .container{
-    padding:10px;
+  .grid{
+    grid-template-columns:1fr;
   }
+
 }
 </style>
 </head>
@@ -234,203 +222,280 @@ textarea{
 
 <div class="container">
 
-  <h1>🤖 Criador IA</h1>
-  <div class="subtitle">
-    Crie imagens, vídeos, áudios e textos usando IA
-  </div>
+<h1>🤖 Criador IA</h1>
 
-  <div class="card">
+<div class="subtitle">
+Crie imagens, vídeos, áudios e textos com IA
+</div>
 
-    <button id="loginBtn" class="login">
-      🔐 Entrar com Pollinations
-    </button>
 
-    <button id="logoutBtn" class="logout hidden">
-      Sair
-    </button>
+<!-- LOGIN -->
 
-    <div id="loginStatus" class="status">
-      Você precisa entrar para usar o criador.
-    </div>
+<div class="card">
 
-  </div>
+<button id="loginBtn" class="login">
+🔐 Entrar com Pollinations
+</button>
 
-  <div class="card">
+<button id="logoutBtn" class="logout hidden">
+Sair
+</button>
 
-    <label>O que você quer criar?</label>
-
-    <div class="modes">
-
-      <button class="mode active" data-mode="image">
-        🖼️ Imagem
-      </button>
-
-      <button class="mode" data-mode="video">
-        🎬 Vídeo
-      </button>
-
-      <button class="mode" data-mode="audio">
-        🔊 Áudio
-      </button>
-
-      <button class="mode" data-mode="text">
-        ✍️ Texto
-      </button>
-
-    </div>
-
-    <label for="prompt">
-      Descreva o que você quer
-    </label>
-
-    <textarea
-      id="prompt"
-      placeholder="Exemplo: crie um vídeo dele dançando moonwalk..."
-    ></textarea>
-
-    <div id="videoOptions" class="hidden">
-
-      <div class="grid">
-
-        <div>
-          <label for="duration">
-            Duração
-          </label>
-
-          <select id="duration">
-            <option value="4">4 segundos</option>
-            <option value="5">5 segundos</option>
-            <option value="6">6 segundos</option>
-            <option value="8" selected>8 segundos</option>
-            <option value="10">10 segundos</option>
-          </select>
-        </div>
-
-        <div>
-          <label for="aspectRatio">
-            Formato
-          </label>
-
-          <select id="aspectRatio">
-            <option value="16:9">16:9 — Horizontal</option>
-            <option value="9:16">9:16 — Vertical</option>
-            <option value="1:1">1:1 — Quadrado</option>
-          </select>
-        </div>
-
-      </div>
-
-      <label for="scenario">
-        Cenário do vídeo
-      </label>
-
-      <input
-        id="scenario"
-        type="text"
-        placeholder="Exemplo: rua à noite, palco, sala..."
-      >
-
-      <label for="movement">
-        Movimento
-      </label>
-
-      <input
-        id="movement"
-        type="text"
-        placeholder="Exemplo: dançando moonwalk, caminhando..."
-      >
-
-      <div class="music-box">
-
-        <div class="checkbox-row">
-          <input
-            type="checkbox"
-            id="enableAudio"
-          >
-
-          <span>🎵 Tentar gerar áudio no vídeo</span>
-        </div>
-
-        <label for="musicPrompt">
-          Música / áudio desejado
-        </label>
-
-        <input
-          id="musicPrompt"
-          type="text"
-          placeholder="Ex.: música dançante com clima pop dos anos 80"
-        >
-
-        <div class="small">
-          Se o áudio solicitado não puder ser usado, o aplicativo tenta gerar o vídeo
-          novamente sem áudio para evitar que o vídeo inteiro falhe.
-        </div>
-
-      </div>
-
-    </div>
-
-    <label>
-      Imagem de referência
-    </label>
-
-    <div class="upload">
-
-      <input
-        id="fileInput"
-        type="file"
-        accept="image/*,video/*,audio/*,.txt,.pdf"
-      >
-
-      <div class="small">
-        Para criar vídeo a partir de uma foto, envie a foto aqui.
-      </div>
-
-    </div>
-
-    <div id="preview" class="preview"></div>
-
-    <button id="generateBtn" class="generate">
-      ✨ Criar
-    </button>
-
-    <div id="status" class="status"></div>
-
-  </div>
-
-  <div class="card">
-
-    <h2>Resultado</h2>
-
-    <div id="result" class="result">
-      Seu resultado aparecerá aqui.
-    </div>
-
-  </div>
+<div id="loginStatus" class="status">
+Você precisa entrar para usar o criador.
+</div>
 
 </div>
 
+
+<!-- CRIADOR -->
+
+<div class="card">
+
+<label>O que você quer criar?</label>
+
+<div class="modes">
+
+<button class="mode active" data-mode="image">
+🖼️ Imagem
+</button>
+
+<button class="mode" data-mode="video">
+🎬 Vídeo
+</button>
+
+<button class="mode" data-mode="audio">
+🔊 Áudio
+</button>
+
+<button class="mode" data-mode="text">
+✍️ Texto
+</button>
+
+</div>
+
+
+<label for="prompt">
+Descreva o que você quer
+</label>
+
+<textarea
+id="prompt"
+placeholder="Exemplo: crie um vídeo dele dançando moonwalk..."
+></textarea>
+
+
+<!-- OPÇÕES DE VÍDEO -->
+
+<div id="videoOptions" class="hidden">
+
+<div class="grid">
+
+<div>
+
+<label>Duração</label>
+
+<select id="duration">
+
+<option value="5">
+5 segundos
+</option>
+
+<option value="6">
+6 segundos
+</option>
+
+<option value="8" selected>
+8 segundos
+</option>
+
+<option value="10">
+10 segundos
+</option>
+
+</select>
+
+</div>
+
+
+<div>
+
+<label>Formato</label>
+
+<select id="aspectRatio">
+
+<option value="16:9">
+16:9 — Horizontal
+</option>
+
+<option value="9:16">
+9:16 — Vertical
+</option>
+
+<option value="1:1">
+1:1 — Quadrado
+</option>
+
+</select>
+
+</div>
+
+</div>
+
+
+<label>Cenário</label>
+
+<input
+id="scenario"
+type="text"
+placeholder="Ex.: palco, rua, sala..."
+>
+
+
+<label>Movimento</label>
+
+<input
+id="movement"
+type="text"
+placeholder="Ex.: dançando, caminhando, moonwalk..."
+>
+
+
+<!-- MÚSICA -->
+
+<div class="music-box">
+
+<div class="checkbox">
+
+<input
+type="checkbox"
+id="enableAudio"
+>
+
+<strong>
+🎵 Tentar gerar áudio no vídeo
+</strong>
+
+</div>
+
+
+<label>
+Música / áudio desejado
+</label>
+
+<input
+id="musicPrompt"
+type="text"
+placeholder="Ex.: música dançante com clima pop dos anos 80"
+>
+
+<div class="small">
+
+Se o áudio não puder ser gerado, o aplicativo tenta criar
+o vídeo sem áudio para evitar que o vídeo inteiro dê erro.
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- UPLOAD -->
+
+<label>
+Imagem de referência
+</label>
+
+<div class="upload">
+
+<input
+id="fileInput"
+type="file"
+accept="image/*,video/*,audio/*,.txt,.pdf"
+>
+
+<div class="small">
+Para animar uma foto, envie a foto aqui.
+</div>
+
+</div>
+
+
+<div id="preview" class="preview"></div>
+
+
+<button id="generateBtn" class="generate">
+✨ Criar
+</button>
+
+
+<div id="status" class="status"></div>
+
+</div>
+
+
+<!-- RESULTADO -->
+
+<div class="card">
+
+<h2>Resultado</h2>
+
+<div id="result" class="result">
+Seu resultado aparecerá aqui.
+</div>
+
+</div>
+
+</div>
+
+
 <script>
 
-/* =========================================================
+/* =====================================================
    CONFIGURAÇÃO
-========================================================= */
+===================================================== */
 
-const CLIENT_ID = "pk_e3dlTjF2KpyiLMWx";
+/*
+   IMPORTANTE:
 
-const API_BASE = "https://gen.pollinations.ai";
-const AUTH_BASE = "https://enter.pollinations.ai";
+   Coloque aqui a sua própria App Key.
 
-const REDIRECT_URI =
-  window.location.origin + window.location.pathname;
+   Exemplo:
+
+   const CLIENT_ID = "pk_e3dlTjF2KpyiLMWx";
+
+   NÃO coloque uma sk_ aqui.
+*/
+
+const CLIENT_ID = "COLOQUE_SUA_PK_AQUI";
+
+
+const API_BASE =
+  "https://gen.pollinations.ai";
+
+
+const AUTH_BASE =
+  "https://enter.pollinations.ai";
+
 
 const TOKEN_KEY =
   "pollinations_access_token";
 
 
-/* =========================================================
+/*
+   TEM QUE SER EXATAMENTE O MESMO
+   REDIRECT URI CADASTRADO NO POLLINATIONS.
+*/
+
+const REDIRECT_URI =
+  window.location.origin +
+  window.location.pathname;
+
+
+/* =====================================================
    ELEMENTOS
-========================================================= */
+===================================================== */
 
 const loginBtn =
   document.getElementById("loginBtn");
@@ -488,32 +553,11 @@ let selectedFile = null;
 let uploadedFileUrl = null;
 
 
-/* =========================================================
-   UTILITÁRIOS
-========================================================= */
+/* =====================================================
+   FUNÇÕES DE ERRO
+===================================================== */
 
-function getToken(){
-
-  return sessionStorage.getItem(TOKEN_KEY);
-
-}
-
-
-function setToken(token){
-
-  sessionStorage.setItem(TOKEN_KEY, token);
-
-}
-
-
-function clearToken(){
-
-  sessionStorage.removeItem(TOKEN_KEY);
-
-}
-
-
-function getErrorMessage(error){
+function errorMessage(error){
 
   if(!error){
     return "Erro desconhecido.";
@@ -534,9 +578,11 @@ function getErrorMessage(error){
     }
 
     if(error.error){
+
       return typeof error.error === "string"
         ? error.error
         : JSON.stringify(error.error);
+
     }
 
     return JSON.stringify(error);
@@ -550,7 +596,7 @@ function getErrorMessage(error){
 }
 
 
-async function readApiResponse(response){
+async function readResponse(response){
 
   const text =
     await response.text();
@@ -560,17 +606,22 @@ async function readApiResponse(response){
   }
 
   try{
+
     return JSON.parse(text);
+
   }catch{
+
     return text;
+
   }
 
 }
 
 
-function showStatus(message, type=""){
+function showStatus(message,type=""){
 
-  status.textContent = message;
+  status.textContent =
+    message;
 
   status.className =
     "status " + type;
@@ -578,21 +629,21 @@ function showStatus(message, type=""){
 }
 
 
-/* =========================================================
+/* =====================================================
    PKCE
-========================================================= */
+===================================================== */
 
 function randomString(length=64){
 
   const chars =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
 
-  let result = "";
-
   const values =
     new Uint8Array(length);
 
   crypto.getRandomValues(values);
+
+  let result = "";
 
   for(let i=0;i<length;i++){
 
@@ -608,12 +659,9 @@ function randomString(length=64){
 
 async function sha256(value){
 
-  const data =
-    new TextEncoder().encode(value);
-
   return crypto.subtle.digest(
     "SHA-256",
-    data
+    new TextEncoder().encode(value)
   );
 
 }
@@ -622,7 +670,9 @@ async function sha256(value){
 function base64Url(buffer){
 
   return btoa(
-    String.fromCharCode(...new Uint8Array(buffer))
+    String.fromCharCode(
+      ...new Uint8Array(buffer)
+    )
   )
   .replace(/\+/g,"-")
   .replace(/\//g,"_")
@@ -631,7 +681,7 @@ function base64Url(buffer){
 }
 
 
-async function createCodeChallenge(verifier){
+async function createChallenge(verifier){
 
   return base64Url(
     await sha256(verifier)
@@ -640,83 +690,146 @@ async function createCodeChallenge(verifier){
 }
 
 
-/* =========================================================
-   LOGIN
-========================================================= */
+/* =====================================================
+   LOGIN POLLINATIONS
+===================================================== */
 
 async function login(){
 
   if(
-    !CLIENT_ID ||
-    CLIENT_ID === "COLOQUE_SUA_PK_AQUI"
+    CLIENT_ID ===
+    "COLOQUE_SUA_PK_AQUI"
   ){
 
     alert(
-      "Coloque sua App Key pk_ no código, na variável CLIENT_ID."
+      "Coloque sua PK_ do Pollinations no código."
     );
 
     return;
 
   }
 
+
   const verifier =
     randomString(64);
 
+
   const challenge =
-    await createCodeChallenge(verifier);
+    await createChallenge(
+      verifier
+    );
+
+
+  const state =
+    randomString(32);
+
 
   sessionStorage.setItem(
     "pkce_verifier",
     verifier
   );
 
+
+  sessionStorage.setItem(
+    "oauth_state",
+    state
+  );
+
+
   const params =
     new URLSearchParams({
 
-      client_id: CLIENT_ID,
+      response_type:
+        "code",
 
-      redirect_uri: REDIRECT_URI,
+      client_id:
+        CLIENT_ID,
 
-      response_type: "code",
+      redirect_uri:
+        REDIRECT_URI,
 
-      code_challenge: challenge,
+      scope:
+        "profile usage",
 
-      code_challenge_method: "S256",
+      state:
+        state,
 
-      scope: "profile usage"
+      code_challenge:
+        challenge,
+
+      code_challenge_method:
+        "S256"
 
     });
 
+
   window.location.href =
     AUTH_BASE +
-    "/oauth/authorize?" +
+    "/authorize?" +
     params.toString();
 
 }
 
 
-async function handleOAuthCallback(){
+/* =====================================================
+   RETORNO DO LOGIN
+===================================================== */
+
+async function handleCallback(){
 
   const params =
     new URLSearchParams(
       window.location.search
     );
 
+
   const code =
     params.get("code");
+
+
+  const returnedState =
+    params.get("state");
+
+
+  /*
+     Se não existe code,
+     não estamos no retorno do login.
+  */
 
   if(!code){
     return;
   }
+
+
+  const savedState =
+    sessionStorage.getItem(
+      "oauth_state"
+    );
+
+
+  if(
+    savedState &&
+    returnedState !== savedState
+  ){
+
+    showLoginError(
+      "Erro de segurança: state OAuth não confere."
+    );
+
+    return;
+
+  }
+
 
   const verifier =
     sessionStorage.getItem(
       "pkce_verifier"
     );
 
+
   if(!verifier){
 
-    showLoginState(
+    showLoginError(
       "Erro: verificador PKCE não encontrado."
     );
 
@@ -724,69 +837,112 @@ async function handleOAuthCallback(){
 
   }
 
+
   try{
 
     loginStatus.textContent =
-      "Finalizando login...";
+      "🔐 Finalizando login...";
+
+
+    /*
+       CORREÇÃO PRINCIPAL:
+
+       O token é solicitado no
+       enter.pollinations.ai
+
+       e o corpo é
+       application/x-www-form-urlencoded.
+    */
+
+    const body =
+      new URLSearchParams({
+
+        grant_type:
+          "authorization_code",
+
+        code:
+          code,
+
+        client_id:
+          CLIENT_ID,
+
+        redirect_uri:
+          REDIRECT_URI,
+
+        code_verifier:
+          verifier
+
+      });
+
 
     const response =
       await fetch(
-        API_BASE + "/api/oauth/token",
+        AUTH_BASE +
+        "/api/oauth/token",
         {
+
           method:"POST",
 
           headers:{
             "Content-Type":
-              "application/json"
+              "application/x-www-form-urlencoded"
           },
 
-          body:JSON.stringify({
-
-            grant_type:
-              "authorization_code",
-
-            client_id:
-              CLIENT_ID,
-
-            redirect_uri:
-              REDIRECT_URI,
-
-            code,
-
-            code_verifier:
-              verifier
-
-          })
+          body:
+            body.toString()
 
         }
       );
 
+
     const data =
-      await readApiResponse(response);
+      await readResponse(
+        response
+      );
+
 
     if(!response.ok){
 
       throw new Error(
-        getErrorMessage(data)
+        errorMessage(data)
       );
 
     }
+
 
     if(!data.access_token){
 
       throw new Error(
-        "O login não retornou um access token."
+        "O Pollinations não retornou o token de acesso."
       );
 
     }
 
-    setToken(
+
+    /*
+       O sk_ fica somente na
+       sessionStorage desta sessão.
+    */
+
+    sessionStorage.setItem(
+      TOKEN_KEY,
       data.access_token
     );
+
 
     sessionStorage.removeItem(
       "pkce_verifier"
     );
+
+
+    sessionStorage.removeItem(
+      "oauth_state"
+    );
+
+
+    /*
+       Remove ?code=... da URL.
+    */
 
     window.history.replaceState(
       {},
@@ -794,15 +950,21 @@ async function handleOAuthCallback(){
       window.location.pathname
     );
 
+
     updateLoginUI();
+
 
   }catch(error){
 
-    console.error(error);
+    console.error(
+      "Erro OAuth:",
+      error
+    );
 
-    showLoginState(
-      "Erro no login: " +
-      getErrorMessage(error)
+
+    showLoginError(
+      "❌ Erro no login:\n" +
+      errorMessage(error)
     );
 
   }
@@ -810,22 +972,28 @@ async function handleOAuthCallback(){
 }
 
 
-function showLoginState(message){
+function showLoginError(message){
 
   loginStatus.textContent =
     message;
 
+  loginStatus.className =
+    "status error";
+
 }
 
 
-/* =========================================================
-   UI LOGIN
-========================================================= */
+/* =====================================================
+   ESTADO DO LOGIN
+===================================================== */
 
 function updateLoginUI(){
 
   const token =
-    getToken();
+    sessionStorage.getItem(
+      TOKEN_KEY
+    );
+
 
   if(token){
 
@@ -833,12 +1001,18 @@ function updateLoginUI(){
       "hidden"
     );
 
+
     logoutBtn.classList.remove(
       "hidden"
     );
 
-    loginStatus.innerHTML =
-      '<span class="success">✅ Conectado ao Pollinations.</span>';
+
+    loginStatus.textContent =
+      "✅ Conectado ao Pollinations.";
+
+
+    loginStatus.className =
+      "status success";
 
   }else{
 
@@ -846,9 +1020,11 @@ function updateLoginUI(){
       "hidden"
     );
 
+
     logoutBtn.classList.add(
       "hidden"
     );
+
 
     loginStatus.textContent =
       "Você precisa entrar para usar o criador.";
@@ -858,82 +1034,95 @@ function updateLoginUI(){
 }
 
 
-loginBtn.addEventListener(
-  "click",
-  login
-);
+loginBtn.onclick =
+  login;
 
 
-logoutBtn.addEventListener(
-  "click",
+logoutBtn.onclick =
   ()=>{
-    clearToken();
-    updateLoginUI();
-  }
-);
 
-
-/* =========================================================
-   MODOS
-========================================================= */
-
-document
-  .querySelectorAll(".mode")
-  .forEach(button=>{
-
-    button.addEventListener(
-      "click",
-      ()=>{
-
-        document
-          .querySelectorAll(".mode")
-          .forEach(b =>
-            b.classList.remove("active")
-          );
-
-        button.classList.add("active");
-
-        currentMode =
-          button.dataset.mode;
-
-        if(currentMode === "video"){
-
-          videoOptions.classList.remove(
-            "hidden"
-          );
-
-        }else{
-
-          videoOptions.classList.add(
-            "hidden"
-          );
-
-        }
-
-      }
+    sessionStorage.removeItem(
+      TOKEN_KEY
     );
 
-  });
+    updateLoginUI();
+
+  };
 
 
-/* =========================================================
-   UPLOAD
-========================================================= */
+/* =====================================================
+   MODOS
+===================================================== */
 
-fileInput.addEventListener(
-  "change",
+document
+.querySelectorAll(".mode")
+.forEach(button=>{
+
+  button.onclick =
+    ()=>{
+
+      document
+      .querySelectorAll(".mode")
+      .forEach(btn =>
+        btn.classList.remove(
+          "active"
+        )
+      );
+
+
+      button.classList.add(
+        "active"
+      );
+
+
+      currentMode =
+        button.dataset.mode;
+
+
+      if(
+        currentMode === "video"
+      ){
+
+        videoOptions.classList.remove(
+          "hidden"
+        );
+
+      }else{
+
+        videoOptions.classList.add(
+          "hidden"
+        );
+
+      }
+
+    };
+
+});
+
+
+/* =====================================================
+   SELEÇÃO DA IMAGEM
+===================================================== */
+
+fileInput.onchange =
   ()=>{
 
     selectedFile =
       fileInput.files[0] || null;
 
-    uploadedFileUrl = null;
 
-    preview.innerHTML = "";
+    uploadedFileUrl =
+      null;
+
+
+    preview.innerHTML =
+      "";
+
 
     if(!selectedFile){
       return;
     }
+
 
     if(
       selectedFile.type.startsWith(
@@ -944,22 +1133,31 @@ fileInput.addEventListener(
       const reader =
         new FileReader();
 
+
       reader.onload =
         event=>{
 
           const img =
-            document.createElement("img");
+            document.createElement(
+              "img"
+            );
+
 
           img.src =
             event.target.result;
 
-          preview.appendChild(img);
+
+          preview.appendChild(
+            img
+          );
 
         };
+
 
       reader.readAsDataURL(
         selectedFile
       );
+
 
     }else{
 
@@ -969,30 +1167,34 @@ fileInput.addEventListener(
 
     }
 
-  }
-);
+  };
 
 
-/* =========================================================
-   UPLOAD PARA POLLINATIONS
-========================================================= */
+/* =====================================================
+   UPLOAD
+===================================================== */
 
 async function uploadFile(){
+
+  const token =
+    sessionStorage.getItem(
+      TOKEN_KEY
+    );
+
 
   if(!selectedFile){
     return null;
   }
 
-  const token =
-    getToken();
 
   if(!token){
 
     throw new Error(
-      "Faça login antes de enviar o arquivo."
+      "Faça login primeiro."
     );
 
   }
+
 
   if(
     selectedFile.size >
@@ -1000,22 +1202,26 @@ async function uploadFile(){
   ){
 
     throw new Error(
-      "O arquivo é maior que 100 MB."
+      "O arquivo ultrapassa 100 MB."
     );
 
   }
 
+
   showStatus(
-    "📤 Enviando arquivo..."
+    "📤 Enviando imagem..."
   );
+
 
   const formData =
     new FormData();
+
 
   formData.append(
     "file",
     selectedFile
   );
+
 
   const response =
     await fetch(
@@ -1029,154 +1235,169 @@ async function uploadFile(){
             "Bearer " + token
         },
 
-        body:formData
+        body:
+          formData
 
       }
     );
 
+
   const data =
-    await readApiResponse(response);
+    await readResponse(
+      response
+    );
+
 
   if(!response.ok){
 
     throw new Error(
-      getErrorMessage(data)
+      errorMessage(data)
     );
 
   }
+
 
   const url =
     data.url ||
     data.link ||
     data.file_url;
 
+
   if(!url){
 
     throw new Error(
-      "O upload foi concluído, mas a API não retornou a URL do arquivo."
+      "O upload não retornou uma URL."
     );
 
   }
+
 
   return url;
 
 }
 
 
-/* =========================================================
-   PROMPT DE VÍDEO
-========================================================= */
+/* =====================================================
+   PROMPT DO VÍDEO
+===================================================== */
 
 function buildVideoPrompt(){
 
-  const userPrompt =
+  const user =
     promptInput.value.trim();
 
-  const scenarioText =
+
+  const scene =
     scenario.value.trim();
 
-  const movementText =
+
+  const move =
     movement.value.trim();
 
-  const musicText =
+
+  const music =
     musicPrompt.value.trim();
+
 
   let prompt = `
 
-Use a imagem enviada pelo usuário como a referência visual principal e como quadro inicial do vídeo.
+Use a imagem enviada pelo usuário como referência visual principal e como primeiro quadro do vídeo.
 
-Mantenha a pessoa principal extremamente fiel à imagem original.
+Mantenha a pessoa extremamente fiel à imagem original.
 
-Preserve identidade, rosto, características faciais, cabelo, tom de pele, corpo, proporções, roupas, cores das roupas e objetos importantes.
+Preserve identidade, rosto, características faciais, cabelo, corpo, proporções, roupas, cores das roupas e objetos importantes.
 
-Não troque a pessoa por outra.
+Não substitua a pessoa por outra.
 
-Não transforme o rosto.
+Não mude o rosto.
 
-Não altere desnecessariamente a roupa.
+Não altere as roupas sem solicitação.
 
-Não adicione pessoas que não foram solicitadas.
+Não adicione pessoas sem solicitação.
 
-A animação deve parecer uma continuação natural da imagem original.
+Faça a animação parecer uma continuação natural da imagem.
 
 `;
 
-  if(userPrompt){
+
+  if(user){
 
     prompt +=
-      "\nPedido principal do usuário:\n" +
-      userPrompt +
+      "\nPedido do usuário:\n" +
+      user +
       "\n";
 
   }
 
-  if(scenarioText){
+
+  if(scene){
 
     prompt +=
       "\nCenário:\n" +
-      scenarioText +
+      scene +
       "\n";
 
   }
 
-  if(movementText){
+
+  if(move){
 
     prompt +=
       "\nMovimento:\n" +
-      movementText +
+      move +
       "\n";
 
   }
 
+
   if(enableAudio.checked){
 
-    if(musicText){
+    prompt +=
+      "\nO usuário deseja áudio no vídeo.\n";
 
-      prompt += `
 
-ÁUDIO SOLICITADO PELO USUÁRIO:
-${musicText}
+    if(music){
 
-Tente gerar áudio apropriado para acompanhar a cena.
-
-Se uma gravação específica ou música protegida por direitos autorais não puder ser reproduzida, não interrompa a criação do vídeo por causa disso. Gere áudio original compatível com a descrição, quando possível.
-`;
-
-    }else{
-
-      prompt += `
-
-O usuário deseja áudio no vídeo.
-Gere áudio compatível com a cena quando o modelo permitir.
-`;
+      prompt +=
+        "\nDescrição do áudio:\n" +
+        music +
+        "\n";
 
     }
 
   }
 
+
   prompt += `
 
 Movimentos naturais e fluidos.
+
 Evite deformações no rosto, mãos, braços e pernas.
-Mantenha continuidade temporal.
+
+Mantenha continuidade entre os quadros.
 `;
+
 
   return prompt.trim();
 
 }
 
 
-/* =========================================================
+/* =====================================================
    CRIAR IMAGEM
-========================================================= */
+===================================================== */
 
 async function createImage(){
 
   const token =
-    getToken();
+    sessionStorage.getItem(
+      TOKEN_KEY
+    );
+
 
   const prompt =
     promptInput.value.trim();
+
 
   if(!prompt){
 
@@ -1186,7 +1407,9 @@ async function createImage(){
 
   }
 
+
   let response;
+
 
   if(uploadedFileUrl){
 
@@ -1211,7 +1434,8 @@ async function createImage(){
             model:
               "black-forest-labs/flux.2-max",
 
-            prompt,
+            prompt:
+              prompt,
 
             image:
               uploadedFileUrl,
@@ -1228,6 +1452,7 @@ async function createImage(){
 
         }
       );
+
 
   }else{
 
@@ -1252,7 +1477,8 @@ async function createImage(){
             model:
               "black-forest-labs/flux.2-max",
 
-            prompt,
+            prompt:
+              prompt,
 
             n:1,
 
@@ -1269,20 +1495,26 @@ async function createImage(){
 
   }
 
+
   const data =
-    await readApiResponse(response);
+    await readResponse(
+      response
+    );
+
 
   if(!response.ok){
 
     throw new Error(
-      getErrorMessage(data)
+      errorMessage(data)
     );
 
   }
 
+
   const url =
     data?.data?.[0]?.url ||
     data?.url;
+
 
   if(!url){
 
@@ -1292,37 +1524,48 @@ async function createImage(){
 
   }
 
-  result.innerHTML = "";
+
+  result.innerHTML =
+    "";
+
 
   const img =
-    document.createElement("img");
+    document.createElement(
+      "img"
+    );
 
-  img.src = url;
 
-  img.alt =
-    "Imagem criada pela IA";
+  img.src =
+    url;
 
-  result.appendChild(img);
+
+  result.appendChild(
+    img
+  );
 
 }
 
 
-/* =========================================================
+/* =====================================================
    CRIAR VÍDEO
-========================================================= */
+===================================================== */
 
 async function createVideo(){
 
   const token =
-    getToken();
+    sessionStorage.getItem(
+      TOKEN_KEY
+    );
+
 
   if(!selectedFile){
 
     throw new Error(
-      "Para criar vídeo, envie uma imagem primeiro."
+      "Envie uma imagem primeiro."
     );
 
   }
+
 
   if(
     !selectedFile.type.startsWith(
@@ -1331,10 +1574,11 @@ async function createVideo(){
   ){
 
     throw new Error(
-      "Para este modo, envie uma imagem como referência."
+      "No modo vídeo, envie uma imagem."
     );
 
   }
+
 
   if(!uploadedFileUrl){
 
@@ -1343,49 +1587,42 @@ async function createVideo(){
 
   }
 
+
   const prompt =
     buildVideoPrompt();
 
-  const baseParams = {
 
-    model:
-      "veo",
-
-    duration:
-      duration.value,
-
-    aspectRatio:
-      aspectRatio.value,
-
-    image:
-      uploadedFileUrl
-
-  };
-
-  async function requestVideo(withAudio){
+  async function requestVideo(
+    withAudio
+  ){
 
     const params =
       new URLSearchParams();
 
+
     params.set(
       "model",
-      baseParams.model
+      "veo"
     );
+
 
     params.set(
       "duration",
-      baseParams.duration
+      duration.value
     );
+
 
     params.set(
       "aspectRatio",
-      baseParams.aspectRatio
+      aspectRatio.value
     );
+
 
     params.set(
       "image",
-      baseParams.image
+      uploadedFileUrl
     );
+
 
     if(withAudio){
 
@@ -1396,12 +1633,16 @@ async function createVideo(){
 
     }
 
+
     const url =
       API_BASE +
       "/video/" +
-      encodeURIComponent(prompt) +
+      encodeURIComponent(
+        prompt
+      ) +
       "?" +
       params.toString();
+
 
     const response =
       await fetch(
@@ -1418,22 +1659,29 @@ async function createVideo(){
         }
       );
 
+
     if(!response.ok){
 
       const data =
-        await readApiResponse(response);
-
-      const error =
-        new Error(
-          getErrorMessage(data)
+        await readResponse(
+          response
         );
 
-      error.status =
+
+      const err =
+        new Error(
+          errorMessage(data)
+        );
+
+
+      err.status =
         response.status;
 
-      throw error;
+
+      throw err;
 
     }
+
 
     return response;
 
@@ -1442,10 +1690,9 @@ async function createVideo(){
 
   let response;
 
+
   /*
-     PRIMEIRA TENTATIVA:
-     se o usuário marcou áudio,
-     tenta gerar com áudio.
+     Tenta com áudio primeiro.
   */
 
   if(enableAudio.checked){
@@ -1453,41 +1700,53 @@ async function createVideo(){
     try{
 
       showStatus(
-        "🎬 Criando vídeo com áudio... Isso pode levar alguns minutos."
+        "🎬 Criando vídeo com áudio... Aguarde."
       );
 
+
       response =
-        await requestVideo(true);
+        await requestVideo(
+          true
+        );
+
 
     }catch(error){
 
       console.warn(
-        "Áudio falhou. Tentando vídeo sem áudio.",
+        "Áudio falhou:",
         error
       );
 
+
       showStatus(
-        "⚠️ O áudio não pôde ser gerado. Tentando criar o vídeo sem áudio..."
+        "⚠️ O áudio não foi aceito. Tentando criar o vídeo sem áudio..."
       );
 
+
       /*
-         SEGUNDA TENTATIVA:
-         não deixa o pedido inteiro falhar.
+         Se áudio falhar,
+         tenta novamente sem áudio.
       */
 
       response =
-        await requestVideo(false);
+        await requestVideo(
+          false
+        );
 
     }
+
 
   }else{
 
     showStatus(
-      "🎬 Criando vídeo... Isso pode levar alguns minutos."
+      "🎬 Criando vídeo... Aguarde."
     );
 
+
     response =
-      await requestVideo(false);
+      await requestVideo(
+        false
+      );
 
   }
 
@@ -1495,24 +1754,39 @@ async function createVideo(){
   const blob =
     await response.blob();
 
-  const videoUrl =
-    URL.createObjectURL(blob);
 
-  result.innerHTML = "";
+  const videoUrl =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  result.innerHTML =
+    "";
+
 
   const video =
-    document.createElement("video");
+    document.createElement(
+      "video"
+    );
+
 
   video.src =
     videoUrl;
 
-  video.controls = true;
 
-  video.autoplay = false;
+  video.controls =
+    true;
 
-  video.playsInline = true;
 
-  result.appendChild(video);
+  video.playsInline =
+    true;
+
+
+  result.appendChild(
+    video
+  );
+
 
   showStatus(
     "✅ Vídeo criado com sucesso!",
@@ -1522,25 +1796,30 @@ async function createVideo(){
 }
 
 
-/* =========================================================
+/* =====================================================
    CRIAR ÁUDIO
-========================================================= */
+===================================================== */
 
 async function createAudio(){
 
   const token =
-    getToken();
+    sessionStorage.getItem(
+      TOKEN_KEY
+    );
+
 
   const prompt =
     promptInput.value.trim();
 
+
   if(!prompt){
 
     throw new Error(
-      "Digite o que você quer no áudio."
+      "Digite o que deseja no áudio."
     );
 
   }
+
 
   const response =
     await fetch(
@@ -1577,58 +1856,81 @@ async function createAudio(){
       }
     );
 
+
   if(!response.ok){
 
     const data =
-      await readApiResponse(response);
+      await readResponse(
+        response
+      );
+
 
     throw new Error(
-      getErrorMessage(data)
+      errorMessage(data)
     );
 
   }
+
 
   const blob =
     await response.blob();
 
-  const url =
-    URL.createObjectURL(blob);
 
-  result.innerHTML = "";
+  const url =
+    URL.createObjectURL(
+      blob
+    );
+
+
+  result.innerHTML =
+    "";
+
 
   const audio =
-    document.createElement("audio");
+    document.createElement(
+      "audio"
+    );
+
 
   audio.src =
     url;
 
+
   audio.controls =
     true;
 
-  result.appendChild(audio);
+
+  result.appendChild(
+    audio
+  );
 
 }
 
 
-/* =========================================================
+/* =====================================================
    CRIAR TEXTO
-========================================================= */
+===================================================== */
 
 async function createText(){
 
   const token =
-    getToken();
+    sessionStorage.getItem(
+      TOKEN_KEY
+    );
+
 
   const prompt =
     promptInput.value.trim();
 
+
   if(!prompt){
 
     throw new Error(
-      "Digite o que você quer que a IA escreva."
+      "Digite o que deseja que a IA escreva."
     );
 
   }
+
 
   const response =
     await fetch(
@@ -1652,12 +1954,10 @@ async function createText(){
             "openai/gpt-5.4-nano",
 
           messages:[
-
             {
               role:"user",
               content:prompt
             }
-
           ]
 
         })
@@ -1665,20 +1965,26 @@ async function createText(){
       }
     );
 
+
   const data =
-    await readApiResponse(response);
+    await readResponse(
+      response
+    );
+
 
   if(!response.ok){
 
     throw new Error(
-      getErrorMessage(data)
+      errorMessage(data)
     );
 
   }
 
+
   const text =
     data?.choices?.[0]?.message?.content ||
     data?.choices?.[0]?.text;
+
 
   if(!text){
 
@@ -1688,37 +1994,54 @@ async function createText(){
 
   }
 
-  result.innerHTML = "";
 
-  const pre =
-    document.createElement("div");
+  result.innerHTML =
+    "";
 
-  pre.style.textAlign =
+
+  const div =
+    document.createElement(
+      "div"
+    );
+
+
+  div.style.textAlign =
     "left";
 
-  pre.style.whiteSpace =
+
+  div.style.whiteSpace =
     "pre-wrap";
 
-  pre.style.lineHeight =
+
+  div.style.lineHeight =
     "1.6";
 
-  pre.textContent =
+
+  div.textContent =
     text;
 
-  result.appendChild(pre);
+
+  result.appendChild(
+    div
+  );
 
 }
 
 
-/* =========================================================
+/* =====================================================
    BOTÃO CRIAR
-========================================================= */
+===================================================== */
 
-generateBtn.addEventListener(
-  "click",
+generateBtn.onclick =
   async ()=>{
 
-    if(!getToken()){
+    const token =
+      sessionStorage.getItem(
+        TOKEN_KEY
+      );
+
+
+    if(!token){
 
       alert(
         "Primeiro faça login com Pollinations."
@@ -1728,19 +2051,24 @@ generateBtn.addEventListener(
 
     }
 
+
     try{
 
       generateBtn.disabled =
         true;
 
-      result.innerHTML = "";
+
+      result.innerHTML =
+        "";
+
 
       showStatus(
         "⏳ Preparando..."
       );
 
+
       /*
-         Faz o upload uma única vez.
+         Faz upload somente uma vez.
       */
 
       if(
@@ -1753,64 +2081,84 @@ generateBtn.addEventListener(
 
       }
 
-      if(currentMode === "image"){
+
+      if(
+        currentMode === "image"
+      ){
 
         showStatus(
           "🖼️ Criando imagem..."
         );
 
+
         await createImage();
 
       }
 
-      else if(currentMode === "video"){
+
+      else if(
+        currentMode === "video"
+      ){
 
         await createVideo();
 
       }
 
-      else if(currentMode === "audio"){
+
+      else if(
+        currentMode === "audio"
+      ){
 
         showStatus(
           "🔊 Criando áudio..."
         );
 
+
         await createAudio();
 
+
         showStatus(
-          "✅ Áudio criado com sucesso!",
+          "✅ Áudio criado!",
           "success"
         );
 
       }
 
-      else if(currentMode === "text"){
+
+      else if(
+        currentMode === "text"
+      ){
 
         showStatus(
           "✍️ Criando texto..."
         );
 
+
         await createText();
 
+
         showStatus(
-          "✅ Texto criado com sucesso!",
+          "✅ Texto criado!",
           "success"
         );
 
       }
 
+
     }catch(error){
 
       console.error(
-        "ERRO COMPLETO:",
+        "ERRO:",
         error
       );
 
+
       showStatus(
         "❌ Erro:\n" +
-        getErrorMessage(error),
+        errorMessage(error),
         "error"
       );
+
 
     }finally{
 
@@ -1819,26 +2167,25 @@ generateBtn.addEventListener(
 
     }
 
-  }
-);
+  };
 
 
-/* =========================================================
+/* =====================================================
    INICIALIZAÇÃO
-========================================================= */
+===================================================== */
 
-(async function(){
+(async()=>{
 
-  await handleOAuthCallback();
+  await handleCallback();
 
   updateLoginUI();
 
 })();
 
 
-/* =========================================================
+/* =====================================================
    SERVICE WORKER
-========================================================= */
+===================================================== */
 
 if(
   "serviceWorker" in navigator
@@ -1847,15 +2194,17 @@ if(
   window.addEventListener(
     "load",
     ()=>{
+
       navigator.serviceWorker
-        .register("./sw.js")
-        .catch(
-          error =>
-            console.warn(
-              "Service Worker:",
-              error
-            )
-        );
+      .register("./sw.js")
+      .catch(
+        error =>
+          console.warn(
+            "Service Worker:",
+            error
+          )
+      );
+
     }
   );
 
