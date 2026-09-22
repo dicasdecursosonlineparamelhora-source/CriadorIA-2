@@ -233,6 +233,63 @@
       text-decoration: none;
     }
 
+    /* NOVO: botão de arquivo */
+    .file-box {
+      margin-top: 14px;
+      padding: 15px;
+      background: #080d18;
+      border: 1px dashed #475569;
+      border-radius: 12px;
+    }
+
+    .file-button {
+      display: inline-block;
+      width: 100%;
+      padding: 14px;
+      background: #334155;
+      color: white;
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .file-button:hover {
+      background: #475569;
+    }
+
+    #fileInput {
+      display: none;
+    }
+
+    .file-name {
+      margin-top: 10px;
+      color: #60a5fa;
+      font-size: 14px;
+      word-break: break-word;
+    }
+
+    .file-preview {
+      margin-top: 12px;
+      text-align: center;
+    }
+
+    .file-preview img {
+      max-width: 100%;
+      max-height: 300px;
+      border-radius: 12px;
+    }
+
+    .file-preview video {
+      max-width: 100%;
+      max-height: 300px;
+      border-radius: 12px;
+    }
+
+    .file-preview audio {
+      width: 100%;
+    }
+
     @media (max-width: 700px) {
       .modes {
         grid-template-columns: 1fr 1fr;
@@ -318,6 +375,33 @@
 Exemplo:
 Uma cidade futurista em Macapá durante a noite, com prédios iluminados, chuva e carros voadores."
     ></textarea>
+
+    <!-- NOVO: BOTÃO PARA ESCOLHER ARQUIVO DO CELULAR -->
+    <div class="file-box">
+
+      <label>📎 Arquivo de referência</label>
+
+      <label for="fileInput" class="file-button">
+        📂 Escolher foto, vídeo ou arquivo
+      </label>
+
+      <input
+        id="fileInput"
+        type="file"
+        accept="image/*,video/*,audio/*,.pdf,.txt,.doc,.docx,.xls,.xlsx,.ppt,.pptx"
+      >
+
+      <div id="fileName" class="file-name">
+        Nenhum arquivo selecionado.
+      </div>
+
+      <div id="filePreview" class="file-preview"></div>
+
+      <div class="small">
+        Você pode escolher um arquivo diretamente da galeria ou dos arquivos do celular.
+      </div>
+
+    </div>
 
     <div class="options">
 
@@ -419,21 +503,7 @@ Uma cidade futurista em Macapá durante a noite, com prédios iluminados, chuva 
 
 <script>
 
-  /*
-  ==========================================================
-  CONFIGURAÇÃO
-  ==========================================================
-
-  COLOQUE AQUI O SEU CLIENT ID pk_...
-
-  NÃO ENVIE SUA CHAVE PARA MIM.
-
-  O pk_ é o Client ID público do aplicativo OAuth.
-  ==========================================================
-  */
-
-  const CLIENT_ID = "pk_QLGOH1iePIAnXqdS";
-
+  const CLIENT_ID = "COLE A CHAVE AQUI";
 
   const API_BASE = "https://gen.pollinations.ai";
 
@@ -443,13 +513,15 @@ Uma cidade futurista em Macapá durante a noite, com prédios iluminados, chuva 
     window.location.origin +
     window.location.pathname;
 
-
   let accessToken =
     sessionStorage.getItem("pollinations_access_token") || null;
 
   let currentMode = "image";
 
   let lastPrompt = "";
+
+  /* NOVO: arquivo selecionado */
+  let selectedFile = null;
 
 
   const loginButton =
@@ -482,12 +554,16 @@ Uma cidade futurista em Macapá durante a noite, com prédios iluminados, chuva 
   const downloadLink =
     document.getElementById("downloadLink");
 
+  /* NOVO */
+  const fileInput =
+    document.getElementById("fileInput");
 
-  /*
-  ==========================================================
-  UTILIDADES
-  ==========================================================
-  */
+  const fileName =
+    document.getElementById("fileName");
+
+  const filePreview =
+    document.getElementById("filePreview");
+
 
   function base64UrlEncode(buffer) {
 
@@ -561,6 +637,95 @@ Uma cidade futurista em Macapá durante a noite, com prédios iluminados, chuva 
 
   /*
   ==========================================================
+  NOVO: SELEÇÃO DE ARQUIVO
+  ==========================================================
+  */
+
+  fileInput.addEventListener("change", function() {
+
+    selectedFile =
+      this.files[0] || null;
+
+    filePreview.innerHTML = "";
+
+    if (!selectedFile) {
+
+      fileName.textContent =
+        "Nenhum arquivo selecionado.";
+
+      return;
+    }
+
+
+    fileName.textContent =
+      "📎 " +
+      selectedFile.name +
+      " (" +
+      Math.round(selectedFile.size / 1024) +
+      " KB)";
+
+
+    /* Pré-visualização de imagem */
+    if (
+      selectedFile.type.startsWith("image/")
+    ) {
+
+      const image =
+        document.createElement("img");
+
+      image.src =
+        URL.createObjectURL(selectedFile);
+
+      image.alt =
+        "Arquivo selecionado";
+
+      filePreview.appendChild(image);
+
+    }
+
+
+    /* Pré-visualização de vídeo */
+    else if (
+      selectedFile.type.startsWith("video/")
+    ) {
+
+      const video =
+        document.createElement("video");
+
+      video.src =
+        URL.createObjectURL(selectedFile);
+
+      video.controls = true;
+
+      video.playsInline = true;
+
+      filePreview.appendChild(video);
+
+    }
+
+
+    /* Pré-visualização de áudio */
+    else if (
+      selectedFile.type.startsWith("audio/")
+    ) {
+
+      const audio =
+        document.createElement("audio");
+
+      audio.src =
+        URL.createObjectURL(selectedFile);
+
+      audio.controls = true;
+
+      filePreview.appendChild(audio);
+
+    }
+
+  });
+
+
+  /*
+  ==========================================================
   LOGIN / OAUTH
   ==========================================================
   */
@@ -569,7 +734,7 @@ Uma cidade futurista em Macapá durante a noite, com prédios iluminados, chuva 
 
     if (
       !CLIENT_ID ||
-      CLIENT_ID === "COLOQUE_SUA_PK_AQUI"
+      CLIENT_ID === "pk_QLGOH1iePIAnXqdS"
     ) {
 
       alert(
@@ -1309,313 +1474,4 @@ Uma cidade futurista em Macapá durante a noite, com prédios iluminados, chuva 
 
           },
 
-          body: JSON.stringify({
-
-            model:
-              "tts-1",
-
-            input:
-              prompt,
-
-            voice:
-              document.getElementById(
-                "voice"
-              ).value,
-
-            response_format:
-              "mp3"
-
-          })
-
-        }
-      );
-
-
-    if (!response.ok) {
-
-      let message =
-        "Erro ao gerar áudio.";
-
-      try {
-
-        const error =
-          await response.json();
-
-        message =
-          error.error?.message ||
-          error.error ||
-          message;
-
-      } catch (_) {}
-
-      throw new Error(message);
-
-    }
-
-
-    const blob =
-      await response.blob();
-
-
-    const audioUrl =
-      URL.createObjectURL(blob);
-
-
-    result.innerHTML =
-      `<audio
-        controls
-        autoplay
-      >
-      </audio>`;
-
-
-    const audio =
-      result.querySelector(
-        "audio"
-      );
-
-    audio.src =
-      audioUrl;
-
-
-    setDownload(
-      audioUrl,
-      "criacao-ia.mp3"
-    );
-
-
-    showStatus(
-      "✅ Áudio criado!"
-    );
-
-  }
-
-
-  /*
-  ==========================================================
-  TEXTO
-  ==========================================================
-  */
-
-  async function generateText(prompt) {
-
-    showStatus(
-      "📝 A IA está escrevendo..."
-    );
-
-
-    const response =
-      await fetch(
-        API_BASE +
-        "/v1/chat/completions",
-        {
-
-          method: "POST",
-
-          headers: {
-
-            "Authorization":
-              "Bearer " + accessToken,
-
-            "Content-Type":
-              "application/json"
-
-          },
-
-          body: JSON.stringify({
-
-            model:
-              "openai/gpt-5.4-nano",
-
-            messages: [
-
-              {
-                role: "system",
-
-                content:
-                  "Você é um assistente criativo. Responda em português do Brasil de forma clara e útil."
-              },
-
-              {
-                role: "user",
-
-                content:
-                  prompt
-              }
-
-            ]
-
-          })
-
-        }
-      );
-
-
-    const data =
-      await response.json();
-
-
-    if (!response.ok) {
-
-      throw new Error(
-        data.error?.message ||
-        data.error ||
-        "Erro ao gerar texto."
-      );
-
-    }
-
-
-    const text =
-      data.choices?.[0]?.message?.content;
-
-
-    if (!text) {
-
-      throw new Error(
-        "A IA não retornou texto."
-      );
-
-    }
-
-
-    result.innerHTML =
-      `<div class="result-text">
-        ${escapeHtml(text)}
-      </div>`;
-
-
-    showStatus(
-      "✅ Texto criado!"
-    );
-
-  }
-
-
-  /*
-  ==========================================================
-  DOWNLOAD
-  ==========================================================
-  */
-
-  function setDownload(url, filename) {
-
-    downloadLink.href =
-      url;
-
-    downloadLink.download =
-      filename;
-
-    downloadLink.textContent =
-      "⬇️ Abrir/salvar resultado";
-
-    downloadLink.style.display =
-      "block";
-
-  }
-
-
-  /*
-  ==========================================================
-  BOTÕES
-  ==========================================================
-  */
-
-  loginButton.addEventListener(
-    "click",
-    login
-  );
-
-
-  logoutButton.addEventListener(
-    "click",
-    logout
-  );
-
-
-  generateButton.addEventListener(
-    "click",
-    generate
-  );
-
-
-  againButton.addEventListener(
-    "click",
-    () => {
-
-      if (lastPrompt) {
-
-        promptInput.value =
-          lastPrompt;
-
-        generate();
-
-      }
-
-    }
-  );
-
-
-  clearButton.addEventListener(
-    "click",
-    () => {
-
-      promptInput.value = "";
-
-      result.innerHTML =
-        `<div class="empty">
-          Seu resultado aparecerá aqui.
-        </div>`;
-
-      downloadLink.style.display =
-        "none";
-
-      hideStatus();
-
-    }
-  );
-
-
-  /*
-  ==========================================================
-  INICIALIZAÇÃO
-  ==========================================================
-  */
-
-  handleOAuthCallback();
-
-  updateLoginUI();
-
-  updateOptions();
-
-
-  /*
-  ==========================================================
-  SERVICE WORKER
-  ==========================================================
-  */
-
-  if ("serviceWorker" in navigator) {
-
-    window.addEventListener(
-      "load",
-      () => {
-
-        navigator.serviceWorker
-          .register("./sw.js")
-          .catch(error =>
-            console.log(
-              "Service Worker:",
-              error
-            )
-          );
-
-      }
-    );
-
-  }
-
-</script>
-
-</body>
-  </html>
+          body
