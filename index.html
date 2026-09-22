@@ -7,215 +7,224 @@
 <title>Criador IA</title>
 
 <style>
-* {
-  box-sizing: border-box;
+*{
+  box-sizing:border-box;
 }
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #0b1020;
-  color: white;
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#0b1020;
+  color:#fff;
 }
 
-header {
-  background: #111827;
-  padding: 18px;
-  text-align: center;
-  border-bottom: 1px solid #263149;
+.container{
+  width:100%;
+  max-width:900px;
+  margin:auto;
+  padding:18px;
 }
 
-header h1 {
-  margin: 0;
-  font-size: 25px;
+h1{
+  text-align:center;
+  margin:8px 0 5px;
 }
 
-header p {
-  margin: 7px 0 0;
-  color: #aeb8cc;
+.subtitle{
+  text-align:center;
+  color:#aeb7cc;
+  margin-bottom:20px;
 }
 
-.container {
-  max-width: 900px;
-  margin: auto;
-  padding: 20px;
+.card{
+  background:#151c30;
+  border:1px solid #29334d;
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:16px;
 }
 
-.card {
-  background: #111827;
-  border: 1px solid #263149;
-  border-radius: 16px;
-  padding: 18px;
-  margin-bottom: 18px;
+button,
+select,
+input,
+textarea{
+  font:inherit;
 }
 
-label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
+button{
+  border:0;
+  border-radius:10px;
+  padding:12px 16px;
+  cursor:pointer;
+}
+
+.login{
+  width:100%;
+  background:#2563eb;
+  color:white;
+  font-weight:bold;
+}
+
+.logout{
+  background:#374151;
+  color:white;
+  margin-top:8px;
+}
+
+.modes{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:8px;
+  margin-top:12px;
+}
+
+.mode{
+  background:#273149;
+  color:#fff;
+}
+
+.mode.active{
+  background:#2563eb;
+}
+
+label{
+  display:block;
+  margin:14px 0 6px;
+  color:#d9e0ef;
+  font-weight:bold;
 }
 
 textarea,
-select,
-input[type="text"] {
-  width: 100%;
-  border: 1px solid #34415d;
-  background: #0b1020;
-  color: white;
-  border-radius: 12px;
-  padding: 13px;
-  font-size: 16px;
+input[type="text"],
+select{
+  width:100%;
+  padding:12px;
+  border-radius:10px;
+  border:1px solid #394661;
+  background:#0f1526;
+  color:white;
+  outline:none;
 }
 
-textarea {
-  min-height: 130px;
-  resize: vertical;
+textarea{
+  min-height:120px;
+  resize:vertical;
 }
 
-button {
-  border: 0;
-  border-radius: 10px;
-  padding: 12px 16px;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  margin: 5px;
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:12px;
 }
 
-.primary {
-  background: #2563eb;
-  color: white;
+.upload{
+  border:2px dashed #465474;
+  border-radius:12px;
+  padding:16px;
+  text-align:center;
+  margin-top:8px;
 }
 
-.success {
-  background: #16a34a;
-  color: white;
+.upload input{
+  width:100%;
 }
 
-.danger {
-  background: #dc2626;
-  color: white;
+.preview{
+  margin-top:12px;
+  text-align:center;
 }
 
-.secondary {
-  background: #374151;
-  color: white;
+.preview img{
+  max-width:100%;
+  max-height:350px;
+  border-radius:12px;
 }
 
-.file-button {
-  display: block;
-  background: #374151;
-  padding: 14px;
-  border-radius: 12px;
-  text-align: center;
-  cursor: pointer;
-  margin-top: 10px;
+.music-box{
+  background:#10182b;
+  border:1px solid #3c4b6b;
+  border-radius:12px;
+  padding:12px;
+  margin-top:12px;
 }
 
-.file-button input {
-  display: none;
+.checkbox-row{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-weight:bold;
 }
 
-#filePreview {
-  margin-top: 15px;
+.checkbox-row input{
+  width:20px;
+  height:20px;
 }
 
-.preview-box {
-  background: #0b1020;
-  border: 1px solid #34415d;
-  border-radius: 12px;
-  padding: 12px;
+.generate{
+  width:100%;
+  margin-top:18px;
+  background:#16a34a;
+  color:white;
+  font-weight:bold;
+  font-size:17px;
 }
 
-.preview-box img,
-.preview-box video,
-.preview-box audio {
-  max-width: 100%;
-  border-radius: 10px;
-  margin-top: 10px;
+.generate:disabled{
+  opacity:.6;
 }
 
-.preview-box img {
-  max-height: 500px;
-  object-fit: contain;
+.status{
+  margin-top:12px;
+  color:#b8c2d9;
+  white-space:pre-wrap;
 }
 
-.status {
-  padding: 12px;
-  border-radius: 10px;
-  background: #172033;
-  color: #cbd5e1;
-  margin-top: 12px;
-}
-
-.result {
-  margin-top: 15px;
+.result{
+  text-align:center;
 }
 
 .result img,
 .result video,
-.result audio {
-  width: 100%;
-  max-height: 650px;
-  object-fit: contain;
-  border-radius: 12px;
-  background: black;
+.result audio{
+  max-width:100%;
+  border-radius:12px;
 }
 
-.result-text {
-  white-space: pre-wrap;
-  background: #0b1020;
-  border-radius: 12px;
-  padding: 16px;
-  line-height: 1.6;
+.result video{
+  width:100%;
+  max-height:600px;
+  background:#000;
 }
 
-.small {
-  color: #94a3b8;
-  font-size: 13px;
+.hidden{
+  display:none;
 }
 
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 5px;
+.small{
+  color:#9ca8bf;
+  font-size:13px;
+  line-height:1.5;
 }
 
-.hidden {
-  display: none;
+.success{
+  color:#4ade80;
 }
 
-.loading {
-  text-align: center;
-  padding: 25px;
+.error{
+  color:#f87171;
 }
 
-.spinner {
-  width: 35px;
-  height: 35px;
-  border: 4px solid #334155;
-  border-top-color: #60a5fa;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-  margin: auto;
-}
+@media(max-width:600px){
+  .grid{
+    grid-template-columns:1fr;
+  }
 
-.option-box {
-  margin-top: 15px;
-  padding: 14px;
-  border: 1px solid #34415d;
-  background: #0b1020;
-  border-radius: 12px;
-}
+  .modes{
+    grid-template-columns:1fr 1fr;
+  }
 
-.option-box label {
-  margin-top: 10px;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
+  .container{
+    padding:10px;
   }
 }
 </style>
@@ -223,246 +232,183 @@ button {
 
 <body>
 
-<header>
-  <h1>🤖 Criador IA</h1>
-  <p>Crie e transforme imagens, vídeos, áudios e textos com IA</p>
-</header>
-
 <div class="container">
 
-  <!-- CONEXÃO -->
+  <h1>🤖 Criador IA</h1>
+  <div class="subtitle">
+    Crie imagens, vídeos, áudios e textos usando IA
+  </div>
+
   <div class="card">
 
-    <h2>🔐 Conta</h2>
+    <button id="loginBtn" class="login">
+      🔐 Entrar com Pollinations
+    </button>
 
-    <div id="loginArea">
+    <button id="logoutBtn" class="logout hidden">
+      Sair
+    </button>
 
-      <p class="small">
-        Conecte sua conta Pollinations para usar a IA.
-      </p>
-
-      <button class="primary" onclick="login()">
-        🔑 Conectar com Pollinations
-      </button>
-
-    </div>
-
-    <div id="connectedArea" class="hidden">
-
-      <p id="userStatus">
-        ✅ Conectado
-      </p>
-
-      <button class="danger" onclick="logout()">
-        Desconectar
-      </button>
-
+    <div id="loginStatus" class="status">
+      Você precisa entrar para usar o criador.
     </div>
 
   </div>
 
-
-  <!-- CRIAÇÃO -->
   <div class="card">
 
-    <h2>✨ Criar</h2>
+    <label>O que você quer criar?</label>
 
-    <label for="mode">
-      O que você quer fazer?
-    </label>
+    <div class="modes">
 
-    <select id="mode" onchange="changeMode()">
+      <button class="mode active" data-mode="image">
+        🖼️ Imagem
+      </button>
 
-      <option value="image">
-        🖼️ Criar/Editar imagem
-      </option>
+      <button class="mode" data-mode="video">
+        🎬 Vídeo
+      </button>
 
-      <option value="video">
-        🎬 Transformar imagem em vídeo
-      </option>
+      <button class="mode" data-mode="audio">
+        🔊 Áudio
+      </button>
 
-      <option value="audio">
-        🔊 Criar áudio
-      </option>
+      <button class="mode" data-mode="text">
+        ✍️ Texto
+      </button>
 
-      <option value="text">
-        📝 Criar texto
-      </option>
+    </div>
 
-    </select>
-
-    <br><br>
-
-
-    <!-- IMAGEM -->
     <label for="prompt">
-      🧠 O que você quer que a IA faça?
+      Descreva o que você quer
     </label>
 
     <textarea
       id="prompt"
-      placeholder="Ex.: Coloque essa pessoa em uma praia ao pôr do sol."
+      placeholder="Exemplo: crie um vídeo dele dançando moonwalk..."
     ></textarea>
 
-    <p class="small">
-      Se você enviar uma imagem, ela será usada como referência principal.
-      Explique o que deseja alterar, adicionar ou animar.
-    </p>
+    <div id="videoOptions" class="hidden">
 
+      <div class="grid">
 
-    <!-- CENÁRIO -->
-    <div class="option-box">
+        <div>
+          <label for="duration">
+            Duração
+          </label>
+
+          <select id="duration">
+            <option value="4">4 segundos</option>
+            <option value="5">5 segundos</option>
+            <option value="6">6 segundos</option>
+            <option value="8" selected>8 segundos</option>
+            <option value="10">10 segundos</option>
+          </select>
+        </div>
+
+        <div>
+          <label for="aspectRatio">
+            Formato
+          </label>
+
+          <select id="aspectRatio">
+            <option value="16:9">16:9 — Horizontal</option>
+            <option value="9:16">9:16 — Vertical</option>
+            <option value="1:1">1:1 — Quadrado</option>
+          </select>
+        </div>
+
+      </div>
 
       <label for="scenario">
-        🌎 Cenário (opcional)
+        Cenário do vídeo
       </label>
 
       <input
-        type="text"
         id="scenario"
-        placeholder="Ex.: praia ao pôr do sol, estádio, floresta..."
+        type="text"
+        placeholder="Exemplo: rua à noite, palco, sala..."
       >
 
       <label for="movement">
-        🎥 Movimento (para vídeo, opcional)
+        Movimento
       </label>
 
       <input
-        type="text"
         id="movement"
-        placeholder="Ex.: caminhando lentamente em direção à câmera..."
+        type="text"
+        placeholder="Exemplo: dançando moonwalk, caminhando..."
       >
+
+      <div class="music-box">
+
+        <div class="checkbox-row">
+          <input
+            type="checkbox"
+            id="enableAudio"
+          >
+
+          <span>🎵 Tentar gerar áudio no vídeo</span>
+        </div>
+
+        <label for="musicPrompt">
+          Música / áudio desejado
+        </label>
+
+        <input
+          id="musicPrompt"
+          type="text"
+          placeholder="Ex.: música dançante com clima pop dos anos 80"
+        >
+
+        <div class="small">
+          Se o áudio solicitado não puder ser usado, o aplicativo tenta gerar o vídeo
+          novamente sem áudio para evitar que o vídeo inteiro falhe.
+        </div>
+
+      </div>
 
     </div>
 
-
-    <!-- ARQUIVO -->
-    <label class="file-button">
-
-      📎 Escolher imagem, vídeo ou áudio do celular
-
-      <input
-        type="file"
-        id="fileInput"
-        accept="image/*,video/*,audio/*,.txt,.md"
-        onchange="handleFile(event)"
-      >
-
+    <label>
+      Imagem de referência
     </label>
 
-    <div id="filePreview"></div>
+    <div class="upload">
 
+      <input
+        id="fileInput"
+        type="file"
+        accept="image/*,video/*,audio/*,.txt,.pdf"
+      >
 
-    <!-- OPÇÕES DE VÍDEO -->
-    <div
-      id="videoOptions"
-      class="option-box hidden"
-    >
-
-      <label for="duration">
-        ⏱️ Duração do vídeo
-      </label>
-
-      <select id="duration">
-
-        <option value="5">
-          5 segundos
-        </option>
-
-        <option value="6">
-          6 segundos
-        </option>
-
-        <option value="8">
-          8 segundos
-        </option>
-
-        <option value="10">
-          10 segundos
-        </option>
-
-      </select>
-
-
-      <label for="aspectRatio">
-        📐 Formato
-      </label>
-
-      <select id="aspectRatio">
-
-        <option value="16:9">
-          16:9 - Horizontal
-        </option>
-
-        <option value="9:16">
-          9:16 - Vertical
-        </option>
-
-        <option value="1:1">
-          1:1 - Quadrado
-        </option>
-
-      </select>
+      <div class="small">
+        Para criar vídeo a partir de uma foto, envie a foto aqui.
+      </div>
 
     </div>
 
+    <div id="preview" class="preview"></div>
 
-    <br>
+    <button id="generateBtn" class="generate">
+      ✨ Criar
+    </button>
 
-    <div class="row">
-
-      <button
-        class="primary"
-        onclick="generate()"
-      >
-        🚀 Criar com IA
-      </button>
-
-      <button
-        class="secondary"
-        onclick="clearAll()"
-      >
-        🗑️ Limpar
-      </button>
-
-      <button
-        id="regenerateButton"
-        class="success hidden"
-        onclick="generate()"
-      >
-        🔄 Gerar novamente
-      </button>
-
-    </div>
-
-
-    <div
-      id="status"
-      class="status"
-    >
-      Pronto para criar.
-    </div>
+    <div id="status" class="status"></div>
 
   </div>
 
-
-  <!-- RESULTADO -->
   <div class="card">
 
-    <h2>🎨 Resultado</h2>
+    <h2>Resultado</h2>
 
-    <div id="result">
-
-      <p class="small">
-        O resultado da IA aparecerá aqui.
-      </p>
-
+    <div id="result" class="result">
+      Seu resultado aparecerá aqui.
     </div>
 
   </div>
 
 </div>
-
 
 <script>
 
@@ -470,31 +416,72 @@ button {
    CONFIGURAÇÃO
 ========================================================= */
 
-/*
-  COLOQUE AQUI A SUA MESMA PK_ DO POLLINATIONS.
+const CLIENT_ID = "pk_e3dlTjF2KpyiLMWx";
 
-  NÃO ENVIE A CHAVE PARA MIM.
-*/
-
-const CLIENT_ID =
-  "pk_e3dlTjF2KpyiLMWx";
-
-const API_BASE =
-  "https://gen.pollinations.ai";
-
-const AUTH_BASE =
-  "https://enter.pollinations.ai";
+const API_BASE = "https://gen.pollinations.ai";
+const AUTH_BASE = "https://enter.pollinations.ai";
 
 const REDIRECT_URI =
-  window.location.origin +
-  window.location.pathname;
+  window.location.origin + window.location.pathname;
+
+const TOKEN_KEY =
+  "pollinations_access_token";
 
 
 /* =========================================================
-   ESTADO
+   ELEMENTOS
 ========================================================= */
 
-let accessToken = null;
+const loginBtn =
+  document.getElementById("loginBtn");
+
+const logoutBtn =
+  document.getElementById("logoutBtn");
+
+const loginStatus =
+  document.getElementById("loginStatus");
+
+const generateBtn =
+  document.getElementById("generateBtn");
+
+const promptInput =
+  document.getElementById("prompt");
+
+const fileInput =
+  document.getElementById("fileInput");
+
+const preview =
+  document.getElementById("preview");
+
+const result =
+  document.getElementById("result");
+
+const status =
+  document.getElementById("status");
+
+const videoOptions =
+  document.getElementById("videoOptions");
+
+const duration =
+  document.getElementById("duration");
+
+const aspectRatio =
+  document.getElementById("aspectRatio");
+
+const scenario =
+  document.getElementById("scenario");
+
+const movement =
+  document.getElementById("movement");
+
+const enableAudio =
+  document.getElementById("enableAudio");
+
+const musicPrompt =
+  document.getElementById("musicPrompt");
+
+
+let currentMode = "image";
 
 let selectedFile = null;
 
@@ -502,171 +489,100 @@ let uploadedFileUrl = null;
 
 
 /* =========================================================
-   ELEMENTOS
+   UTILITÁRIOS
 ========================================================= */
 
-const modeEl =
-  document.getElementById("mode");
+function getToken(){
 
-const promptEl =
-  document.getElementById("prompt");
+  return sessionStorage.getItem(TOKEN_KEY);
 
-const scenarioEl =
-  document.getElementById("scenario");
+}
 
-const movementEl =
-  document.getElementById("movement");
 
-const durationEl =
-  document.getElementById("duration");
+function setToken(token){
 
-const aspectRatioEl =
-  document.getElementById("aspectRatio");
+  sessionStorage.setItem(TOKEN_KEY, token);
 
-const fileInput =
-  document.getElementById("fileInput");
+}
 
-const filePreview =
-  document.getElementById("filePreview");
 
-const resultEl =
-  document.getElementById("result");
+function clearToken(){
 
-const statusEl =
-  document.getElementById("status");
+  sessionStorage.removeItem(TOKEN_KEY);
 
-const regenerateButton =
-  document.getElementById(
-    "regenerateButton"
-  );
+}
 
-const videoOptions =
-  document.getElementById(
-    "videoOptions"
-  );
+
+function getErrorMessage(error){
+
+  if(!error){
+    return "Erro desconhecido.";
+  }
+
+  if(error instanceof Error){
+    return error.message;
+  }
+
+  if(typeof error === "string"){
+    return error;
+  }
+
+  try{
+
+    if(error.message){
+      return String(error.message);
+    }
+
+    if(error.error){
+      return typeof error.error === "string"
+        ? error.error
+        : JSON.stringify(error.error);
+    }
+
+    return JSON.stringify(error);
+
+  }catch{
+
+    return String(error);
+
+  }
+
+}
+
+
+async function readApiResponse(response){
+
+  const text =
+    await response.text();
+
+  if(!text){
+    return {};
+  }
+
+  try{
+    return JSON.parse(text);
+  }catch{
+    return text;
+  }
+
+}
+
+
+function showStatus(message, type=""){
+
+  status.textContent = message;
+
+  status.className =
+    "status " + type;
+
+}
 
 
 /* =========================================================
-   INSTRUÇÃO PRINCIPAL DA IA
+   PKCE
 ========================================================= */
 
-const SYSTEM_PROMPT = `
-
-Você é a inteligência artificial principal do aplicativo Criador IA.
-
-REGRA PRINCIPAL:
-
-Quando o usuário enviar uma imagem, a imagem enviada é a REFERÊNCIA PRINCIPAL.
-
-Você deve usar diretamente a imagem enviada para realizar o pedido do usuário.
-
-NÃO ignore a imagem.
-
-NÃO crie uma pessoa diferente.
-
-NÃO substitua o personagem principal por outra pessoa.
-
-Preserve ao máximo:
-
-- rosto;
-- identidade;
-- cabelo;
-- corpo;
-- proporções;
-- roupas;
-- objetos;
-- animais;
-- cores;
-- aparência;
-- detalhes importantes;
-- composição original.
-
-O TEXTO DO USUÁRIO determina o que deve ser feito com essa imagem.
-
-EXEMPLO:
-
-Usuário envia uma foto de uma pessoa e escreve:
-
-"Coloque essa pessoa em uma praia."
-
-Resultado esperado:
-
-A mesma pessoa da imagem deve aparecer em uma praia.
-
-Outro exemplo:
-
-"Coloque essa pessoa em um estádio de futebol."
-
-Resultado:
-
-A pessoa deve continuar fiel à imagem enviada e o cenário deve ser alterado para um estádio.
-
-Outro exemplo:
-
-"Faça essa pessoa sorrir."
-
-Resultado:
-
-Alterar somente a expressão solicitada, preservando o restante da imagem.
-
-OUTRO EXEMPLO:
-
-"Faça essa pessoa andar."
-
-Resultado:
-
-Transformar a imagem parada em uma animação ou vídeo em que a pessoa caminhe, mantendo sua aparência.
-
-VÍDEO A PARTIR DE IMAGEM:
-
-Quando o usuário escolher criar um vídeo usando uma imagem:
-
-- use a imagem como referência visual principal;
-- trate a imagem como o primeiro quadro ou referência da cena;
-- preserve a identidade e aparência dos elementos principais;
-- anime somente o que for solicitado;
-- crie movimentos naturais;
-- mantenha rosto, roupa, cabelo e características da pessoa;
-- não transforme a pessoa em outra pessoa.
-
-Se o usuário não especificar movimento, faça uma animação suave e natural da imagem.
-
-CENÁRIO:
-
-Se o usuário informar um cenário, mantenha o personagem ou objeto principal da imagem e coloque-o no cenário solicitado.
-
-MOVIMENTO:
-
-Se o usuário informar um movimento, use esse movimento para animar a imagem.
-
-MÚSICA:
-
-Se houver uma música ou áudio enviado pelo usuário e o modo escolhido permitir áudio, utilize esse áudio como referência/trilha sonora.
-
-EDIÇÃO DE IMAGEM:
-
-Quando o usuário pedir uma alteração em uma imagem, faça somente as alterações solicitadas sempre que possível.
-
-A imagem original deve continuar reconhecível.
-
-OBJETIVO:
-
-O aplicativo deve funcionar como um editor e animador inteligente.
-
-O usuário envia uma imagem e diz o que quer.
-
-A IA deve modificar ou animar a própria imagem enviada, e não criar algo aleatório separado dela.
-
-A fidelidade à imagem enviada é prioridade.
-
-`;
-
-
-/* =========================================================
-   OAUTH
-========================================================= */
-
-function randomString(length = 64) {
+function randomString(length=64){
 
   const chars =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
@@ -674,66 +590,53 @@ function randomString(length = 64) {
   let result = "";
 
   const values =
-    new Uint32Array(length);
+    new Uint8Array(length);
 
   crypto.getRandomValues(values);
 
-  for (
-    let i = 0;
-    i < length;
-    i++
-  ) {
+  for(let i=0;i<length;i++){
 
     result +=
-      chars[
-        values[i] %
-        chars.length
-      ];
+      chars[values[i] % chars.length];
 
   }
 
   return result;
+
 }
 
 
-function base64UrlEncode(buffer) {
-
-  let binary = "";
-
-  const bytes =
-    new Uint8Array(buffer);
-
-  for (const byte of bytes) {
-
-    binary +=
-      String.fromCharCode(byte);
-
-  }
-
-  return btoa(binary)
-    .replace(/\+/g, "-")
-    .replace(/\//g, "_")
-    .replace(/=+$/, "");
-}
-
-
-async function createCodeChallenge(
-  verifier
-) {
+async function sha256(value){
 
   const data =
-    new TextEncoder()
-      .encode(verifier);
+    new TextEncoder().encode(value);
 
-  const digest =
-    await crypto.subtle.digest(
-      "SHA-256",
-      data
-    );
-
-  return base64UrlEncode(
-    digest
+  return crypto.subtle.digest(
+    "SHA-256",
+    data
   );
+
+}
+
+
+function base64Url(buffer){
+
+  return btoa(
+    String.fromCharCode(...new Uint8Array(buffer))
+  )
+  .replace(/\+/g,"-")
+  .replace(/\//g,"_")
+  .replace(/=+$/,"");
+
+}
+
+
+async function createCodeChallenge(verifier){
+
+  return base64Url(
+    await sha256(verifier)
+  );
+
 }
 
 
@@ -741,80 +644,58 @@ async function createCodeChallenge(
    LOGIN
 ========================================================= */
 
-async function login() {
+async function login(){
 
-  if (
+  if(
     !CLIENT_ID ||
-    CLIENT_ID ===
-    "COLOQUE_SUA_PK_AQUI"
-  ) {
+    CLIENT_ID === "COLOQUE_SUA_PK_AQUI"
+  ){
 
     alert(
-      "Coloque sua chave pk_ no código antes de conectar."
+      "Coloque sua App Key pk_ no código, na variável CLIENT_ID."
     );
 
     return;
+
   }
 
   const verifier =
     randomString(64);
 
   const challenge =
-    await createCodeChallenge(
-      verifier
-    );
+    await createCodeChallenge(verifier);
 
   sessionStorage.setItem(
     "pkce_verifier",
     verifier
   );
 
-  const state =
-    randomString(32);
-
-  sessionStorage.setItem(
-    "oauth_state",
-    state
-  );
-
   const params =
     new URLSearchParams({
 
-      response_type:
-        "code",
+      client_id: CLIENT_ID,
 
-      client_id:
-        CLIENT_ID,
+      redirect_uri: REDIRECT_URI,
 
-      redirect_uri:
-        REDIRECT_URI,
+      response_type: "code",
 
-      scope:
-        "profile usage",
+      code_challenge: challenge,
 
-      state:
-        state,
+      code_challenge_method: "S256",
 
-      code_challenge:
-        challenge,
-
-      code_challenge_method:
-        "S256"
+      scope: "profile usage"
 
     });
 
   window.location.href =
     AUTH_BASE +
-    "/authorize?" +
+    "/oauth/authorize?" +
     params.toString();
+
 }
 
 
-/* =========================================================
-   CALLBACK
-========================================================= */
-
-async function handleOAuthCallback() {
+async function handleOAuthCallback(){
 
   const params =
     new URLSearchParams(
@@ -824,30 +705,7 @@ async function handleOAuthCallback() {
   const code =
     params.get("code");
 
-  const state =
-    params.get("state");
-
-  if (!code) {
-
-    updateLoginUI();
-
-    return;
-  }
-
-  const savedState =
-    sessionStorage.getItem(
-      "oauth_state"
-    );
-
-  if (
-    !state ||
-    state !== savedState
-  ) {
-
-    alert(
-      "Falha de segurança no login."
-    );
-
+  if(!code){
     return;
   }
 
@@ -856,390 +714,290 @@ async function handleOAuthCallback() {
       "pkce_verifier"
     );
 
-  if (!verifier) {
+  if(!verifier){
 
-    alert(
-      "Código de login não encontrado."
+    showLoginState(
+      "Erro: verificador PKCE não encontrado."
     );
 
     return;
+
   }
 
-  setStatus(
-    "🔐 Finalizando conexão..."
-  );
+  try{
 
-  try {
+    loginStatus.textContent =
+      "Finalizando login...";
 
     const response =
       await fetch(
-        AUTH_BASE +
-        "/api/oauth/token",
+        API_BASE + "/api/oauth/token",
         {
+          method:"POST",
 
-          method:
-            "POST",
-
-          headers: {
-
+          headers:{
             "Content-Type":
-              "application/x-www-form-urlencoded"
-
+              "application/json"
           },
 
-          body:
-            new URLSearchParams({
+          body:JSON.stringify({
 
-              grant_type:
-                "authorization_code",
+            grant_type:
+              "authorization_code",
 
-              code:
-                code,
+            client_id:
+              CLIENT_ID,
 
-              client_id:
-                CLIENT_ID,
+            redirect_uri:
+              REDIRECT_URI,
 
-              redirect_uri:
-                REDIRECT_URI,
+            code,
 
-              code_verifier:
-                verifier
+            code_verifier:
+              verifier
 
-            })
+          })
 
         }
       );
 
     const data =
-      await response.json();
+      await readApiResponse(response);
 
-    if (!response.ok) {
+    if(!response.ok){
 
       throw new Error(
-        data.error_description ||
-        data.error ||
-        "Falha na autenticação"
+        getErrorMessage(data)
       );
 
     }
 
-    accessToken =
-      data.access_token;
+    if(!data.access_token){
 
-    sessionStorage.setItem(
-      "pollinations_access_token",
-      accessToken
+      throw new Error(
+        "O login não retornou um access token."
+      );
+
+    }
+
+    setToken(
+      data.access_token
     );
 
     sessionStorage.removeItem(
       "pkce_verifier"
     );
 
-    sessionStorage.removeItem(
-      "oauth_state"
-    );
-
     window.history.replaceState(
       {},
       document.title,
-      REDIRECT_URI
+      window.location.pathname
     );
 
     updateLoginUI();
 
-    setStatus(
-      "✅ Conectado com sucesso!"
-    );
-
-  } catch (error) {
+  }catch(error){
 
     console.error(error);
 
-    setStatus(
-      "❌ Erro ao conectar: " +
-      error.message
+    showLoginState(
+      "Erro no login: " +
+      getErrorMessage(error)
     );
 
   }
+
+}
+
+
+function showLoginState(message){
+
+  loginStatus.textContent =
+    message;
+
 }
 
 
 /* =========================================================
-   LOGIN UI
+   UI LOGIN
 ========================================================= */
 
-function updateLoginUI() {
+function updateLoginUI(){
 
-  const loginArea =
-    document.getElementById(
-      "loginArea"
-    );
+  const token =
+    getToken();
 
-  const connectedArea =
-    document.getElementById(
-      "connectedArea"
-    );
+  if(token){
 
-  if (accessToken) {
-
-    loginArea.classList.add(
+    loginBtn.classList.add(
       "hidden"
     );
 
-    connectedArea.classList.remove(
+    logoutBtn.classList.remove(
       "hidden"
     );
 
-  } else {
+    loginStatus.innerHTML =
+      '<span class="success">✅ Conectado ao Pollinations.</span>';
 
-    loginArea.classList.remove(
+  }else{
+
+    loginBtn.classList.remove(
       "hidden"
     );
 
-    connectedArea.classList.add(
+    logoutBtn.classList.add(
       "hidden"
     );
+
+    loginStatus.textContent =
+      "Você precisa entrar para usar o criador.";
 
   }
+
 }
 
 
-function logout() {
+loginBtn.addEventListener(
+  "click",
+  login
+);
 
-  accessToken = null;
 
-  sessionStorage.removeItem(
-    "pollinations_access_token"
-  );
-
-  uploadedFileUrl = null;
-
-  updateLoginUI();
-
-  setStatus(
-    "Você foi desconectado."
-  );
-}
+logoutBtn.addEventListener(
+  "click",
+  ()=>{
+    clearToken();
+    updateLoginUI();
+  }
+);
 
 
 /* =========================================================
-   ARQUIVO
+   MODOS
 ========================================================= */
 
-async function handleFile(event) {
+document
+  .querySelectorAll(".mode")
+  .forEach(button=>{
 
-  const file =
-    event.target.files[0];
+    button.addEventListener(
+      "click",
+      ()=>{
 
-  if (!file) {
-    return;
-  }
+        document
+          .querySelectorAll(".mode")
+          .forEach(b =>
+            b.classList.remove("active")
+          );
 
-  selectedFile =
-    file;
+        button.classList.add("active");
 
-  uploadedFileUrl =
-    null;
+        currentMode =
+          button.dataset.mode;
 
-  filePreview.innerHTML =
-    "";
+        if(currentMode === "video"){
 
-  const box =
-    document.createElement(
-      "div"
+          videoOptions.classList.remove(
+            "hidden"
+          );
+
+        }else{
+
+          videoOptions.classList.add(
+            "hidden"
+          );
+
+        }
+
+      }
     );
 
-  box.className =
-    "preview-box";
-
-  const title =
-    document.createElement(
-      "strong"
-    );
-
-  title.textContent =
-    "📎 " + file.name;
-
-  box.appendChild(
-    title
-  );
-
-  const info =
-    document.createElement(
-      "div"
-    );
-
-  info.className =
-    "small";
-
-  info.textContent =
-    formatBytes(file.size) +
-    " • " +
-    (
-      file.type ||
-      "arquivo"
-    );
-
-  box.appendChild(
-    info
-  );
-
-
-  /* IMAGEM */
-
-  if (
-    file.type.startsWith(
-      "image/"
-    )
-  ) {
-
-    const img =
-      document.createElement(
-        "img"
-      );
-
-    img.src =
-      URL.createObjectURL(
-        file
-      );
-
-    box.appendChild(
-      img
-    );
-
-  }
-
-
-  /* VÍDEO */
-
-  else if (
-    file.type.startsWith(
-      "video/"
-    )
-  ) {
-
-    const video =
-      document.createElement(
-        "video"
-      );
-
-    video.src =
-      URL.createObjectURL(
-        file
-      );
-
-    video.controls =
-      true;
-
-    box.appendChild(
-      video
-    );
-
-  }
-
-
-  /* ÁUDIO */
-
-  else if (
-    file.type.startsWith(
-      "audio/"
-    )
-  ) {
-
-    const audio =
-      document.createElement(
-        "audio"
-      );
-
-    audio.src =
-      URL.createObjectURL(
-        file
-      );
-
-    audio.controls =
-      true;
-
-    box.appendChild(
-      audio
-    );
-
-  }
-
-
-  /* TEXTO */
-
-  else if (
-    file.type ===
-      "text/plain" ||
-    file.name.endsWith(
-      ".md"
-    )
-  ) {
-
-    try {
-
-      const text =
-        await file.text();
-
-      const preview =
-        document.createElement(
-          "div"
-        );
-
-      preview.className =
-        "result-text";
-
-      preview.style.marginTop =
-        "10px";
-
-      preview.textContent =
-        text.substring(
-          0,
-          2000
-        );
-
-      box.appendChild(
-        preview
-      );
-
-    } catch (e) {}
-
-  }
-
-  filePreview.appendChild(
-    box
-  );
-
-  setStatus(
-    "📎 Arquivo selecionado. Ele será usado como referência."
-  );
-}
+  });
 
 
 /* =========================================================
    UPLOAD
 ========================================================= */
 
-async function uploadFile() {
+fileInput.addEventListener(
+  "change",
+  ()=>{
 
-  if (!selectedFile) {
+    selectedFile =
+      fileInput.files[0] || null;
+
+    uploadedFileUrl = null;
+
+    preview.innerHTML = "";
+
+    if(!selectedFile){
+      return;
+    }
+
+    if(
+      selectedFile.type.startsWith(
+        "image/"
+      )
+    ){
+
+      const reader =
+        new FileReader();
+
+      reader.onload =
+        event=>{
+
+          const img =
+            document.createElement("img");
+
+          img.src =
+            event.target.result;
+
+          preview.appendChild(img);
+
+        };
+
+      reader.readAsDataURL(
+        selectedFile
+      );
+
+    }else{
+
+      preview.textContent =
+        "Arquivo selecionado: " +
+        selectedFile.name;
+
+    }
+
+  }
+);
+
+
+/* =========================================================
+   UPLOAD PARA POLLINATIONS
+========================================================= */
+
+async function uploadFile(){
+
+  if(!selectedFile){
     return null;
   }
 
-  if (!accessToken) {
+  const token =
+    getToken();
+
+  if(!token){
 
     throw new Error(
-      "Conecte sua conta antes de enviar um arquivo."
+      "Faça login antes de enviar o arquivo."
     );
 
   }
 
-  if (
+  if(
     selectedFile.size >
-    100 *
-    1024 *
-    1024
-  ) {
+    100 * 1024 * 1024
+  ){
 
     throw new Error(
       "O arquivo é maior que 100 MB."
@@ -1247,10 +1005,8 @@ async function uploadFile() {
 
   }
 
-  setStatus(
-    "📤 Enviando " +
-    selectedFile.name +
-    "..."
+  showStatus(
+    "📤 Enviando arquivo..."
   );
 
   const formData =
@@ -1266,349 +1022,201 @@ async function uploadFile() {
       "https://media.pollinations.ai/upload",
       {
 
-        method:
-          "POST",
+        method:"POST",
 
-        headers: {
-
+        headers:{
           Authorization:
-            "Bearer " +
-            accessToken
-
+            "Bearer " + token
         },
 
-        body:
-          formData
+        body:formData
 
       }
     );
 
   const data =
-    await response.json();
+    await readApiResponse(response);
 
-  if (!response.ok) {
+  if(!response.ok){
 
     throw new Error(
-      data.error ||
-      data.message ||
-      "Não foi possível enviar o arquivo."
+      getErrorMessage(data)
     );
 
   }
 
-  uploadedFileUrl =
+  const url =
     data.url ||
-    data.link;
+    data.link ||
+    data.file_url;
 
-  if (!uploadedFileUrl) {
+  if(!url){
 
     throw new Error(
-      "O servidor não retornou a URL do arquivo."
+      "O upload foi concluído, mas a API não retornou a URL do arquivo."
     );
 
   }
 
-  setStatus(
-    "✅ Arquivo enviado e pronto para ser usado como referência!"
-  );
+  return url;
 
-  return uploadedFileUrl;
 }
 
 
 /* =========================================================
-   CRIAR
+   PROMPT DE VÍDEO
 ========================================================= */
 
-async function generate() {
+function buildVideoPrompt(){
 
-  if (!accessToken) {
+  const userPrompt =
+    promptInput.value.trim();
 
-    alert(
-      "Primeiro conecte sua conta Pollinations."
-    );
+  const scenarioText =
+    scenario.value.trim();
 
-    return;
+  const movementText =
+    movement.value.trim();
+
+  const musicText =
+    musicPrompt.value.trim();
+
+  let prompt = `
+
+Use a imagem enviada pelo usuário como a referência visual principal e como quadro inicial do vídeo.
+
+Mantenha a pessoa principal extremamente fiel à imagem original.
+
+Preserve identidade, rosto, características faciais, cabelo, tom de pele, corpo, proporções, roupas, cores das roupas e objetos importantes.
+
+Não troque a pessoa por outra.
+
+Não transforme o rosto.
+
+Não altere desnecessariamente a roupa.
+
+Não adicione pessoas que não foram solicitadas.
+
+A animação deve parecer uma continuação natural da imagem original.
+
+`;
+
+  if(userPrompt){
+
+    prompt +=
+      "\nPedido principal do usuário:\n" +
+      userPrompt +
+      "\n";
+
   }
+
+  if(scenarioText){
+
+    prompt +=
+      "\nCenário:\n" +
+      scenarioText +
+      "\n";
+
+  }
+
+  if(movementText){
+
+    prompt +=
+      "\nMovimento:\n" +
+      movementText +
+      "\n";
+
+  }
+
+  if(enableAudio.checked){
+
+    if(musicText){
+
+      prompt += `
+
+ÁUDIO SOLICITADO PELO USUÁRIO:
+${musicText}
+
+Tente gerar áudio apropriado para acompanhar a cena.
+
+Se uma gravação específica ou música protegida por direitos autorais não puder ser reproduzida, não interrompa a criação do vídeo por causa disso. Gere áudio original compatível com a descrição, quando possível.
+`;
+
+    }else{
+
+      prompt += `
+
+O usuário deseja áudio no vídeo.
+Gere áudio compatível com a cena quando o modelo permitir.
+`;
+
+    }
+
+  }
+
+  prompt += `
+
+Movimentos naturais e fluidos.
+Evite deformações no rosto, mãos, braços e pernas.
+Mantenha continuidade temporal.
+`;
+
+  return prompt.trim();
+
+}
+
+
+/* =========================================================
+   CRIAR IMAGEM
+========================================================= */
+
+async function createImage(){
+
+  const token =
+    getToken();
 
   const prompt =
-    promptEl.value.trim();
+    promptInput.value.trim();
 
-  const scenario =
-    scenarioEl.value.trim();
+  if(!prompt){
 
-  const movement =
-    movementEl.value.trim();
-
-  if (!prompt) {
-
-    alert(
-      "Digite o que você quer que a IA faça."
-    );
-
-    return;
-  }
-
-  resultEl.innerHTML = `
-    <div class="loading">
-
-      <div class="spinner"></div>
-
-      <p>
-        🤖 A IA está analisando sua imagem e criando...
-      </p>
-
-    </div>
-  `;
-
-  regenerateButton.classList.add(
-    "hidden"
-  );
-
-  try {
-
-    /*
-      Se houver arquivo,
-      envia para obter uma URL de referência.
-    */
-
-    if (selectedFile) {
-
-      await uploadFile();
-
-    }
-
-    const mode =
-      modeEl.value;
-
-    if (
-      mode === "image"
-    ) {
-
-      await generateImage(
-        prompt,
-        scenario
-      );
-
-    }
-
-    else if (
-      mode === "video"
-    ) {
-
-      await generateVideo(
-        prompt,
-        scenario,
-        movement
-      );
-
-    }
-
-    else if (
-      mode === "audio"
-    ) {
-
-      await generateAudio(
-        prompt
-      );
-
-    }
-
-    else if (
-      mode === "text"
-    ) {
-
-      await generateText(
-        prompt
-      );
-
-    }
-
-    regenerateButton.classList.remove(
-      "hidden"
-    );
-
-    setStatus(
-      "✅ Criação concluída!"
+    throw new Error(
+      "Digite o que você quer criar."
     );
 
   }
 
-  catch (error) {
+  let response;
 
-    console.error(error);
+  if(uploadedFileUrl){
 
-    resultEl.innerHTML = `
-
-      <div class="status">
-
-        ❌ Erro:
-
-        <br><br>
-
-        ${escapeHtml(
-          error.message
-        )}
-
-      </div>
-
-    `;
-
-    setStatus(
-      "❌ Não foi possível concluir a criação."
-    );
-
-  }
-}
-
-
-/* =========================================================
-   IMAGEM COM REFERÊNCIA
-========================================================= */
-
-async function generateImage(
-  prompt,
-  scenario
-) {
-
-  setStatus(
-    "🖼️ Analisando a imagem e criando a nova imagem..."
-  );
-
-  let finalPrompt =
-    SYSTEM_PROMPT +
-    "\n\nPEDIDO DO USUÁRIO:\n" +
-    prompt;
-
-  if (scenario) {
-
-    finalPrompt +=
-      "\n\nCENÁRIO SOLICITADO:\n" +
-      scenario;
-
-  }
-
-  /*
-    SEM IMAGEM:
-    geração normal.
-  */
-
-  if (!uploadedFileUrl) {
-
-    const response =
+    response =
       await fetch(
         API_BASE +
-        "/v1/images/generations",
+        "/v1/images/edits",
         {
 
-          method:
-            "POST",
+          method:"POST",
 
-          headers: {
+          headers:{
+            Authorization:
+              "Bearer " + token,
 
             "Content-Type":
-              "application/json",
-
-            Authorization:
-              "Bearer " +
-              accessToken
-
+              "application/json"
           },
 
-          body:
-            JSON.stringify({
-
-              model:
-                "black-forest-labs/flux.2-max",
-
-              prompt:
-                finalPrompt,
-
-              n:
-                1,
-
-              size:
-                "1024x1024",
-
-              response_format:
-                "url"
-
-            })
-
-        }
-      );
-
-    const data =
-      await response.json();
-
-    if (!response.ok) {
-
-      throw new Error(
-        data.error?.message ||
-        data.error ||
-        "Erro na geração da imagem."
-      );
-
-    }
-
-    const url =
-      data.data?.[0]?.url;
-
-    if (!url) {
-
-      throw new Error(
-        "A IA não retornou a imagem."
-      );
-
-    }
-
-    showImageResult(
-      url
-    );
-
-    return;
-  }
-
-
-  /*
-    COM IMAGEM:
-    usa o endpoint de edição.
-  */
-
-  const response =
-    await fetch(
-      API_BASE +
-      "/v1/images/edits",
-      {
-
-        method:
-          "POST",
-
-        headers: {
-
-          "Content-Type":
-            "application/json",
-
-          Authorization:
-            "Bearer " +
-            accessToken
-
-        },
-
-        body:
-          JSON.stringify({
+          body:JSON.stringify({
 
             model:
               "black-forest-labs/flux.2-max",
 
-            prompt:
-              finalPrompt,
+            prompt,
 
             image:
               uploadedFileUrl,
 
-            n:
-              1,
+            n:1,
 
             size:
               "1024x1024",
@@ -1618,218 +1226,268 @@ async function generateImage(
 
           })
 
-      }
-    );
+        }
+      );
+
+  }else{
+
+    response =
+      await fetch(
+        API_BASE +
+        "/v1/images/generations",
+        {
+
+          method:"POST",
+
+          headers:{
+            Authorization:
+              "Bearer " + token,
+
+            "Content-Type":
+              "application/json"
+          },
+
+          body:JSON.stringify({
+
+            model:
+              "black-forest-labs/flux.2-max",
+
+            prompt,
+
+            n:1,
+
+            size:
+              "1024x1024",
+
+            response_format:
+              "url"
+
+          })
+
+        }
+      );
+
+  }
 
   const data =
-    await response.json();
+    await readApiResponse(response);
 
-  if (!response.ok) {
+  if(!response.ok){
 
     throw new Error(
-      data.error?.message ||
-      data.error ||
-      "Erro ao editar a imagem."
+      getErrorMessage(data)
     );
 
   }
 
   const url =
-    data.data?.[0]?.url;
+    data?.data?.[0]?.url ||
+    data?.url;
 
-  if (!url) {
+  if(!url){
 
     throw new Error(
-      "A IA não retornou a imagem editada."
+      "A API não retornou a imagem."
     );
 
   }
 
-  showImageResult(
-    url
-  );
+  result.innerHTML = "";
+
+  const img =
+    document.createElement("img");
+
+  img.src = url;
+
+  img.alt =
+    "Imagem criada pela IA";
+
+  result.appendChild(img);
+
 }
 
 
 /* =========================================================
-   MOSTRAR IMAGEM
+   CRIAR VÍDEO
 ========================================================= */
 
-function showImageResult(
-  url
-) {
+async function createVideo(){
 
-  resultEl.innerHTML = `
+  const token =
+    getToken();
 
-    <div class="result">
-
-      <img
-        src="${escapeAttribute(url)}"
-        alt="Imagem criada pela IA"
-      >
-
-      <p>
-
-        <a
-          href="${escapeAttribute(url)}"
-          target="_blank"
-          style="color:#60a5fa"
-        >
-          🔗 Abrir imagem
-        </a>
-
-      </p>
-
-    </div>
-
-  `;
-}
-
-
-/* =========================================================
-   VÍDEO A PARTIR DA IMAGEM
-========================================================= */
-
-async function generateVideo(
-  prompt,
-  scenario,
-  movement
-) {
-
-  setStatus(
-    "🎬 Transformando sua imagem em vídeo..."
-  );
-
-  if (!uploadedFileUrl) {
+  if(!selectedFile){
 
     throw new Error(
-      "Para criar um vídeo fiel a uma imagem, primeiro envie uma imagem do celular."
+      "Para criar vídeo, envie uma imagem primeiro."
     );
 
   }
 
-  if (
-    !selectedFile ||
+  if(
     !selectedFile.type.startsWith(
       "image/"
     )
-  ) {
+  ){
 
     throw new Error(
-      "No modo vídeo, envie uma imagem para usar como referência."
+      "Para este modo, envie uma imagem como referência."
     );
 
   }
 
+  if(!uploadedFileUrl){
 
-  let finalPrompt =
-
-    "Use a imagem enviada como referência visual principal e preserve fielmente a identidade, aparência, rosto, roupas, corpo, objetos e características principais da imagem. " +
-
-    "Transforme essa imagem parada em um vídeo natural. " +
-
-    "Não substitua a pessoa ou personagem por outro. " +
-
-    "Anime somente de acordo com o pedido do usuário. " +
-
-    "\n\nPEDIDO DO USUÁRIO:\n" +
-
-    prompt;
-
-
-  if (scenario) {
-
-    finalPrompt +=
-      "\n\nCENÁRIO:\n" +
-      scenario;
+    uploadedFileUrl =
+      await uploadFile();
 
   }
 
+  const prompt =
+    buildVideoPrompt();
 
-  if (movement) {
+  const baseParams = {
 
-    finalPrompt +=
-      "\n\nMOVIMENTO:\n" +
-      movement;
+    model:
+      "veo",
 
-  }
+    duration:
+      duration.value,
 
+    aspectRatio:
+      aspectRatio.value,
 
-  finalPrompt +=
-    "\n\nMantenha a imagem enviada como referência principal durante toda a animação.";
+    image:
+      uploadedFileUrl
 
+  };
 
-  const params =
-    new URLSearchParams();
+  async function requestVideo(withAudio){
 
-  params.set(
-    "model",
-    "veo"
-  );
+    const params =
+      new URLSearchParams();
 
-  params.set(
-    "duration",
-    durationEl.value
-  );
-
-  params.set(
-    "aspectRatio",
-    aspectRatioEl.value
-  );
-
-  /*
-    A imagem enviada será
-    o primeiro quadro/referência.
-  */
-
-  params.set(
-    "image",
-    uploadedFileUrl
-  );
-
-  params.set(
-    "key",
-    accessToken
-  );
-
-
-  const url =
-    API_BASE +
-    "/video/" +
-    encodeURIComponent(
-      finalPrompt
-    ) +
-    "?" +
-    params.toString();
-
-
-  const response =
-    await fetch(
-      url
+    params.set(
+      "model",
+      baseParams.model
     );
 
-  if (!response.ok) {
+    params.set(
+      "duration",
+      baseParams.duration
+    );
 
-    let message =
-      "Erro na geração do vídeo.";
+    params.set(
+      "aspectRatio",
+      baseParams.aspectRatio
+    );
 
-    try {
+    params.set(
+      "image",
+      baseParams.image
+    );
 
-      const data =
-        await response.json();
+    if(withAudio){
 
-      message =
-        data.error ||
-        data.message ||
-        message;
+      params.set(
+        "audio",
+        "true"
+      );
 
     }
 
-    catch (e) {}
+    const url =
+      API_BASE +
+      "/video/" +
+      encodeURIComponent(prompt) +
+      "?" +
+      params.toString();
 
-    throw new Error(
-      message
+    const response =
+      await fetch(
+        url,
+        {
+
+          method:"GET",
+
+          headers:{
+            Authorization:
+              "Bearer " + token
+          }
+
+        }
+      );
+
+    if(!response.ok){
+
+      const data =
+        await readApiResponse(response);
+
+      const error =
+        new Error(
+          getErrorMessage(data)
+        );
+
+      error.status =
+        response.status;
+
+      throw error;
+
+    }
+
+    return response;
+
+  }
+
+
+  let response;
+
+  /*
+     PRIMEIRA TENTATIVA:
+     se o usuário marcou áudio,
+     tenta gerar com áudio.
+  */
+
+  if(enableAudio.checked){
+
+    try{
+
+      showStatus(
+        "🎬 Criando vídeo com áudio... Isso pode levar alguns minutos."
+      );
+
+      response =
+        await requestVideo(true);
+
+    }catch(error){
+
+      console.warn(
+        "Áudio falhou. Tentando vídeo sem áudio.",
+        error
+      );
+
+      showStatus(
+        "⚠️ O áudio não pôde ser gerado. Tentando criar o vídeo sem áudio..."
+      );
+
+      /*
+         SEGUNDA TENTATIVA:
+         não deixa o pedido inteiro falhar.
+      */
+
+      response =
+        await requestVideo(false);
+
+    }
+
+  }else{
+
+    showStatus(
+      "🎬 Criando vídeo... Isso pode levar alguns minutos."
     );
+
+    response =
+      await requestVideo(false);
 
   }
 
@@ -1838,50 +1496,51 @@ async function generateVideo(
     await response.blob();
 
   const videoUrl =
-    URL.createObjectURL(
-      blob
-    );
+    URL.createObjectURL(blob);
 
+  result.innerHTML = "";
 
-  resultEl.innerHTML = `
+  const video =
+    document.createElement("video");
 
-    <div class="result">
+  video.src =
+    videoUrl;
 
-      <video
-        src="${videoUrl}"
-        controls
-        playsinline
-      ></video>
+  video.controls = true;
 
-      <p>
+  video.autoplay = false;
 
-        <a
-          href="${videoUrl}"
-          target="_blank"
-          style="color:#60a5fa"
-        >
-          🎬 Abrir vídeo
-        </a>
+  video.playsInline = true;
 
-      </p>
+  result.appendChild(video);
 
-    </div>
+  showStatus(
+    "✅ Vídeo criado com sucesso!",
+    "success"
+  );
 
-  `;
 }
 
 
 /* =========================================================
-   ÁUDIO
+   CRIAR ÁUDIO
 ========================================================= */
 
-async function generateAudio(
-  prompt
-) {
+async function createAudio(){
 
-  setStatus(
-    "🔊 Gerando áudio..."
-  );
+  const token =
+    getToken();
+
+  const prompt =
+    promptInput.value.trim();
+
+  if(!prompt){
+
+    throw new Error(
+      "Digite o que você quer no áudio."
+    );
+
+  }
 
   const response =
     await fetch(
@@ -1889,61 +1548,42 @@ async function generateAudio(
       "/v1/audio/speech",
       {
 
-        method:
-          "POST",
+        method:"POST",
 
-        headers: {
+        headers:{
+          Authorization:
+            "Bearer " + token,
 
           "Content-Type":
-            "application/json",
-
-          Authorization:
-            "Bearer " +
-            accessToken
-
+            "application/json"
         },
 
-        body:
-          JSON.stringify({
+        body:JSON.stringify({
 
-            model:
-              "tts-1",
+          model:
+            "elevenlabs/music-v2",
 
-            input:
-              prompt,
+          input:
+            prompt,
 
-            voice:
-              "alloy",
+          duration:
+            10,
 
-            response_format:
-              "mp3"
+          response_format:
+            "mp3"
 
-          })
+        })
 
       }
     );
 
-  if (!response.ok) {
+  if(!response.ok){
 
-    let message =
-      "Erro na geração do áudio.";
-
-    try {
-
-      const data =
-        await response.json();
-
-      message =
-        data.error?.message ||
-        data.error ||
-        message;
-
-    }
-
-    catch (e) {}
+    const data =
+      await readApiResponse(response);
 
     throw new Error(
-      message
+      getErrorMessage(data)
     );
 
   }
@@ -1951,71 +1591,44 @@ async function generateAudio(
   const blob =
     await response.blob();
 
-  const audioUrl =
-    URL.createObjectURL(
-      blob
-    );
+  const url =
+    URL.createObjectURL(blob);
 
-  resultEl.innerHTML = `
+  result.innerHTML = "";
 
-    <audio
-      src="${audioUrl}"
-      controls
-      style="width:100%"
-    ></audio>
+  const audio =
+    document.createElement("audio");
 
-    <p>
+  audio.src =
+    url;
 
-      <a
-        href="${audioUrl}"
-        download="audio-criador-ia.mp3"
-        style="color:#60a5fa"
-      >
-        ⬇️ Baixar áudio
-      </a>
+  audio.controls =
+    true;
 
-    </p>
+  result.appendChild(audio);
 
-  `;
 }
 
 
 /* =========================================================
-   TEXTO
+   CRIAR TEXTO
 ========================================================= */
 
-async function generateText(
-  prompt
-) {
+async function createText(){
 
-  setStatus(
-    "📝 Criando texto..."
-  );
+  const token =
+    getToken();
 
-  let finalPrompt =
-    prompt;
+  const prompt =
+    promptInput.value.trim();
 
+  if(!prompt){
 
-  if (
-    selectedFile &&
-    (
-      selectedFile.type ===
-        "text/plain" ||
-      selectedFile.name.endsWith(
-        ".md"
-      )
-    )
-  ) {
-
-    const fileText =
-      await selectedFile.text();
-
-    finalPrompt +=
-      "\n\nConteúdo do arquivo:\n" +
-      fileText;
+    throw new Error(
+      "Digite o que você quer que a IA escreva."
+    );
 
   }
-
 
   const response =
     await fetch(
@@ -2023,367 +1636,226 @@ async function generateText(
       "/v1/chat/completions",
       {
 
-        method:
-          "POST",
+        method:"POST",
 
-        headers: {
+        headers:{
+          Authorization:
+            "Bearer " + token,
 
           "Content-Type":
-            "application/json",
-
-          Authorization:
-            "Bearer " +
-            accessToken
-
+            "application/json"
         },
 
-        body:
-          JSON.stringify({
+        body:JSON.stringify({
 
-            model:
-              "openai/gpt-5.4-nano",
+          model:
+            "openai/gpt-5.4-nano",
 
-            messages: [
+          messages:[
 
-              {
+            {
+              role:"user",
+              content:prompt
+            }
 
-                role:
-                  "system",
+          ]
 
-                content:
-                  SYSTEM_PROMPT
-
-              },
-
-              {
-
-                role:
-                  "user",
-
-                content:
-                  finalPrompt
-
-              }
-
-            ]
-
-          })
+        })
 
       }
     );
 
   const data =
-    await response.json();
+    await readApiResponse(response);
 
-  if (!response.ok) {
+  if(!response.ok){
 
     throw new Error(
-      data.error?.message ||
-      data.error ||
-      "Erro na geração do texto."
+      getErrorMessage(data)
     );
 
   }
 
   const text =
-    data.choices?.[0]?.message?.content;
+    data?.choices?.[0]?.message?.content ||
+    data?.choices?.[0]?.text;
 
-  if (!text) {
+  if(!text){
 
     throw new Error(
-      "A IA não retornou texto."
+      "A API não retornou texto."
     );
 
   }
 
-  resultEl.innerHTML = `
+  result.innerHTML = "";
 
-    <div class="result-text">
+  const pre =
+    document.createElement("div");
 
-      ${escapeHtml(text)}
+  pre.style.textAlign =
+    "left";
 
-    </div>
+  pre.style.whiteSpace =
+    "pre-wrap";
 
-  `;
+  pre.style.lineHeight =
+    "1.6";
+
+  pre.textContent =
+    text;
+
+  result.appendChild(pre);
+
 }
 
 
 /* =========================================================
-   MODO
+   BOTÃO CRIAR
 ========================================================= */
 
-function changeMode() {
+generateBtn.addEventListener(
+  "click",
+  async ()=>{
 
-  const mode =
-    modeEl.value;
+    if(!getToken()){
 
-  if (
-    mode === "image"
-  ) {
+      alert(
+        "Primeiro faça login com Pollinations."
+      );
 
-    videoOptions.classList.add(
-      "hidden"
-    );
+      return;
 
-    promptEl.placeholder =
-      "Ex.: Coloque essa pessoa em uma praia ao pôr do sol, mantendo a aparência original.";
+    }
 
-  }
+    try{
 
-  else if (
-    mode === "video"
-  ) {
+      generateBtn.disabled =
+        true;
 
-    videoOptions.classList.remove(
-      "hidden"
-    );
+      result.innerHTML = "";
 
-    promptEl.placeholder =
-      "Ex.: Faça essa pessoa caminhar lentamente em direção à câmera, mantendo a aparência da imagem.";
+      showStatus(
+        "⏳ Preparando..."
+      );
 
-  }
+      /*
+         Faz o upload uma única vez.
+      */
 
-  else if (
-    mode === "audio"
-  ) {
+      if(
+        selectedFile &&
+        !uploadedFileUrl
+      ){
 
-    videoOptions.classList.add(
-      "hidden"
-    );
+        uploadedFileUrl =
+          await uploadFile();
 
-    promptEl.placeholder =
-      "Digite o texto que você quer transformar em áudio...";
+      }
 
-  }
+      if(currentMode === "image"){
 
-  else {
+        showStatus(
+          "🖼️ Criando imagem..."
+        );
 
-    videoOptions.classList.add(
-      "hidden"
-    );
+        await createImage();
 
-    promptEl.placeholder =
-      "Ex.: Crie um roteiro para um vídeo sobre hipnose...";
+      }
 
-  }
-}
+      else if(currentMode === "video"){
 
+        await createVideo();
 
-/* =========================================================
-   LIMPAR
-========================================================= */
+      }
 
-function clearAll() {
+      else if(currentMode === "audio"){
 
-  promptEl.value =
-    "";
+        showStatus(
+          "🔊 Criando áudio..."
+        );
 
-  scenarioEl.value =
-    "";
+        await createAudio();
 
-  movementEl.value =
-    "";
+        showStatus(
+          "✅ Áudio criado com sucesso!",
+          "success"
+        );
 
-  fileInput.value =
-    "";
+      }
 
-  selectedFile =
-    null;
+      else if(currentMode === "text"){
 
-  uploadedFileUrl =
-    null;
+        showStatus(
+          "✍️ Criando texto..."
+        );
 
-  filePreview.innerHTML =
-    "";
+        await createText();
 
-  resultEl.innerHTML = `
+        showStatus(
+          "✅ Texto criado com sucesso!",
+          "success"
+        );
 
-    <p class="small">
-      O resultado da IA aparecerá aqui.
-    </p>
+      }
 
-  `;
+    }catch(error){
 
-  regenerateButton.classList.add(
-    "hidden"
-  );
+      console.error(
+        "ERRO COMPLETO:",
+        error
+      );
 
-  setStatus(
-    "Pronto para criar."
-  );
-}
+      showStatus(
+        "❌ Erro:\n" +
+        getErrorMessage(error),
+        "error"
+      );
 
+    }finally{
 
-/* =========================================================
-   STATUS
-========================================================= */
+      generateBtn.disabled =
+        false;
 
-function setStatus(
-  message
-) {
-
-  statusEl.textContent =
-    message;
-}
-
-
-/* =========================================================
-   SEGURANÇA
-========================================================= */
-
-function escapeHtml(
-  value
-) {
-
-  return String(value)
-
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
-
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
-
-    .replaceAll(
-      ">",
-      "&gt;"
-    )
-
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
-
-    .replaceAll(
-      "'",
-      "&#039;"
-    );
-}
-
-
-function escapeAttribute(
-  value
-) {
-
-  return String(value)
-
-    .replaceAll(
-      "&",
-      "&amp;"
-    )
-
-    .replaceAll(
-      '"',
-      "&quot;"
-    )
-
-    .replaceAll(
-      "<",
-      "&lt;"
-    )
-
-    .replaceAll(
-      ">",
-      "&gt;"
-    );
-
-}
-
-
-function formatBytes(
-  bytes
-) {
-
-  if (
-    bytes === 0
-  ) {
-
-    return "0 Bytes";
+    }
 
   }
-
-  const units = [
-    "Bytes",
-    "KB",
-    "MB",
-    "GB"
-  ];
-
-  const i =
-    Math.floor(
-      Math.log(bytes) /
-      Math.log(1024)
-    );
-
-  return (
-
-    parseFloat(
-
-      (
-        bytes /
-        Math.pow(
-          1024,
-          i
-        )
-      )
-      .toFixed(2)
-
-    ) +
-
-    " " +
-
-    units[i]
-
-  );
-}
+);
 
 
 /* =========================================================
    INICIALIZAÇÃO
 ========================================================= */
 
-async function init() {
-
-  accessToken =
-    sessionStorage.getItem(
-      "pollinations_access_token"
-    );
+(async function(){
 
   await handleOAuthCallback();
 
   updateLoginUI();
 
-  changeMode();
-}
-
-init();
+})();
 
 
 /* =========================================================
    SERVICE WORKER
 ========================================================= */
 
-if (
+if(
   "serviceWorker" in navigator
-) {
+){
 
   window.addEventListener(
     "load",
-    () => {
-
+    ()=>{
       navigator.serviceWorker
-        .register("sw.js")
+        .register("./sw.js")
         .catch(
           error =>
-            console.log(
+            console.warn(
               "Service Worker:",
               error
             )
         );
-
     }
   );
 
@@ -2392,4 +1864,4 @@ if (
 </script>
 
 </body>
-  </html>
+</html>
