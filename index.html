@@ -1,57 +1,1621 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="theme-color" content="#0b1020">
-<meta name="description" content="Criador IA 2 - imagens, vídeos, áudios e textos com IA">
-<link rel="manifest" href="./manifest.json">
-<title>Criador IA 2</title>
-<style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:#0b1020;color:#fff}.container{max-width:900px;margin:auto;padding:16px}h1{text-align:center;margin:8px 0}.subtitle{text-align:center;color:#aab4ca;margin-bottom:18px}.card{background:#151c30;border:1px solid #29334d;border-radius:16px;padding:16px;margin-bottom:16px}button,input,textarea,select{font:inherit}button{border:0;border-radius:10px;padding:12px;cursor:pointer}.login{width:100%;background:#2563eb;color:white;font-weight:bold}.logout{width:100%;background:#374151;color:white;margin-top:8px}.modes{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.mode{background:#273149;color:white}.mode.active{background:#2563eb}label{display:block;margin:14px 0 6px;font-weight:bold}textarea,input[type=text],select{width:100%;background:#0f1526;color:white;border:1px solid #394661;border-radius:10px;padding:12px}textarea{min-height:120px;resize:vertical}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.upload{border:2px dashed #465474;border-radius:12px;padding:15px;text-align:center}.upload input{width:100%}.preview{text-align:center;margin-top:12px}.preview img{max-width:100%;max-height:350px;border-radius:12px}.music-box{margin-top:14px;padding:14px;border:1px solid #405174;background:#10182b;border-radius:12px}.checkbox{display:flex;align-items:center;gap:10px}.checkbox input{width:20px;height:20px}.small{color:#9eabc2;font-size:13px;line-height:1.5;margin-top:8px}.generate{width:100%;margin-top:18px;background:#16a34a;color:white;font-weight:bold;font-size:17px}.generate:disabled{opacity:.6}.status{margin-top:12px;white-space:pre-wrap;line-height:1.5}.result{text-align:center}.result img,.result video,.result audio{max-width:100%;border-radius:12px}.result video{width:100%;background:#000}.hidden{display:none}.success{color:#4ade80}.error{color:#f87171}@media(max-width:600px){.modes{grid-template-columns:1fr 1fr}.grid{grid-template-columns:1fr}}
-</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <meta name="theme-color" content="#111827">
+  <meta name="description" content="Criador IA - imagem, vídeo, áudio e texto">
+
+  <title>Criador IA</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0b1020;
+      color: white;
+    }
+
+    header {
+      padding: 18px;
+      text-align: center;
+      background: #111827;
+      border-bottom: 1px solid #263247;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    header p {
+      margin: 7px 0 0;
+      color: #aeb8ca;
+    }
+
+    .container {
+      width: min(1000px, 94%);
+      margin: 20px auto 50px;
+    }
+
+    .card {
+      background: #111827;
+      border: 1px solid #263247;
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+
+    .modes {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .mode {
+      border: 1px solid #334155;
+      background: #172033;
+      color: white;
+      padding: 14px 8px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .mode.active {
+      background: #2563eb;
+      border-color: #60a5fa;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 150px;
+      resize: vertical;
+      background: #080d18;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 14px;
+      color: white;
+      font-size: 16px;
+      outline: none;
+      margin-top: 14px;
+    }
+
+    textarea:focus {
+      border-color: #3b82f6;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 13px 18px;
+      cursor: pointer;
+      font-size: 15px;
+      color: white;
+      background: #334155;
+    }
+
+    button:hover {
+      opacity: .9;
+    }
+
+    .primary {
+      background: #2563eb;
+    }
+
+    .green {
+      background: #059669;
+    }
+
+    .red {
+      background: #dc2626;
+    }
+
+    .status {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #080d18;
+      color: #aeb8ca;
+      display: none;
+    }
+
+    .status.show {
+      display: block;
+    }
+
+    .result {
+      min-height: 120px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+      border-radius: 14px;
+      background: #080d18;
+    }
+
+    .result img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+    }
+
+    .result video {
+      width: 100%;
+      max-height: 600px;
+      border-radius: 12px;
+      background: black;
+    }
+
+    .result audio {
+      width: 100%;
+    }
+
+    .result-text {
+      width: 100%;
+      padding: 20px;
+      text-align: left;
+      white-space: pre-wrap;
+      line-height: 1.6;
+    }
+
+    .empty {
+      color: #64748b;
+      padding: 35px;
+    }
+
+    .login-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .login-status {
+      color: #aeb8ca;
+    }
+
+    .connected {
+      color: #34d399;
+    }
+
+    .small {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    select,
+    input[type="number"] {
+      width: 100%;
+      background: #080d18;
+      color: white;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 15px;
+    }
+
+    label {
+      display: block;
+      color: #cbd5e1;
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .download-link {
+      display: none;
+      margin-top: 12px;
+      color: #60a5fa;
+      text-decoration: none;
+    }
+
+    @media (max-width: 700px) {
+      .modes {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .options {
+        grid-template-columns: 1fr;
+      }
+
+      header h1 {
+        font-size: 23px;
+      }
+
+      .container {
+        width: 96%;
+      }
+    }
+  </style>
 </head>
+
 <body>
+
+<header>
+  <h1>🤖 Criador IA</h1>
+  <p>Crie imagens, vídeos, áudios e textos com IA</p>
+</header>
+
 <div class="container">
-<h1>🤖 Criador IA 2</h1><div class="subtitle">Crie imagens, vídeos, áudios e textos com IA</div>
-<div class="card"><button id="loginBtn" class="login">🔐 Entrar com Pollinations</button><button id="logoutBtn" class="logout hidden">Sair</button><div id="loginStatus" class="status">Você precisa entrar para usar o criador.</div></div>
-<div class="card">
-<label>O que você quer criar?</label><div class="modes"><button class="mode active" data-mode="image">🖼️ Imagem</button><button class="mode" data-mode="video">🎬 Vídeo</button><button class="mode" data-mode="audio">🔊 Áudio</button><button class="mode" data-mode="text">✍️ Texto</button></div>
-<label for="prompt">Descreva o que você quer</label><textarea id="prompt" placeholder="Ex.: crie um vídeo dele dançando moonwalk..."></textarea>
-<div id="videoOptions" class="hidden"><div class="grid"><div><label>Duração</label><select id="duration"><option value="5">5 segundos</option><option value="6">6 segundos</option><option value="8" selected>8 segundos</option><option value="10">10 segundos</option></select></div><div><label>Formato</label><select id="aspectRatio"><option value="16:9">16:9 — Horizontal</option><option value="9:16">9:16 — Vertical</option><option value="1:1">1:1 — Quadrado</option></select></div></div><label>Cenário</label><input id="scenario" type="text" placeholder="Ex.: palco, rua, sala..."><label>Movimento</label><input id="movement" type="text" placeholder="Ex.: dançando, caminhando, moonwalk..."><div class="music-box"><div class="checkbox"><input type="checkbox" id="enableAudio"><strong>🎵 Tentar gerar áudio no vídeo</strong></div><label>Música / áudio desejado</label><input id="musicPrompt" type="text" placeholder="Ex.: música dançante com clima pop"><div class="small">Se o áudio não puder ser gerado, o aplicativo tenta criar o vídeo sem áudio.</div></div></div>
-<label>Imagem de referência</label><div class="upload"><input id="fileInput" type="file" accept="image/*"><div class="small">No modo vídeo, envie uma foto. No modo imagem, a foto será usada como referência para edição.</div></div><div id="preview" class="preview"></div><button id="generateBtn" class="generate">✨ Criar</button><div id="status" class="status"></div>
+
+  <div class="card">
+    <div class="login-box">
+      <div>
+        <strong>🔐 Conta Pollinations</strong>
+        <div id="loginStatus" class="login-status">
+          Não conectado
+        </div>
+      </div>
+
+      <div>
+        <button id="loginButton" class="primary">
+          Conectar IA
+        </button>
+
+        <button id="logoutButton" class="red" style="display:none;">
+          Desconectar
+        </button>
+      </div>
+    </div>
+
+    <div class="small">
+      A conexão usa OAuth seguro. Seu token de geração não fica gravado no código.
+    </div>
+  </div>
+
+  <div class="card">
+
+    <strong>O que você quer criar?</strong>
+
+    <div class="modes">
+
+      <button class="mode active" data-mode="image">
+        🖼️ Imagem
+      </button>
+
+      <button class="mode" data-mode="video">
+        🎬 Vídeo
+      </button>
+
+      <button class="mode" data-mode="audio">
+        🔊 Áudio
+      </button>
+
+      <button class="mode" data-mode="text">
+        📝 Texto
+      </button>
+
+    </div>
+
+    <textarea
+      id="prompt"
+      placeholder="Digite o que você quer criar...
+
+Exemplo:
+Uma cidade futurista em Macapá durante a noite, com prédios iluminados, chuva e carros voadores."
+    ></textarea>
+
+    <div class="options">
+
+      <div id="imageOptions">
+        <label>Modelo de imagem</label>
+
+        <select id="imageModel">
+          <option value="black-forest-labs/flux.1-schnell">
+            Flux Schnell
+          </option>
+        </select>
+      </div>
+
+      <div id="videoOptions" style="display:none;">
+        <label>Modelo de vídeo</label>
+
+        <select id="videoModel">
+          <option value="google/veo-3.1-fast">
+            Google Veo 3.1 Fast
+          </option>
+
+          <option value="bytedance/seedance-2.0">
+            Seedance 2.0
+          </option>
+
+          <option value="x-ai/grok-imagine-video">
+            Grok Imagine Video
+          </option>
+        </select>
+      </div>
+
+      <div id="durationOptions" style="display:none;">
+        <label>Duração do vídeo</label>
+
+        <select id="videoDuration">
+          <option value="4">4 segundos</option>
+          <option value="6">6 segundos</option>
+          <option value="8">8 segundos</option>
+        </select>
+      </div>
+
+      <div id="voiceOptions" style="display:none;">
+        <label>Voz</label>
+
+        <select id="voice">
+          <option value="nova">Nova</option>
+          <option value="alloy">Alloy</option>
+          <option value="echo">Echo</option>
+          <option value="fable">Fable</option>
+          <option value="onyx">Onyx</option>
+          <option value="shimmer">Shimmer</option>
+        </select>
+      </div>
+
+    </div>
+
+    <div class="buttons">
+
+      <button id="generateButton" class="primary">
+        ✨ Criar com IA
+      </button>
+
+      <button id="clearButton">
+        🗑️ Limpar
+      </button>
+
+      <button id="againButton" style="display:none;">
+        🔄 Gerar novamente
+      </button>
+
+    </div>
+
+    <div id="status" class="status"></div>
+
+  </div>
+
+  <div class="card">
+
+    <strong>Resultado</strong>
+
+    <div id="result" class="result">
+      <div class="empty">
+        Seu resultado aparecerá aqui.
+      </div>
+    </div>
+
+    <a
+      id="downloadLink"
+      class="download-link"
+      target="_blank"
+      rel="noopener"
+    >
+      ⬇️ Abrir/salvar resultado
+    </a>
+
+  </div>
+
 </div>
-<div class="card"><h2>Resultado</h2><div id="result" class="result">Seu resultado aparecerá aqui.</div></div>
-</div>
+
 <script>
-const CLIENT_ID="pk_XsxxpevpcKSeCz5v";
-const API_BASE="https://gen.pollinations.ai";
-const AUTH_BASE="https://enter.pollinations.ai";
-const REDIRECT_URI="https://dicasdecursosonlineparamelhora-source.github.io/CriadorIA-2/";
-const TOKEN_KEY="pollinations_access_token";
-const $=id=>document.getElementById(id);
-const loginBtn=$("loginBtn"),logoutBtn=$("logoutBtn"),loginStatus=$("loginStatus"),generateBtn=$("generateBtn"),promptInput=$("prompt"),fileInput=$("fileInput"),preview=$("preview"),result=$("result"),status=$("status"),videoOptions=$("videoOptions"),duration=$("duration"),aspectRatio=$("aspectRatio"),scenario=$("scenario"),movement=$("movement"),enableAudio=$("enableAudio"),musicPrompt=$("musicPrompt");
-let currentMode="image",selectedFile=null,uploadedFileUrl=null;
-function err(e){if(!e)return"Erro desconhecido.";if(e instanceof Error)return e.message;if(typeof e==="string")return e;try{return e.message?String(e.message):e.error?(typeof e.error==="string"?e.error:JSON.stringify(e.error)):JSON.stringify(e)}catch{return String(e)}}
-async function read(r){const t=await r.text();if(!t)return{};try{return JSON.parse(t)}catch{return t}}
-function msg(m,c=""){status.textContent=m;status.className="status "+c}
-function randomString(n=64){const c="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~",v=new Uint8Array(n);crypto.getRandomValues(v);let s="";for(let i=0;i<n;i++)s+=c[v[i]%c.length];return s}
-async function challenge(v){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(v));return btoa(String.fromCharCode(...new Uint8Array(b))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/g,"")}
-async function login(){if(CLIENT_ID==="COLOQUE_SUA_PK_AQUI"){alert("Coloque sua PK_ do Pollinations no código.");return}const v=randomString(),ch=await challenge(v),st=randomString(32);sessionStorage.setItem("pkce_verifier",v);sessionStorage.setItem("oauth_state",st);const p=new URLSearchParams({response_type:"code",client_id:CLIENT_ID,redirect_uri:REDIRECT_URI,scope:"profile usage",state:st,code_challenge:ch,code_challenge_method:"S256"});location.href=AUTH_BASE+"/authorize?"+p}
-async function callback(){const p=new URLSearchParams(location.search),code=p.get("code"),returned=p.get("state"),oauthError=p.get("error");if(oauthError){loginStatus.textContent="❌ Pollinations recusou o login: "+(p.get("error_description")||oauthError);loginStatus.className="status error";history.replaceState({},document.title,REDIRECT_URI);return}if(!code)return;const saved=sessionStorage.getItem("oauth_state"),ver=sessionStorage.getItem("pkce_verifier");if(saved&&returned!==saved){loginStatus.textContent="Erro de segurança: state OAuth não confere.";loginStatus.className="status error";return}if(!ver){loginStatus.textContent="Erro: verificador PKCE não encontrado. Tente novamente.";loginStatus.className="status error";return}try{loginStatus.textContent="🔐 Finalizando login...";const body=new URLSearchParams({grant_type:"authorization_code",code,client_id:CLIENT_ID,redirect_uri:REDIRECT_URI,code_verifier:ver});const r=await fetch(AUTH_BASE+"/api/oauth/token",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:body.toString()}),d=await read(r);if(!r.ok)throw new Error(err(d));if(!d.access_token)throw new Error("O Pollinations não retornou o token de acesso.");sessionStorage.setItem(TOKEN_KEY,d.access_token);sessionStorage.removeItem("pkce_verifier");sessionStorage.removeItem("oauth_state");history.replaceState({},document.title,REDIRECT_URI);update()}catch(e){loginStatus.textContent="❌ Erro no login:\n"+err(e);loginStatus.className="status error"}}
-function update(){const t=sessionStorage.getItem(TOKEN_KEY);loginBtn.classList.toggle("hidden",!!t);logoutBtn.classList.toggle("hidden",!t);loginStatus.textContent=t?"✅ Conectado ao Pollinations.":"Você precisa entrar para usar o criador.";loginStatus.className="status "+(t?"success":"")}
-loginBtn.onclick=login;logoutBtn.onclick=()=>{sessionStorage.removeItem(TOKEN_KEY);update()};
-document.querySelectorAll(".mode").forEach(b=>b.onclick=()=>{document.querySelectorAll(".mode").forEach(x=>x.classList.remove("active"));b.classList.add("active");currentMode=b.dataset.mode;videoOptions.classList.toggle("hidden",currentMode!=="video")});
-fileInput.onchange=()=>{selectedFile=fileInput.files[0]||null;uploadedFileUrl=null;preview.innerHTML="";if(selectedFile&&selectedFile.type.startsWith("image/")){const r=new FileReader();r.onload=e=>{const i=document.createElement("img");i.src=e.target.result;preview.appendChild(i)};r.readAsDataURL(selectedFile)}};
-async function upload(){const t=sessionStorage.getItem(TOKEN_KEY);if(!selectedFile)return null;if(!t)throw new Error("Faça login primeiro.");if(selectedFile.size>100*1024*1024)throw new Error("O arquivo ultrapassa 100 MB.");msg("📤 Enviando imagem...");const f=new FormData();f.append("file",selectedFile);const r=await fetch("https://media.pollinations.ai/upload",{method:"POST",headers:{Authorization:"Bearer "+t},body:f}),d=await read(r);if(!r.ok)throw new Error(err(d));const u=d.url||d.link||d.file_url;if(!u)throw new Error("O upload não retornou uma URL.");return u}
-function videoPrompt(){let p=`Use a imagem enviada pelo usuário como referência visual principal e como primeiro quadro do vídeo. Mantenha a mesma pessoa extremamente fiel à imagem original. Preserve identidade, rosto, características faciais, cabelo, corpo, proporções, roupas, cores das roupas e objetos importantes. Não substitua a pessoa por outra. Não mude o rosto. Não altere as roupas sem solicitação. Não adicione pessoas sem solicitação. Faça a animação parecer uma continuação natural da imagem. Movimentos naturais e fluidos. Evite deformações no rosto, mãos, braços e pernas. Mantenha continuidade visual entre os quadros.`;if(promptInput.value.trim())p+="\nPedido do usuário:\n"+promptInput.value.trim();if(scenario.value.trim())p+="\nCenário:\n"+scenario.value.trim();if(movement.value.trim())p+="\nMovimento:\n"+movement.value.trim();if(enableAudio.checked){p+="\nO usuário deseja áudio no vídeo.";if(musicPrompt.value.trim())p+="\nDescrição do áudio:\n"+musicPrompt.value.trim()}return p}
-async function image(){const t=sessionStorage.getItem(TOKEN_KEY),p=promptInput.value.trim();if(!p)throw new Error("Digite o que você quer criar.");const r=await fetch(API_BASE+(uploadedFileUrl?"/v1/images/edits":"/v1/images/generations"),{method:"POST",headers:{Authorization:"Bearer "+t,"Content-Type":"application/json"},body:JSON.stringify({model:"black-forest-labs/flux.2-max",prompt:p,...(uploadedFileUrl?{image:uploadedFileUrl}:{}),n:1,size:"1024x1024",response_format:"url"})}),d=await read(r);if(!r.ok)throw new Error(err(d));const u=d?.data?.[0]?.url||d?.url;if(!u)throw new Error("A API não retornou a imagem.");result.innerHTML="";const i=document.createElement("img");i.src=u;result.appendChild(i)}
-async function video(){const t=sessionStorage.getItem(TOKEN_KEY);if(!selectedFile||!selectedFile.type.startsWith("image/"))throw new Error("No modo vídeo, envie uma imagem.");if(!uploadedFileUrl)uploadedFileUrl=await upload();const make=async audio=>{const q=new URLSearchParams({model:"veo",duration:duration.value,aspectRatio:aspectRatio.value,image:uploadedFileUrl});if(audio)q.set("audio","true");const r=await fetch(API_BASE+"/video/"+encodeURIComponent(videoPrompt())+"?"+q,{headers:{Authorization:"Bearer "+t}});if(!r.ok)throw new Error(err(await read(r)));return r};let r;if(enableAudio.checked){try{msg("🎬 Criando vídeo com áudio... Aguarde.");r=await make(true)}catch(e){msg("⚠️ Tentando criar sem áudio...");r=await make(false)}}else{msg("🎬 Criando vídeo... Aguarde.");r=await make(false)}const u=URL.createObjectURL(await r.blob());result.innerHTML="";const v=document.createElement("video");v.src=u;v.controls=true;v.playsInline=true;result.appendChild(v);msg("✅ Vídeo criado com sucesso!","success")}
-async function audio(){const t=sessionStorage.getItem(TOKEN_KEY),p=promptInput.value.trim();if(!p)throw new Error("Digite o que deseja no áudio.");const r=await fetch(API_BASE+"/v1/audio/speech",{method:"POST",headers:{Authorization:"Bearer "+t,"Content-Type":"application/json"},body:JSON.stringify({model:"elevenlabs/music-v2",input:p,duration:10,response_format:"mp3"})});if(!r.ok)throw new Error(err(await read(r)));const u=URL.createObjectURL(await r.blob());result.innerHTML="";const a=document.createElement("audio");a.src=u;a.controls=true;result.appendChild(a)}
-async function textGen(){const t=sessionStorage.getItem(TOKEN_KEY),p=promptInput.value.trim();if(!p)throw new Error("Digite o que deseja que a IA escreva.");const r=await fetch(API_BASE+"/v1/chat/completions",{method:"POST",headers:{Authorization:"Bearer "+t,"Content-Type":"application/json"},body:JSON.stringify({model:"openai/gpt-5.4-nano",messages:[{role:"user",content:p}]})}),d=await read(r);if(!r.ok)throw new Error(err(d));const tx=d?.choices?.[0]?.message?.content||d?.choices?.[0]?.text;if(!tx)throw new Error("A API não retornou texto.");result.innerHTML="";const div=document.createElement("div");div.style.textAlign="left";div.style.whiteSpace="pre-wrap";div.style.lineHeight="1.6";div.textContent=tx;result.appendChild(div)}
-generateBtn.onclick=async()=>{if(!sessionStorage.getItem(TOKEN_KEY)){alert("Primeiro faça login com Pollinations.");return}try{generateBtn.disabled=true;result.innerHTML="";msg("⏳ Preparando...");if(selectedFile&&!uploadedFileUrl)uploadedFileUrl=await upload();if(currentMode==="image"){msg("🖼️ Criando imagem...");await image();msg("✅ Imagem criada!","success")}else if(currentMode==="video")await video();else if(currentMode==="audio"){msg("🔊 Criando áudio...");await audio();msg("✅ Áudio criado!","success")}else{msg("✍️ Criando texto...");await textGen();msg("✅ Texto criado!","success")}}catch(e){console.error(e);msg("❌ Erro:\n"+err(e),"error")}finally{generateBtn.disabled=false}};
-(async()=>{await callback();update()})();
-if("serviceWorker" in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(console.warn));
+
+  /*
+  ==========================================================
+  CONFIGURAÇÃO
+  ==========================================================
+
+  COLOQUE AQUI O SEU CLIENT ID pk_...
+
+  NÃO ENVIE SUA CHAVE PARA MIM.
+
+  O pk_ é o Client ID público do aplicativo OAuth.
+  ==========================================================
+  */
+
+  const CLIENT_ID = "pk_XsxxpevpcKSeCz5v";
+
+
+  const API_BASE = "https://gen.pollinations.ai";
+
+  const AUTH_BASE = "https://enter.pollinations.ai";
+
+  const REDIRECT_URI =
+    window.location.origin +
+    window.location.pathname;
+
+
+  let accessToken =
+    sessionStorage.getItem("pollinations_access_token") || null;
+
+  let currentMode = "image";
+
+  let lastPrompt = "";
+
+
+  const loginButton =
+    document.getElementById("loginButton");
+
+  const logoutButton =
+    document.getElementById("logoutButton");
+
+  const loginStatus =
+    document.getElementById("loginStatus");
+
+  const generateButton =
+    document.getElementById("generateButton");
+
+  const againButton =
+    document.getElementById("againButton");
+
+  const clearButton =
+    document.getElementById("clearButton");
+
+  const promptInput =
+    document.getElementById("prompt");
+
+  const result =
+    document.getElementById("result");
+
+  const statusBox =
+    document.getElementById("status");
+
+  const downloadLink =
+    document.getElementById("downloadLink");
+
+
+  /*
+  ==========================================================
+  UTILIDADES
+  ==========================================================
+  */
+
+  function base64UrlEncode(buffer) {
+
+    let bytes = new Uint8Array(buffer);
+
+    let binary = "";
+
+    bytes.forEach(byte => {
+      binary += String.fromCharCode(byte);
+    });
+
+    return btoa(binary)
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/, "");
+  }
+
+
+  function randomString(length = 64) {
+
+    const chars =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
+
+    const values =
+      new Uint8Array(length);
+
+    crypto.getRandomValues(values);
+
+    return Array.from(values)
+      .map(v => chars[v % chars.length])
+      .join("");
+  }
+
+
+  async function createCodeChallenge(verifier) {
+
+    const data =
+      new TextEncoder().encode(verifier);
+
+    const digest =
+      await crypto.subtle.digest("SHA-256", data);
+
+    return base64UrlEncode(digest);
+  }
+
+
+  function showStatus(message) {
+
+    statusBox.textContent = message;
+
+    statusBox.classList.add("show");
+  }
+
+
+  function hideStatus() {
+
+    statusBox.classList.remove("show");
+
+  }
+
+
+  function escapeHtml(text) {
+
+    const div = document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+  }
+
+
+  /*
+  ==========================================================
+  LOGIN / OAUTH
+  ==========================================================
+  */
+
+  async function login() {
+
+    if (
+      !CLIENT_ID ||
+      CLIENT_ID === "COLOQUE_SUA_PK_AQUI"
+    ) {
+
+      alert(
+        "Primeiro coloque seu pk_ do Pollinations na constante CLIENT_ID do código."
+      );
+
+      return;
+    }
+
+
+    const verifier =
+      randomString(96);
+
+    const challenge =
+      await createCodeChallenge(verifier);
+
+    const state =
+      randomString(40);
+
+
+    sessionStorage.setItem(
+      "pollinations_pkce_verifier",
+      verifier
+    );
+
+    sessionStorage.setItem(
+      "pollinations_oauth_state",
+      state
+    );
+
+
+    const params =
+      new URLSearchParams({
+
+        response_type: "code",
+
+        client_id: CLIENT_ID,
+
+        redirect_uri: REDIRECT_URI,
+
+        scope: "profile usage",
+
+        state: state,
+
+        code_challenge: challenge,
+
+        code_challenge_method: "S256"
+
+      });
+
+
+    window.location.href =
+      AUTH_BASE +
+      "/authorize?" +
+      params.toString();
+
+  }
+
+
+  async function handleOAuthCallback() {
+
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
+
+    const error =
+      params.get("error");
+
+    const code =
+      params.get("code");
+
+    const returnedState =
+      params.get("state");
+
+
+    if (error) {
+
+      showStatus(
+        "Erro na autorização: " +
+        error
+      );
+
+      cleanUrl();
+
+      return;
+    }
+
+
+    if (!code) {
+      return;
+    }
+
+
+    const savedState =
+      sessionStorage.getItem(
+        "pollinations_oauth_state"
+      );
+
+    const verifier =
+      sessionStorage.getItem(
+        "pollinations_pkce_verifier"
+      );
+
+
+    if (
+      !savedState ||
+      savedState !== returnedState
+    ) {
+
+      showStatus(
+        "Erro de segurança: estado OAuth inválido."
+      );
+
+      cleanUrl();
+
+      return;
+    }
+
+
+    if (!verifier) {
+
+      showStatus(
+        "Código PKCE não encontrado."
+      );
+
+      cleanUrl();
+
+      return;
+    }
+
+
+    showStatus(
+      "🔐 Finalizando conexão com Pollinations..."
+    );
+
+
+    try {
+
+      const response =
+        await fetch(
+          AUTH_BASE +
+          "/api/oauth/token",
+          {
+
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/x-www-form-urlencoded"
+            },
+
+            body:
+              new URLSearchParams({
+
+                grant_type:
+                  "authorization_code",
+
+                code: code,
+
+                client_id:
+                  CLIENT_ID,
+
+                redirect_uri:
+                  REDIRECT_URI,
+
+                code_verifier:
+                  verifier
+
+              })
+
+          }
+        );
+
+
+      const data =
+        await response.json();
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          data.error_description ||
+          data.error ||
+          "Falha ao obter token."
+        );
+
+      }
+
+
+      accessToken =
+        data.access_token;
+
+
+      sessionStorage.setItem(
+        "pollinations_access_token",
+        accessToken
+      );
+
+
+      sessionStorage.removeItem(
+        "pollinations_oauth_state"
+      );
+
+      sessionStorage.removeItem(
+        "pollinations_pkce_verifier"
+      );
+
+
+      cleanUrl();
+
+      updateLoginUI();
+
+      showStatus(
+        "✅ IA conectada com sucesso!"
+      );
+
+
+      setTimeout(
+        hideStatus,
+        3000
+      );
+
+
+    } catch (error) {
+
+      showStatus(
+        "❌ Erro ao conectar: " +
+        error.message
+      );
+
+      cleanUrl();
+
+    }
+
+  }
+
+
+  function cleanUrl() {
+
+    window.history.replaceState(
+      {},
+      document.title,
+      REDIRECT_URI
+    );
+
+  }
+
+
+  function logout() {
+
+    accessToken = null;
+
+    sessionStorage.removeItem(
+      "pollinations_access_token"
+    );
+
+    updateLoginUI();
+
+    showStatus(
+      "Você foi desconectado."
+    );
+
+  }
+
+
+  function updateLoginUI() {
+
+    if (accessToken) {
+
+      loginStatus.textContent =
+        "● Conectado à IA";
+
+      loginStatus.classList.add(
+        "connected"
+      );
+
+      loginButton.style.display =
+        "none";
+
+      logoutButton.style.display =
+        "inline-block";
+
+    } else {
+
+      loginStatus.textContent =
+        "Não conectado";
+
+      loginStatus.classList.remove(
+        "connected"
+      );
+
+      loginButton.style.display =
+        "inline-block";
+
+      logoutButton.style.display =
+        "none";
+
+    }
+
+  }
+
+
+  /*
+  ==========================================================
+  MODOS
+  ==========================================================
+  */
+
+  const modeButtons =
+    document.querySelectorAll(
+      ".mode"
+    );
+
+
+  modeButtons.forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        modeButtons.forEach(b =>
+          b.classList.remove("active")
+        );
+
+        button.classList.add(
+          "active"
+        );
+
+        currentMode =
+          button.dataset.mode;
+
+        updateOptions();
+
+      }
+    );
+
+  });
+
+
+  function updateOptions() {
+
+    document.getElementById(
+      "imageOptions"
+    ).style.display =
+      currentMode === "image"
+        ? "block"
+        : "none";
+
+
+    document.getElementById(
+      "videoOptions"
+    ).style.display =
+      currentMode === "video"
+        ? "block"
+        : "none";
+
+
+    document.getElementById(
+      "durationOptions"
+    ).style.display =
+      currentMode === "video"
+        ? "block"
+        : "none";
+
+
+    document.getElementById(
+      "voiceOptions"
+    ).style.display =
+      currentMode === "audio"
+        ? "block"
+        : "none";
+
+
+    if (currentMode === "image") {
+
+      promptInput.placeholder =
+        "Descreva a imagem que você quer criar...";
+
+    }
+
+
+    if (currentMode === "video") {
+
+      promptInput.placeholder =
+        "Descreva o vídeo que você quer criar...";
+
+    }
+
+
+    if (currentMode === "audio") {
+
+      promptInput.placeholder =
+        "Digite o texto que a IA deve falar...";
+
+    }
+
+
+    if (currentMode === "text") {
+
+      promptInput.placeholder =
+        "Digite o que você quer que a IA escreva...";
+
+    }
+
+  }
+
+
+  /*
+  ==========================================================
+  GERAÇÃO
+  ==========================================================
+  */
+
+  async function generate() {
+
+    const prompt =
+      promptInput.value.trim();
+
+
+    if (!prompt) {
+
+      alert(
+        "Digite primeiro o que você quer criar."
+      );
+
+      return;
+    }
+
+
+    if (!accessToken) {
+
+      alert(
+        "Conecte a IA primeiro."
+      );
+
+      return;
+    }
+
+
+    lastPrompt = prompt;
+
+    againButton.style.display =
+      "inline-block";
+
+    generateButton.disabled =
+      true;
+
+
+    result.innerHTML =
+      '<div class="empty">⏳ A IA está criando...</div>';
+
+    downloadLink.style.display =
+      "none";
+
+
+    try {
+
+      if (currentMode === "image") {
+
+        await generateImage(prompt);
+
+      }
+
+      else if (currentMode === "video") {
+
+        await generateVideo(prompt);
+
+      }
+
+      else if (currentMode === "audio") {
+
+        await generateAudio(prompt);
+
+      }
+
+      else if (currentMode === "text") {
+
+        await generateText(prompt);
+
+      }
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      result.innerHTML =
+        `<div class="empty">
+          ❌ Não foi possível gerar.
+          <br><br>
+          ${escapeHtml(error.message)}
+        </div>`;
+
+      showStatus(
+        "Erro durante a geração."
+      );
+
+    }
+
+
+    generateButton.disabled =
+      false;
+
+  }
+
+
+  /*
+  ==========================================================
+  IMAGEM
+  ==========================================================
+  */
+
+  async function generateImage(prompt) {
+
+    showStatus(
+      "🖼️ Criando sua imagem..."
+    );
+
+
+    const response =
+      await fetch(
+        API_BASE +
+        "/v1/images/generations",
+        {
+
+          method: "POST",
+
+          headers: {
+
+            "Authorization":
+              "Bearer " + accessToken,
+
+            "Content-Type":
+              "application/json"
+
+          },
+
+          body: JSON.stringify({
+
+            model:
+              document.getElementById(
+                "imageModel"
+              ).value,
+
+            prompt:
+              prompt,
+
+            n: 1,
+
+            size:
+              "1024x1024",
+
+            response_format:
+              "url"
+
+          })
+
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        data.error?.message ||
+        data.error ||
+        "Erro ao gerar imagem."
+      );
+
+    }
+
+
+    let imageUrl =
+      data.data?.[0]?.url;
+
+
+    if (!imageUrl) {
+
+      const b64 =
+        data.data?.[0]?.b64_json;
+
+      if (b64) {
+
+        imageUrl =
+          "data:image/png;base64," +
+          b64;
+
+      }
+
+    }
+
+
+    if (!imageUrl) {
+
+      throw new Error(
+        "A API não retornou a imagem."
+      );
+
+    }
+
+
+    result.innerHTML =
+      `<img
+        src="${imageUrl}"
+        alt="Imagem criada pela IA"
+      >`;
+
+
+    setDownload(
+      imageUrl,
+      "criacao-ia.png"
+    );
+
+
+    showStatus(
+      "✅ Imagem criada!"
+    );
+
+  }
+
+
+  /*
+  ==========================================================
+  VÍDEO
+  ==========================================================
+  */
+
+  async function generateVideo(prompt) {
+
+    showStatus(
+      "🎬 Criando o vídeo... isso pode demorar."
+    );
+
+
+    const model =
+      document.getElementById(
+        "videoModel"
+      ).value;
+
+
+    const duration =
+      document.getElementById(
+        "videoDuration"
+      ).value;
+
+
+    const params =
+      new URLSearchParams({
+
+        model:
+          model,
+
+        duration:
+          duration,
+
+        key:
+          accessToken
+
+      });
+
+
+    const url =
+      API_BASE +
+      "/video/" +
+      encodeURIComponent(prompt) +
+      "?" +
+      params.toString();
+
+
+    result.innerHTML =
+      `<video
+        controls
+        autoplay
+        playsinline
+      >
+        <source
+          src="${url}"
+          type="video/mp4"
+        >
+        Seu navegador não consegue reproduzir este vídeo.
+      </video>`;
+
+
+    downloadLink.href =
+      url;
+
+    downloadLink.download =
+      "criacao-ia.mp4";
+
+    downloadLink.textContent =
+      "⬇️ Abrir/salvar vídeo";
+
+    downloadLink.style.display =
+      "block";
+
+
+    showStatus(
+      "🎬 O vídeo foi solicitado. Aguarde o carregamento."
+    );
+
+  }
+
+
+  /*
+  ==========================================================
+  ÁUDIO
+  ==========================================================
+  */
+
+  async function generateAudio(prompt) {
+
+    showStatus(
+      "🔊 Criando áudio..."
+    );
+
+
+    const response =
+      await fetch(
+        API_BASE +
+        "/v1/audio/speech",
+        {
+
+          method: "POST",
+
+          headers: {
+
+            "Authorization":
+              "Bearer " + accessToken,
+
+            "Content-Type":
+              "application/json"
+
+          },
+
+          body: JSON.stringify({
+
+            model:
+              "tts-1",
+
+            input:
+              prompt,
+
+            voice:
+              document.getElementById(
+                "voice"
+              ).value,
+
+            response_format:
+              "mp3"
+
+          })
+
+        }
+      );
+
+
+    if (!response.ok) {
+
+      let message =
+        "Erro ao gerar áudio.";
+
+      try {
+
+        const error =
+          await response.json();
+
+        message =
+          error.error?.message ||
+          error.error ||
+          message;
+
+      } catch (_) {}
+
+      throw new Error(message);
+
+    }
+
+
+    const blob =
+      await response.blob();
+
+
+    const audioUrl =
+      URL.createObjectURL(blob);
+
+
+    result.innerHTML =
+      `<audio
+        controls
+        autoplay
+      >
+      </audio>`;
+
+
+    const audio =
+      result.querySelector(
+        "audio"
+      );
+
+    audio.src =
+      audioUrl;
+
+
+    setDownload(
+      audioUrl,
+      "criacao-ia.mp3"
+    );
+
+
+    showStatus(
+      "✅ Áudio criado!"
+    );
+
+  }
+
+
+  /*
+  ==========================================================
+  TEXTO
+  ==========================================================
+  */
+
+  async function generateText(prompt) {
+
+    showStatus(
+      "📝 A IA está escrevendo..."
+    );
+
+
+    const response =
+      await fetch(
+        API_BASE +
+        "/v1/chat/completions",
+        {
+
+          method: "POST",
+
+          headers: {
+
+            "Authorization":
+              "Bearer " + accessToken,
+
+            "Content-Type":
+              "application/json"
+
+          },
+
+          body: JSON.stringify({
+
+            model:
+              "openai/gpt-5.4-nano",
+
+            messages: [
+
+              {
+                role: "system",
+
+                content:
+                  "Você é um assistente criativo. Responda em português do Brasil de forma clara e útil."
+              },
+
+              {
+                role: "user",
+
+                content:
+                  prompt
+              }
+
+            ]
+
+          })
+
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        data.error?.message ||
+        data.error ||
+        "Erro ao gerar texto."
+      );
+
+    }
+
+
+    const text =
+      data.choices?.[0]?.message?.content;
+
+
+    if (!text) {
+
+      throw new Error(
+        "A IA não retornou texto."
+      );
+
+    }
+
+
+    result.innerHTML =
+      `<div class="result-text">
+        ${escapeHtml(text)}
+      </div>`;
+
+
+    showStatus(
+      "✅ Texto criado!"
+    );
+
+  }
+
+
+  /*
+  ==========================================================
+  DOWNLOAD
+  ==========================================================
+  */
+
+  function setDownload(url, filename) {
+
+    downloadLink.href =
+      url;
+
+    downloadLink.download =
+      filename;
+
+    downloadLink.textContent =
+      "⬇️ Abrir/salvar resultado";
+
+    downloadLink.style.display =
+      "block";
+
+  }
+
+
+  /*
+  ==========================================================
+  BOTÕES
+  ==========================================================
+  */
+
+  loginButton.addEventListener(
+    "click",
+    login
+  );
+
+
+  logoutButton.addEventListener(
+    "click",
+    logout
+  );
+
+
+  generateButton.addEventListener(
+    "click",
+    generate
+  );
+
+
+  againButton.addEventListener(
+    "click",
+    () => {
+
+      if (lastPrompt) {
+
+        promptInput.value =
+          lastPrompt;
+
+        generate();
+
+      }
+
+    }
+  );
+
+
+  clearButton.addEventListener(
+    "click",
+    () => {
+
+      promptInput.value = "";
+
+      result.innerHTML =
+        `<div class="empty">
+          Seu resultado aparecerá aqui.
+        </div>`;
+
+      downloadLink.style.display =
+        "none";
+
+      hideStatus();
+
+    }
+  );
+
+
+  /*
+  ==========================================================
+  INICIALIZAÇÃO
+  ==========================================================
+  */
+
+  handleOAuthCallback();
+
+  updateLoginUI();
+
+  updateOptions();
+
+
+  /*
+  ==========================================================
+  SERVICE WORKER
+  ==========================================================
+  */
+
+  if ("serviceWorker" in navigator) {
+
+    window.addEventListener(
+      "load",
+      () => {
+
+        navigator.serviceWorker
+          .register("./sw.js")
+          .catch(error =>
+            console.log(
+              "Service Worker:",
+              error
+            )
+          );
+
+      }
+    );
+
+  }
+
 </script>
+
 </body>
 </html>
