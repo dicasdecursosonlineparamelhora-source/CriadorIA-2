@@ -135,6 +135,11 @@ button {
   margin-top: 10px;
 }
 
+.preview-box img {
+  max-height: 500px;
+  object-fit: contain;
+}
+
 .status {
   padding: 12px;
   border-radius: 10px;
@@ -196,6 +201,18 @@ button {
   margin: auto;
 }
 
+.option-box {
+  margin-top: 15px;
+  padding: 14px;
+  border: 1px solid #34415d;
+  background: #0b1020;
+  border-radius: 12px;
+}
+
+.option-box label {
+  margin-top: 10px;
+}
+
 @keyframes spin {
   to {
     transform: rotate(360deg);
@@ -208,16 +225,18 @@ button {
 
 <header>
   <h1>🤖 Criador IA</h1>
-  <p>Crie textos, imagens, vídeos e áudios com IA</p>
+  <p>Crie e transforme imagens, vídeos, áudios e textos com IA</p>
 </header>
 
 <div class="container">
 
   <!-- CONEXÃO -->
   <div class="card">
+
     <h2>🔐 Conta</h2>
 
     <div id="loginArea">
+
       <p class="small">
         Conecte sua conta Pollinations para usar a IA.
       </p>
@@ -225,15 +244,21 @@ button {
       <button class="primary" onclick="login()">
         🔑 Conectar com Pollinations
       </button>
+
     </div>
 
     <div id="connectedArea" class="hidden">
-      <p id="userStatus">✅ Conectado</p>
+
+      <p id="userStatus">
+        ✅ Conectado
+      </p>
 
       <button class="danger" onclick="logout()">
         Desconectar
       </button>
+
     </div>
+
   </div>
 
 
@@ -242,50 +267,161 @@ button {
 
     <h2>✨ Criar</h2>
 
-    <label for="mode">O que você quer criar?</label>
+    <label for="mode">
+      O que você quer fazer?
+    </label>
 
     <select id="mode" onchange="changeMode()">
-      <option value="image">🖼️ Imagem</option>
-      <option value="video">🎬 Vídeo</option>
-      <option value="audio">🔊 Áudio</option>
-      <option value="text">📝 Texto</option>
+
+      <option value="image">
+        🖼️ Criar/Editar imagem
+      </option>
+
+      <option value="video">
+        🎬 Transformar imagem em vídeo
+      </option>
+
+      <option value="audio">
+        🔊 Criar áudio
+      </option>
+
+      <option value="text">
+        📝 Criar texto
+      </option>
+
     </select>
 
     <br><br>
 
-    <label for="prompt">Descreva sua ideia</label>
+
+    <!-- IMAGEM -->
+    <label for="prompt">
+      🧠 O que você quer que a IA faça?
+    </label>
 
     <textarea
       id="prompt"
-      placeholder="Digite aqui o que você quer que a IA crie..."
+      placeholder="Ex.: Coloque essa pessoa em uma praia ao pôr do sol."
     ></textarea>
 
     <p class="small">
-      Você pode escrever sua ideia do seu jeito. A IA tentará interpretar o pedido.
+      Se você enviar uma imagem, ela será usada como referência principal.
+      Explique o que deseja alterar, adicionar ou animar.
     </p>
+
+
+    <!-- CENÁRIO -->
+    <div class="option-box">
+
+      <label for="scenario">
+        🌎 Cenário (opcional)
+      </label>
+
+      <input
+        type="text"
+        id="scenario"
+        placeholder="Ex.: praia ao pôr do sol, estádio, floresta..."
+      >
+
+      <label for="movement">
+        🎥 Movimento (para vídeo, opcional)
+      </label>
+
+      <input
+        type="text"
+        id="movement"
+        placeholder="Ex.: caminhando lentamente em direção à câmera..."
+      >
+
+    </div>
+
 
     <!-- ARQUIVO -->
     <label class="file-button">
-      📎 Escolher arquivo do celular
+
+      📎 Escolher imagem, vídeo ou áudio do celular
+
       <input
         type="file"
         id="fileInput"
-        accept="image/*,video/*,audio/*,.txt,.md,.pdf"
+        accept="image/*,video/*,audio/*,.txt,.md"
         onchange="handleFile(event)"
       >
+
     </label>
 
     <div id="filePreview"></div>
+
+
+    <!-- OPÇÕES DE VÍDEO -->
+    <div
+      id="videoOptions"
+      class="option-box hidden"
+    >
+
+      <label for="duration">
+        ⏱️ Duração do vídeo
+      </label>
+
+      <select id="duration">
+
+        <option value="5">
+          5 segundos
+        </option>
+
+        <option value="6">
+          6 segundos
+        </option>
+
+        <option value="8">
+          8 segundos
+        </option>
+
+        <option value="10">
+          10 segundos
+        </option>
+
+      </select>
+
+
+      <label for="aspectRatio">
+        📐 Formato
+      </label>
+
+      <select id="aspectRatio">
+
+        <option value="16:9">
+          16:9 - Horizontal
+        </option>
+
+        <option value="9:16">
+          9:16 - Vertical
+        </option>
+
+        <option value="1:1">
+          1:1 - Quadrado
+        </option>
+
+      </select>
+
+    </div>
+
 
     <br>
 
     <div class="row">
 
-      <button class="primary" onclick="generate()">
+      <button
+        class="primary"
+        onclick="generate()"
+      >
         🚀 Criar com IA
       </button>
 
-      <button class="secondary" onclick="clearAll()">
+      <button
+        class="secondary"
+        onclick="clearAll()"
+      >
         🗑️ Limpar
       </button>
 
@@ -299,7 +435,11 @@ button {
 
     </div>
 
-    <div id="status" class="status">
+
+    <div
+      id="status"
+      class="status"
+    >
       Pronto para criar.
     </div>
 
@@ -335,16 +475,29 @@ button {
 
   NÃO ENVIE A CHAVE PARA MIM.
 */
-const CLIENT_ID = "pk_e3dlTjF2KpyiLMWx";
 
-const API_BASE = "https://gen.pollinations.ai";
-const AUTH_BASE = "https://enter.pollinations.ai";
+const CLIENT_ID =
+  "pk_e3dlTjF2KpyiLMWx";
+
+const API_BASE =
+  "https://gen.pollinations.ai";
+
+const AUTH_BASE =
+  "https://enter.pollinations.ai";
 
 const REDIRECT_URI =
-  window.location.origin + window.location.pathname;
+  window.location.origin +
+  window.location.pathname;
+
+
+/* =========================================================
+   ESTADO
+========================================================= */
 
 let accessToken = null;
+
 let selectedFile = null;
+
 let uploadedFileUrl = null;
 
 
@@ -352,18 +505,165 @@ let uploadedFileUrl = null;
    ELEMENTOS
 ========================================================= */
 
-const modeEl = document.getElementById("mode");
-const promptEl = document.getElementById("prompt");
-const fileInput = document.getElementById("fileInput");
-const filePreview = document.getElementById("filePreview");
-const resultEl = document.getElementById("result");
-const statusEl = document.getElementById("status");
+const modeEl =
+  document.getElementById("mode");
+
+const promptEl =
+  document.getElementById("prompt");
+
+const scenarioEl =
+  document.getElementById("scenario");
+
+const movementEl =
+  document.getElementById("movement");
+
+const durationEl =
+  document.getElementById("duration");
+
+const aspectRatioEl =
+  document.getElementById("aspectRatio");
+
+const fileInput =
+  document.getElementById("fileInput");
+
+const filePreview =
+  document.getElementById("filePreview");
+
+const resultEl =
+  document.getElementById("result");
+
+const statusEl =
+  document.getElementById("status");
+
 const regenerateButton =
-  document.getElementById("regenerateButton");
+  document.getElementById(
+    "regenerateButton"
+  );
+
+const videoOptions =
+  document.getElementById(
+    "videoOptions"
+  );
 
 
 /* =========================================================
-   UTILITÁRIOS OAUTH
+   INSTRUÇÃO PRINCIPAL DA IA
+========================================================= */
+
+const SYSTEM_PROMPT = `
+
+Você é a inteligência artificial principal do aplicativo Criador IA.
+
+REGRA PRINCIPAL:
+
+Quando o usuário enviar uma imagem, a imagem enviada é a REFERÊNCIA PRINCIPAL.
+
+Você deve usar diretamente a imagem enviada para realizar o pedido do usuário.
+
+NÃO ignore a imagem.
+
+NÃO crie uma pessoa diferente.
+
+NÃO substitua o personagem principal por outra pessoa.
+
+Preserve ao máximo:
+
+- rosto;
+- identidade;
+- cabelo;
+- corpo;
+- proporções;
+- roupas;
+- objetos;
+- animais;
+- cores;
+- aparência;
+- detalhes importantes;
+- composição original.
+
+O TEXTO DO USUÁRIO determina o que deve ser feito com essa imagem.
+
+EXEMPLO:
+
+Usuário envia uma foto de uma pessoa e escreve:
+
+"Coloque essa pessoa em uma praia."
+
+Resultado esperado:
+
+A mesma pessoa da imagem deve aparecer em uma praia.
+
+Outro exemplo:
+
+"Coloque essa pessoa em um estádio de futebol."
+
+Resultado:
+
+A pessoa deve continuar fiel à imagem enviada e o cenário deve ser alterado para um estádio.
+
+Outro exemplo:
+
+"Faça essa pessoa sorrir."
+
+Resultado:
+
+Alterar somente a expressão solicitada, preservando o restante da imagem.
+
+OUTRO EXEMPLO:
+
+"Faça essa pessoa andar."
+
+Resultado:
+
+Transformar a imagem parada em uma animação ou vídeo em que a pessoa caminhe, mantendo sua aparência.
+
+VÍDEO A PARTIR DE IMAGEM:
+
+Quando o usuário escolher criar um vídeo usando uma imagem:
+
+- use a imagem como referência visual principal;
+- trate a imagem como o primeiro quadro ou referência da cena;
+- preserve a identidade e aparência dos elementos principais;
+- anime somente o que for solicitado;
+- crie movimentos naturais;
+- mantenha rosto, roupa, cabelo e características da pessoa;
+- não transforme a pessoa em outra pessoa.
+
+Se o usuário não especificar movimento, faça uma animação suave e natural da imagem.
+
+CENÁRIO:
+
+Se o usuário informar um cenário, mantenha o personagem ou objeto principal da imagem e coloque-o no cenário solicitado.
+
+MOVIMENTO:
+
+Se o usuário informar um movimento, use esse movimento para animar a imagem.
+
+MÚSICA:
+
+Se houver uma música ou áudio enviado pelo usuário e o modo escolhido permitir áudio, utilize esse áudio como referência/trilha sonora.
+
+EDIÇÃO DE IMAGEM:
+
+Quando o usuário pedir uma alteração em uma imagem, faça somente as alterações solicitadas sempre que possível.
+
+A imagem original deve continuar reconhecível.
+
+OBJETIVO:
+
+O aplicativo deve funcionar como um editor e animador inteligente.
+
+O usuário envia uma imagem e diz o que quer.
+
+A IA deve modificar ou animar a própria imagem enviada, e não criar algo aleatório separado dela.
+
+A fidelidade à imagem enviada é prioridade.
+
+`;
+
+
+/* =========================================================
+   OAUTH
 ========================================================= */
 
 function randomString(length = 64) {
@@ -373,12 +673,23 @@ function randomString(length = 64) {
 
   let result = "";
 
-  const values = new Uint32Array(length);
+  const values =
+    new Uint32Array(length);
 
   crypto.getRandomValues(values);
 
-  for (let i = 0; i < length; i++) {
-    result += chars[values[i] % chars.length];
+  for (
+    let i = 0;
+    i < length;
+    i++
+  ) {
+
+    result +=
+      chars[
+        values[i] %
+        chars.length
+      ];
+
   }
 
   return result;
@@ -389,10 +700,14 @@ function base64UrlEncode(buffer) {
 
   let binary = "";
 
-  const bytes = new Uint8Array(buffer);
+  const bytes =
+    new Uint8Array(buffer);
 
   for (const byte of bytes) {
-    binary += String.fromCharCode(byte);
+
+    binary +=
+      String.fromCharCode(byte);
+
   }
 
   return btoa(binary)
@@ -402,15 +717,23 @@ function base64UrlEncode(buffer) {
 }
 
 
-async function createCodeChallenge(verifier) {
+async function createCodeChallenge(
+  verifier
+) {
 
   const data =
-    new TextEncoder().encode(verifier);
+    new TextEncoder()
+      .encode(verifier);
 
   const digest =
-    await crypto.subtle.digest("SHA-256", data);
+    await crypto.subtle.digest(
+      "SHA-256",
+      data
+    );
 
-  return base64UrlEncode(digest);
+  return base64UrlEncode(
+    digest
+  );
 }
 
 
@@ -422,8 +745,10 @@ async function login() {
 
   if (
     !CLIENT_ID ||
-    CLIENT_ID === "COLOQUE_SUA_PK_AQUI"
+    CLIENT_ID ===
+    "COLOQUE_SUA_PK_AQUI"
   ) {
+
     alert(
       "Coloque sua chave pk_ no código antes de conectar."
     );
@@ -435,7 +760,9 @@ async function login() {
     randomString(64);
 
   const challenge =
-    await createCodeChallenge(verifier);
+    await createCodeChallenge(
+      verifier
+    );
 
   sessionStorage.setItem(
     "pkce_verifier",
@@ -453,19 +780,26 @@ async function login() {
   const params =
     new URLSearchParams({
 
-      response_type: "code",
+      response_type:
+        "code",
 
-      client_id: CLIENT_ID,
+      client_id:
+        CLIENT_ID,
 
-      redirect_uri: REDIRECT_URI,
+      redirect_uri:
+        REDIRECT_URI,
 
-      scope: "profile usage",
+      scope:
+        "profile usage",
 
-      state: state,
+      state:
+        state,
 
-      code_challenge: challenge,
+      code_challenge:
+        challenge,
 
-      code_challenge_method: "S256"
+      code_challenge_method:
+        "S256"
 
     });
 
@@ -477,7 +811,7 @@ async function login() {
 
 
 /* =========================================================
-   CALLBACK OAUTH
+   CALLBACK
 ========================================================= */
 
 async function handleOAuthCallback() {
@@ -494,7 +828,9 @@ async function handleOAuthCallback() {
     params.get("state");
 
   if (!code) {
+
     updateLoginUI();
+
     return;
   }
 
@@ -541,11 +877,14 @@ async function handleOAuthCallback() {
         "/api/oauth/token",
         {
 
-          method: "POST",
+          method:
+            "POST",
 
           headers: {
+
             "Content-Type":
               "application/x-www-form-urlencoded"
+
           },
 
           body:
@@ -554,7 +893,8 @@ async function handleOAuthCallback() {
               grant_type:
                 "authorization_code",
 
-              code: code,
+              code:
+                code,
 
               client_id:
                 CLIENT_ID,
@@ -580,6 +920,7 @@ async function handleOAuthCallback() {
         data.error ||
         "Falha na autenticação"
       );
+
     }
 
     accessToken =
@@ -618,21 +959,26 @@ async function handleOAuthCallback() {
       "❌ Erro ao conectar: " +
       error.message
     );
+
   }
 }
 
 
 /* =========================================================
-   INTERFACE LOGIN
+   LOGIN UI
 ========================================================= */
 
 function updateLoginUI() {
 
   const loginArea =
-    document.getElementById("loginArea");
+    document.getElementById(
+      "loginArea"
+    );
 
   const connectedArea =
-    document.getElementById("connectedArea");
+    document.getElementById(
+      "connectedArea"
+    );
 
   if (accessToken) {
 
@@ -653,6 +999,7 @@ function updateLoginUI() {
     connectedArea.classList.add(
       "hidden"
     );
+
   }
 }
 
@@ -676,7 +1023,7 @@ function logout() {
 
 
 /* =========================================================
-   ARQUIVO DO CELULAR
+   ARQUIVO
 ========================================================= */
 
 async function handleFile(event) {
@@ -688,28 +1035,39 @@ async function handleFile(event) {
     return;
   }
 
-  selectedFile = file;
+  selectedFile =
+    file;
 
-  uploadedFileUrl = null;
+  uploadedFileUrl =
+    null;
 
-  filePreview.innerHTML = "";
+  filePreview.innerHTML =
+    "";
 
   const box =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
   box.className =
     "preview-box";
 
   const title =
-    document.createElement("strong");
+    document.createElement(
+      "strong"
+    );
 
   title.textContent =
     "📎 " + file.name;
 
-  box.appendChild(title);
+  box.appendChild(
+    title
+  );
 
   const info =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
 
   info.className =
     "small";
@@ -717,66 +1075,105 @@ async function handleFile(event) {
   info.textContent =
     formatBytes(file.size) +
     " • " +
-    (file.type || "arquivo");
+    (
+      file.type ||
+      "arquivo"
+    );
 
-  box.appendChild(info);
+  box.appendChild(
+    info
+  );
 
 
   /* IMAGEM */
 
-  if (file.type.startsWith("image/")) {
+  if (
+    file.type.startsWith(
+      "image/"
+    )
+  ) {
 
     const img =
-      document.createElement("img");
+      document.createElement(
+        "img"
+      );
 
     img.src =
-      URL.createObjectURL(file);
+      URL.createObjectURL(
+        file
+      );
 
-    box.appendChild(img);
+    box.appendChild(
+      img
+    );
+
   }
 
 
   /* VÍDEO */
 
   else if (
-    file.type.startsWith("video/")
+    file.type.startsWith(
+      "video/"
+    )
   ) {
 
     const video =
-      document.createElement("video");
+      document.createElement(
+        "video"
+      );
 
     video.src =
-      URL.createObjectURL(file);
+      URL.createObjectURL(
+        file
+      );
 
-    video.controls = true;
+    video.controls =
+      true;
 
-    box.appendChild(video);
+    box.appendChild(
+      video
+    );
+
   }
 
 
   /* ÁUDIO */
 
   else if (
-    file.type.startsWith("audio/")
+    file.type.startsWith(
+      "audio/"
+    )
   ) {
 
     const audio =
-      document.createElement("audio");
+      document.createElement(
+        "audio"
+      );
 
     audio.src =
-      URL.createObjectURL(file);
+      URL.createObjectURL(
+        file
+      );
 
-    audio.controls = true;
+    audio.controls =
+      true;
 
-    box.appendChild(audio);
+    box.appendChild(
+      audio
+    );
+
   }
 
 
   /* TEXTO */
 
   else if (
-    file.type === "text/plain" ||
-    file.name.endsWith(".md")
+    file.type ===
+      "text/plain" ||
+    file.name.endsWith(
+      ".md"
+    )
   ) {
 
     try {
@@ -785,7 +1182,9 @@ async function handleFile(event) {
         await file.text();
 
       const preview =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
 
       preview.className =
         "result-text";
@@ -794,24 +1193,31 @@ async function handleFile(event) {
         "10px";
 
       preview.textContent =
-        text.substring(0, 2000);
+        text.substring(
+          0,
+          2000
+        );
 
-      box.appendChild(preview);
+      box.appendChild(
+        preview
+      );
 
     } catch (e) {}
+
   }
 
-
-  filePreview.appendChild(box);
+  filePreview.appendChild(
+    box
+  );
 
   setStatus(
-    "📎 Arquivo selecionado. Ele será enviado quando você criar."
+    "📎 Arquivo selecionado. Ele será usado como referência."
   );
 }
 
 
 /* =========================================================
-   UPLOAD DO ARQUIVO
+   UPLOAD
 ========================================================= */
 
 async function uploadFile() {
@@ -825,16 +1231,20 @@ async function uploadFile() {
     throw new Error(
       "Conecte sua conta antes de enviar um arquivo."
     );
+
   }
 
   if (
     selectedFile.size >
-    100 * 1024 * 1024
+    100 *
+    1024 *
+    1024
   ) {
 
     throw new Error(
       "O arquivo é maior que 100 MB."
     );
+
   }
 
   setStatus(
@@ -856,15 +1266,20 @@ async function uploadFile() {
       "https://media.pollinations.ai/upload",
       {
 
-        method: "POST",
+        method:
+          "POST",
 
         headers: {
+
           Authorization:
             "Bearer " +
             accessToken
+
         },
 
-        body: formData
+        body:
+          formData
+
       }
     );
 
@@ -878,13 +1293,23 @@ async function uploadFile() {
       data.message ||
       "Não foi possível enviar o arquivo."
     );
+
   }
 
   uploadedFileUrl =
-    data.url;
+    data.url ||
+    data.link;
+
+  if (!uploadedFileUrl) {
+
+    throw new Error(
+      "O servidor não retornou a URL do arquivo."
+    );
+
+  }
 
   setStatus(
-    "✅ Arquivo enviado com sucesso!"
+    "✅ Arquivo enviado e pronto para ser usado como referência!"
   );
 
   return uploadedFileUrl;
@@ -892,7 +1317,7 @@ async function uploadFile() {
 
 
 /* =========================================================
-   CRIAÇÃO
+   CRIAR
 ========================================================= */
 
 async function generate() {
@@ -909,10 +1334,16 @@ async function generate() {
   const prompt =
     promptEl.value.trim();
 
+  const scenario =
+    scenarioEl.value.trim();
+
+  const movement =
+    movementEl.value.trim();
+
   if (!prompt) {
 
     alert(
-      "Digite o que você quer criar."
+      "Digite o que você quer que a IA faça."
     );
 
     return;
@@ -920,8 +1351,13 @@ async function generate() {
 
   resultEl.innerHTML = `
     <div class="loading">
+
       <div class="spinner"></div>
-      <p>🤖 A IA está criando...</p>
+
+      <p>
+        🤖 A IA está analisando sua imagem e criando...
+      </p>
+
     </div>
   `;
 
@@ -932,31 +1368,60 @@ async function generate() {
   try {
 
     /*
-      Se houver arquivo, envia primeiro.
+      Se houver arquivo,
+      envia para obter uma URL de referência.
     */
 
     if (selectedFile) {
+
       await uploadFile();
+
     }
 
     const mode =
       modeEl.value;
 
-    if (mode === "image") {
+    if (
+      mode === "image"
+    ) {
 
-      await generateImage(prompt);
+      await generateImage(
+        prompt,
+        scenario
+      );
 
-    } else if (mode === "video") {
+    }
 
-      await generateVideo(prompt);
+    else if (
+      mode === "video"
+    ) {
 
-    } else if (mode === "audio") {
+      await generateVideo(
+        prompt,
+        scenario,
+        movement
+      );
 
-      await generateAudio(prompt);
+    }
 
-    } else if (mode === "text") {
+    else if (
+      mode === "audio"
+    ) {
 
-      await generateText(prompt);
+      await generateAudio(
+        prompt
+      );
+
+    }
+
+    else if (
+      mode === "text"
+    ) {
+
+      await generateText(
+        prompt
+      );
+
     }
 
     regenerateButton.classList.remove(
@@ -967,88 +1432,192 @@ async function generate() {
       "✅ Criação concluída!"
     );
 
-  } catch (error) {
+  }
+
+  catch (error) {
 
     console.error(error);
 
     resultEl.innerHTML = `
+
       <div class="status">
-        ❌ Erro:<br><br>
-        ${escapeHtml(error.message)}
+
+        ❌ Erro:
+
+        <br><br>
+
+        ${escapeHtml(
+          error.message
+        )}
+
       </div>
+
     `;
 
     setStatus(
       "❌ Não foi possível concluir a criação."
     );
+
   }
 }
 
 
 /* =========================================================
-   IMAGEM
+   IMAGEM COM REFERÊNCIA
 ========================================================= */
 
-async function generateImage(prompt) {
+async function generateImage(
+  prompt,
+  scenario
+) {
 
   setStatus(
-    "🖼️ Gerando imagem..."
+    "🖼️ Analisando a imagem e criando a nova imagem..."
   );
 
-  const body = {
+  let finalPrompt =
+    SYSTEM_PROMPT +
+    "\n\nPEDIDO DO USUÁRIO:\n" +
+    prompt;
 
-    model:
-      "black-forest-labs/flux.1-schnell",
+  if (scenario) {
 
-    prompt:
-      prompt,
+    finalPrompt +=
+      "\n\nCENÁRIO SOLICITADO:\n" +
+      scenario;
 
-    n: 1,
+  }
 
-    size:
-      "1024x1024",
+  /*
+    SEM IMAGEM:
+    geração normal.
+  */
 
-    response_format:
-      "url"
-  };
+  if (!uploadedFileUrl) {
+
+    const response =
+      await fetch(
+        API_BASE +
+        "/v1/images/generations",
+        {
+
+          method:
+            "POST",
+
+          headers: {
+
+            "Content-Type":
+              "application/json",
+
+            Authorization:
+              "Bearer " +
+              accessToken
+
+          },
+
+          body:
+            JSON.stringify({
+
+              model:
+                "black-forest-labs/flux.2-max",
+
+              prompt:
+                finalPrompt,
+
+              n:
+                1,
+
+              size:
+                "1024x1024",
+
+              response_format:
+                "url"
+
+            })
+
+        }
+      );
+
+    const data =
+      await response.json();
+
+    if (!response.ok) {
+
+      throw new Error(
+        data.error?.message ||
+        data.error ||
+        "Erro na geração da imagem."
+      );
+
+    }
+
+    const url =
+      data.data?.[0]?.url;
+
+    if (!url) {
+
+      throw new Error(
+        "A IA não retornou a imagem."
+      );
+
+    }
+
+    showImageResult(
+      url
+    );
+
+    return;
+  }
 
 
   /*
-    Se o usuário enviou uma imagem,
-    usa ela como referência.
+    COM IMAGEM:
+    usa o endpoint de edição.
   */
-
-  if (
-    uploadedFileUrl &&
-    selectedFile &&
-    selectedFile.type.startsWith("image/")
-  ) {
-
-    body.image =
-      uploadedFileUrl;
-  }
-
 
   const response =
     await fetch(
       API_BASE +
-      "/v1/images/generations",
+      "/v1/images/edits",
       {
 
-        method: "POST",
+        method:
+          "POST",
 
         headers: {
 
           "Content-Type":
             "application/json",
 
-          "Authorization":
+          Authorization:
             "Bearer " +
             accessToken
+
         },
 
         body:
-          JSON.stringify(body)
+          JSON.stringify({
+
+            model:
+              "black-forest-labs/flux.2-max",
+
+            prompt:
+              finalPrompt,
+
+            image:
+              uploadedFileUrl,
+
+            n:
+              1,
+
+            size:
+              "1024x1024",
+
+            response_format:
+              "url"
+
+          })
+
       }
     );
 
@@ -1060,8 +1629,9 @@ async function generateImage(prompt) {
     throw new Error(
       data.error?.message ||
       data.error ||
-      "Erro na geração da imagem."
+      "Erro ao editar a imagem."
     );
+
   }
 
   const url =
@@ -1070,83 +1640,173 @@ async function generateImage(prompt) {
   if (!url) {
 
     throw new Error(
-      "A IA não retornou a imagem."
+      "A IA não retornou a imagem editada."
     );
+
   }
 
-  resultEl.innerHTML = `
-    <img
-      src="${escapeAttribute(url)}"
-      alt="Imagem criada pela IA"
-    >
+  showImageResult(
+    url
+  );
+}
 
-    <p>
-      <a
-        href="${escapeAttribute(url)}"
-        target="_blank"
-        style="color:#60a5fa"
+
+/* =========================================================
+   MOSTRAR IMAGEM
+========================================================= */
+
+function showImageResult(
+  url
+) {
+
+  resultEl.innerHTML = `
+
+    <div class="result">
+
+      <img
+        src="${escapeAttribute(url)}"
+        alt="Imagem criada pela IA"
       >
-        🔗 Abrir imagem
-      </a>
-    </p>
+
+      <p>
+
+        <a
+          href="${escapeAttribute(url)}"
+          target="_blank"
+          style="color:#60a5fa"
+        >
+          🔗 Abrir imagem
+        </a>
+
+      </p>
+
+    </div>
+
   `;
 }
 
 
 /* =========================================================
-   VÍDEO
+   VÍDEO A PARTIR DA IMAGEM
 ========================================================= */
 
-async function generateVideo(prompt) {
+async function generateVideo(
+  prompt,
+  scenario,
+  movement
+) {
 
   setStatus(
-    "🎬 Gerando vídeo..."
+    "🎬 Transformando sua imagem em vídeo..."
   );
+
+  if (!uploadedFileUrl) {
+
+    throw new Error(
+      "Para criar um vídeo fiel a uma imagem, primeiro envie uma imagem do celular."
+    );
+
+  }
+
+  if (
+    !selectedFile ||
+    !selectedFile.type.startsWith(
+      "image/"
+    )
+  ) {
+
+    throw new Error(
+      "No modo vídeo, envie uma imagem para usar como referência."
+    );
+
+  }
+
+
+  let finalPrompt =
+
+    "Use a imagem enviada como referência visual principal e preserve fielmente a identidade, aparência, rosto, roupas, corpo, objetos e características principais da imagem. " +
+
+    "Transforme essa imagem parada em um vídeo natural. " +
+
+    "Não substitua a pessoa ou personagem por outro. " +
+
+    "Anime somente de acordo com o pedido do usuário. " +
+
+    "\n\nPEDIDO DO USUÁRIO:\n" +
+
+    prompt;
+
+
+  if (scenario) {
+
+    finalPrompt +=
+      "\n\nCENÁRIO:\n" +
+      scenario;
+
+  }
+
+
+  if (movement) {
+
+    finalPrompt +=
+      "\n\nMOVIMENTO:\n" +
+      movement;
+
+  }
+
+
+  finalPrompt +=
+    "\n\nMantenha a imagem enviada como referência principal durante toda a animação.";
+
 
   const params =
     new URLSearchParams();
 
   params.set(
     "model",
-    "google/veo-3.1-fast"
+    "veo"
   );
 
   params.set(
     "duration",
-    "5"
+    durationEl.value
+  );
+
+  params.set(
+    "aspectRatio",
+    aspectRatioEl.value
   );
 
   /*
-    Imagem enviada pelo celular
-    pode ser usada como imagem inicial.
+    A imagem enviada será
+    o primeiro quadro/referência.
   */
 
-  if (
-    uploadedFileUrl &&
-    selectedFile &&
-    selectedFile.type.startsWith("image/")
-  ) {
-
-    params.set(
-      "image",
-      uploadedFileUrl
-    );
-  }
+  params.set(
+    "image",
+    uploadedFileUrl
+  );
 
   params.set(
     "key",
     accessToken
   );
 
+
   const url =
     API_BASE +
     "/video/" +
-    encodeURIComponent(prompt) +
+    encodeURIComponent(
+      finalPrompt
+    ) +
     "?" +
     params.toString();
 
+
   const response =
-    await fetch(url);
+    await fetch(
+      url
+    );
 
   if (!response.ok) {
 
@@ -1163,33 +1823,50 @@ async function generateVideo(prompt) {
         data.message ||
         message;
 
-    } catch (e) {}
+    }
 
-    throw new Error(message);
+    catch (e) {}
+
+    throw new Error(
+      message
+    );
+
   }
+
 
   const blob =
     await response.blob();
 
   const videoUrl =
-    URL.createObjectURL(blob);
+    URL.createObjectURL(
+      blob
+    );
+
 
   resultEl.innerHTML = `
-    <video
-      src="${videoUrl}"
-      controls
-      playsinline
-    ></video>
 
-    <p>
-      <a
-        href="${videoUrl}"
-        target="_blank"
-        style="color:#60a5fa"
-      >
-        🎬 Abrir vídeo
-      </a>
-    </p>
+    <div class="result">
+
+      <video
+        src="${videoUrl}"
+        controls
+        playsinline
+      ></video>
+
+      <p>
+
+        <a
+          href="${videoUrl}"
+          target="_blank"
+          style="color:#60a5fa"
+        >
+          🎬 Abrir vídeo
+        </a>
+
+      </p>
+
+    </div>
+
   `;
 }
 
@@ -1198,7 +1875,9 @@ async function generateVideo(prompt) {
    ÁUDIO
 ========================================================= */
 
-async function generateAudio(prompt) {
+async function generateAudio(
+  prompt
+) {
 
   setStatus(
     "🔊 Gerando áudio..."
@@ -1210,16 +1889,18 @@ async function generateAudio(prompt) {
       "/v1/audio/speech",
       {
 
-        method: "POST",
+        method:
+          "POST",
 
         headers: {
 
           "Content-Type":
             "application/json",
 
-          "Authorization":
+          Authorization:
             "Bearer " +
             accessToken
+
         },
 
         body:
@@ -1236,7 +1917,9 @@ async function generateAudio(prompt) {
 
             response_format:
               "mp3"
+
           })
+
       }
     );
 
@@ -1255,18 +1938,26 @@ async function generateAudio(prompt) {
         data.error ||
         message;
 
-    } catch (e) {}
+    }
 
-    throw new Error(message);
+    catch (e) {}
+
+    throw new Error(
+      message
+    );
+
   }
 
   const blob =
     await response.blob();
 
   const audioUrl =
-    URL.createObjectURL(blob);
+    URL.createObjectURL(
+      blob
+    );
 
   resultEl.innerHTML = `
+
     <audio
       src="${audioUrl}"
       controls
@@ -1274,6 +1965,7 @@ async function generateAudio(prompt) {
     ></audio>
 
     <p>
+
       <a
         href="${audioUrl}"
         download="audio-criador-ia.mp3"
@@ -1281,7 +1973,9 @@ async function generateAudio(prompt) {
       >
         ⬇️ Baixar áudio
       </a>
+
     </p>
+
   `;
 }
 
@@ -1290,7 +1984,9 @@ async function generateAudio(prompt) {
    TEXTO
 ========================================================= */
 
-async function generateText(prompt) {
+async function generateText(
+  prompt
+) {
 
   setStatus(
     "📝 Criando texto..."
@@ -1300,16 +1996,14 @@ async function generateText(prompt) {
     prompt;
 
 
-  /*
-    Se for arquivo de texto,
-    coloca o conteúdo no pedido.
-  */
-
   if (
     selectedFile &&
     (
-      selectedFile.type === "text/plain" ||
-      selectedFile.name.endsWith(".md")
+      selectedFile.type ===
+        "text/plain" ||
+      selectedFile.name.endsWith(
+        ".md"
+      )
     )
   ) {
 
@@ -1317,30 +2011,9 @@ async function generateText(prompt) {
       await selectedFile.text();
 
     finalPrompt +=
-      "\n\nConteúdo do arquivo enviado:\n" +
+      "\n\nConteúdo do arquivo:\n" +
       fileText;
-  }
 
-
-  /*
-    Se enviou outro tipo de arquivo,
-    informa a URL para a IA.
-  */
-
-  if (
-    uploadedFileUrl &&
-    !(
-      selectedFile &&
-      (
-        selectedFile.type === "text/plain" ||
-        selectedFile.name.endsWith(".md")
-      )
-    )
-  ) {
-
-    finalPrompt +=
-      "\n\nArquivo de referência enviado:\n" +
-      uploadedFileUrl;
   }
 
 
@@ -1350,16 +2023,18 @@ async function generateText(prompt) {
       "/v1/chat/completions",
       {
 
-        method: "POST",
+        method:
+          "POST",
 
         headers: {
 
           "Content-Type":
             "application/json",
 
-          "Authorization":
+          Authorization:
             "Bearer " +
             accessToken
+
         },
 
         body:
@@ -1371,21 +2046,29 @@ async function generateText(prompt) {
             messages: [
 
               {
-                role: "system",
+
+                role:
+                  "system",
 
                 content:
-                  "Você é o assistente de criação do aplicativo Criador IA. Entenda a ideia do usuário e produza um resultado claro, útil e bem escrito."
+                  SYSTEM_PROMPT
+
               },
 
               {
-                role: "user",
+
+                role:
+                  "user",
 
                 content:
                   finalPrompt
+
               }
 
             ]
+
           })
+
       }
     );
 
@@ -1399,6 +2082,7 @@ async function generateText(prompt) {
       data.error ||
       "Erro na geração do texto."
     );
+
   }
 
   const text =
@@ -1409,12 +2093,17 @@ async function generateText(prompt) {
     throw new Error(
       "A IA não retornou texto."
     );
+
   }
 
   resultEl.innerHTML = `
+
     <div class="result-text">
+
       ${escapeHtml(text)}
+
     </div>
+
   `;
 }
 
@@ -1428,25 +2117,54 @@ function changeMode() {
   const mode =
     modeEl.value;
 
-  if (mode === "image") {
+  if (
+    mode === "image"
+  ) {
+
+    videoOptions.classList.add(
+      "hidden"
+    );
 
     promptEl.placeholder =
-      "Ex: Crie uma imagem de um homem jogando Street Fighter 6 em um quarto gamer...";
+      "Ex.: Coloque essa pessoa em uma praia ao pôr do sol, mantendo a aparência original.";
 
-  } else if (mode === "video") {
+  }
+
+  else if (
+    mode === "video"
+  ) {
+
+    videoOptions.classList.remove(
+      "hidden"
+    );
 
     promptEl.placeholder =
-      "Ex: Um personagem caminhando por uma cidade futurista durante a noite...";
+      "Ex.: Faça essa pessoa caminhar lentamente em direção à câmera, mantendo a aparência da imagem.";
 
-  } else if (mode === "audio") {
+  }
+
+  else if (
+    mode === "audio"
+  ) {
+
+    videoOptions.classList.add(
+      "hidden"
+    );
 
     promptEl.placeholder =
       "Digite o texto que você quer transformar em áudio...";
 
-  } else {
+  }
+
+  else {
+
+    videoOptions.classList.add(
+      "hidden"
+    );
 
     promptEl.placeholder =
-      "Ex: Crie um roteiro para um vídeo sobre hipnose...";
+      "Ex.: Crie um roteiro para um vídeo sobre hipnose...";
+
   }
 }
 
@@ -1457,20 +2175,33 @@ function changeMode() {
 
 function clearAll() {
 
-  promptEl.value = "";
+  promptEl.value =
+    "";
 
-  fileInput.value = "";
+  scenarioEl.value =
+    "";
 
-  selectedFile = null;
+  movementEl.value =
+    "";
 
-  uploadedFileUrl = null;
+  fileInput.value =
+    "";
 
-  filePreview.innerHTML = "";
+  selectedFile =
+    null;
+
+  uploadedFileUrl =
+    null;
+
+  filePreview.innerHTML =
+    "";
 
   resultEl.innerHTML = `
+
     <p class="small">
       O resultado da IA aparecerá aqui.
     </p>
+
   `;
 
   regenerateButton.classList.add(
@@ -1487,7 +2218,9 @@ function clearAll() {
    STATUS
 ========================================================= */
 
-function setStatus(message) {
+function setStatus(
+  message
+) {
 
   statusEl.textContent =
     message;
@@ -1495,39 +2228,81 @@ function setStatus(message) {
 
 
 /* =========================================================
-   SEGURANÇA HTML
+   SEGURANÇA
 ========================================================= */
 
-function escapeHtml(value) {
+function escapeHtml(
+  value
+) {
 
   return String(value)
 
-    .replaceAll("&", "&amp;")
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
 
-    .replaceAll("<", "&lt;")
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
 
-    .replaceAll(">", "&gt;")
+    .replaceAll(
+      ">",
+      "&gt;"
+    )
 
-    .replaceAll('"', "&quot;")
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
 
-    .replaceAll("'", "&#039;");
+    .replaceAll(
+      "'",
+      "&#039;"
+    );
 }
 
 
-function escapeAttribute(value) {
+function escapeAttribute(
+  value
+) {
 
   return String(value)
-    .replaceAll("&", "&amp;")
-    .replaceAll('"', "&quot;")
-    .replaceAll("<", "&lt;")
-    .replaceAll(">", "&gt;");
+
+    .replaceAll(
+      "&",
+      "&amp;"
+    )
+
+    .replaceAll(
+      '"',
+      "&quot;"
+    )
+
+    .replaceAll(
+      "<",
+      "&lt;"
+    )
+
+    .replaceAll(
+      ">",
+      "&gt;"
+    );
+
 }
 
 
-function formatBytes(bytes) {
+function formatBytes(
+  bytes
+) {
 
-  if (bytes === 0) {
+  if (
+    bytes === 0
+  ) {
+
     return "0 Bytes";
+
   }
 
   const units = [
@@ -1544,13 +2319,24 @@ function formatBytes(bytes) {
     );
 
   return (
+
     parseFloat(
-      (bytes /
-      Math.pow(1024, i))
+
+      (
+        bytes /
+        Math.pow(
+          1024,
+          i
+        )
+      )
       .toFixed(2)
+
     ) +
+
     " " +
+
     units[i]
+
   );
 }
 
@@ -1600,9 +2386,10 @@ if (
 
     }
   );
+
 }
 
 </script>
 
 </body>
-</html>
+  </html>
