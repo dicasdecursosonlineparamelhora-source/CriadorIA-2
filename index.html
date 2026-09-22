@@ -1,1 +1,1621 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <meta name="theme-color" content="#111827">
+  <meta name="description" content="Criador IA - imagem, vídeo, áudio e texto">
+
+  <title>Criador IA</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #0b1020;
+      color: white;
+    }
+
+    header {
+      padding: 18px;
+      text-align: center;
+      background: #111827;
+      border-bottom: 1px solid #263247;
+    }
+
+    header h1 {
+      margin: 0;
+      font-size: 28px;
+    }
+
+    header p {
+      margin: 7px 0 0;
+      color: #aeb8ca;
+    }
+
+    .container {
+      width: min(1000px, 94%);
+      margin: 20px auto 50px;
+    }
+
+    .card {
+      background: #111827;
+      border: 1px solid #263247;
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 18px;
+    }
+
+    .modes {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .mode {
+      border: 1px solid #334155;
+      background: #172033;
+      color: white;
+      padding: 14px 8px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    .mode.active {
+      background: #2563eb;
+      border-color: #60a5fa;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 150px;
+      resize: vertical;
+      background: #080d18;
+      border: 1px solid #334155;
+      border-radius: 12px;
+      padding: 14px;
+      color: white;
+      font-size: 16px;
+      outline: none;
+      margin-top: 14px;
+    }
+
+    textarea:focus {
+      border-color: #3b82f6;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 14px;
+    }
+
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 13px 18px;
+      cursor: pointer;
+      font-size: 15px;
+      color: white;
+      background: #334155;
+    }
+
+    button:hover {
+      opacity: .9;
+    }
+
+    .primary {
+      background: #2563eb;
+    }
+
+    .green {
+      background: #059669;
+    }
+
+    .red {
+      background: #dc2626;
+    }
+
+    .status {
+      margin-top: 14px;
+      padding: 12px;
+      border-radius: 10px;
+      background: #080d18;
+      color: #aeb8ca;
+      display: none;
+    }
+
+    .status.show {
+      display: block;
+    }
+
+    .result {
+      min-height: 120px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      overflow: hidden;
+      border-radius: 14px;
+      background: #080d18;
+    }
+
+    .result img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+      border-radius: 12px;
+    }
+
+    .result video {
+      width: 100%;
+      max-height: 600px;
+      border-radius: 12px;
+      background: black;
+    }
+
+    .result audio {
+      width: 100%;
+    }
+
+    .result-text {
+      width: 100%;
+      padding: 20px;
+      text-align: left;
+      white-space: pre-wrap;
+      line-height: 1.6;
+    }
+
+    .empty {
+      color: #64748b;
+      padding: 35px;
+    }
+
+    .login-box {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .login-status {
+      color: #aeb8ca;
+    }
+
+    .connected {
+      color: #34d399;
+    }
+
+    .small {
+      font-size: 13px;
+      color: #94a3b8;
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    .options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    select,
+    input[type="number"] {
+      width: 100%;
+      background: #080d18;
+      color: white;
+      border: 1px solid #334155;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 15px;
+    }
+
+    label {
+      display: block;
+      color: #cbd5e1;
+      font-size: 14px;
+      margin-bottom: 6px;
+    }
+
+    .download-link {
+      display: none;
+      margin-top: 12px;
+      color: #60a5fa;
+      text-decoration: none;
+    }
+
+    @media (max-width: 700px) {
+      .modes {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .options {
+        grid-template-columns: 1fr;
+      }
+
+      header h1 {
+        font-size: 23px;
+      }
+
+      .container {
+        width: 96%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>🤖 Criador IA</h1>
+  <p>Crie imagens, vídeos, áudios e textos com IA</p>
+</header>
+
+<div class="container">
+
+  <div class="card">
+    <div class="login-box">
+      <div>
+        <strong>🔐 Conta Pollinations</strong>
+        <div id="loginStatus" class="login-status">
+          Não conectado
+        </div>
+      </div>
+
+      <div>
+        <button id="loginButton" class="primary">
+          Conectar IA
+        </button>
+
+        <button id="logoutButton" class="red" style="display:none;">
+          Desconectar
+        </button>
+      </div>
+    </div>
+
+    <div class="small">
+      A conexão usa OAuth seguro. Seu token de geração não fica gravado no código.
+    </div>
+  </div>
+
+  <div class="card">
+
+    <strong>O que você quer criar?</strong>
+
+    <div class="modes">
+
+      <button class="mode active" data-mode="image">
+        🖼️ Imagem
+      </button>
+
+      <button class="mode" data-mode="video">
+        🎬 Vídeo
+      </button>
+
+      <button class="mode" data-mode="audio">
+        🔊 Áudio
+      </button>
+
+      <button class="mode" data-mode="text">
+        📝 Texto
+      </button>
+
+    </div>
+
+    <textarea
+      id="prompt"
+      placeholder="Digite o que você quer criar...
+
+Exemplo:
+Uma cidade futurista em Macapá durante a noite, com prédios iluminados, chuva e carros voadores."
+    ></textarea>
+
+    <div class="options">
+
+      <div id="imageOptions">
+        <label>Modelo de imagem</label>
+
+        <select id="imageModel">
+          <option value="black-forest-labs/flux.1-schnell">
+            Flux Schnell
+          </option>
+        </select>
+      </div>
+
+      <div id="videoOptions" style="display:none;">
+        <label>Modelo de vídeo</label>
+
+        <select id="videoModel">
+          <option value="google/veo-3.1-fast">
+            Google Veo 3.1 Fast
+          </option>
+
+          <option value="bytedance/seedance-2.0">
+            Seedance 2.0
+          </option>
+
+          <option value="x-ai/grok-imagine-video">
+            Grok Imagine Video
+          </option>
+        </select>
+      </div>
+
+      <div id="durationOptions" style="display:none;">
+        <label>Duração do vídeo</label>
+
+        <select id="videoDuration">
+          <option value="4">4 segundos</option>
+          <option value="6">6 segundos</option>
+          <option value="8">8 segundos</option>
+        </select>
+      </div>
+
+      <div id="voiceOptions" style="display:none;">
+        <label>Voz</label>
+
+        <select id="voice">
+          <option value="nova">Nova</option>
+          <option value="alloy">Alloy</option>
+          <option value="echo">Echo</option>
+          <option value="fable">Fable</option>
+          <option value="onyx">Onyx</option>
+          <option value="shimmer">Shimmer</option>
+        </select>
+      </div>
+
+    </div>
+
+    <div class="buttons">
+
+      <button id="generateButton" class="primary">
+        ✨ Criar com IA
+      </button>
+
+      <button id="clearButton">
+        🗑️ Limpar
+      </button>
+
+      <button id="againButton" style="display:none;">
+        🔄 Gerar novamente
+      </button>
+
+    </div>
+
+    <div id="status" class="status"></div>
+
+  </div>
+
+  <div class="card">
+
+    <strong>Resultado</strong>
+
+    <div id="result" class="result">
+      <div class="empty">
+        Seu resultado aparecerá aqui.
+      </div>
+    </div>
+
+    <a
+      id="downloadLink"
+      class="download-link"
+      target="_blank"
+      rel="noopener"
+    >
+      ⬇️ Abrir/salvar resultado
+    </a>
+
+  </div>
+
+</div>
+
+<script>
+
+  /*
+  ==========================================================
+  CONFIGURAÇÃO
+  ==========================================================
+
+  COLOQUE AQUI O SEU CLIENT ID pk_...
+
+  NÃO ENVIE SUA CHAVE PARA MIM.
+
+  O pk_ é o Client ID público do aplicativo OAuth.
+  ==========================================================
+  */
+
+  const CLIENT_ID = "COLOQUE_SUA_PK_AQUI";
+
+
+  const API_BASE = "https://gen.pollinations.ai";
+
+  const AUTH_BASE = "https://enter.pollinations.ai";
+
+  const REDIRECT_URI =
+    window.location.origin +
+    window.location.pathname;
+
+
+  let accessToken =
+    sessionStorage.getItem("pollinations_access_token") || null;
+
+  let currentMode = "image";
+
+  let lastPrompt = "";
+
+
+  const loginButton =
+    document.getElementById("loginButton");
+
+  const logoutButton =
+    document.getElementById("logoutButton");
+
+  const loginStatus =
+    document.getElementById("loginStatus");
+
+  const generateButton =
+    document.getElementById("generateButton");
+
+  const againButton =
+    document.getElementById("againButton");
+
+  const clearButton =
+    document.getElementById("clearButton");
+
+  const promptInput =
+    document.getElementById("prompt");
+
+  const result =
+    document.getElementById("result");
+
+  const statusBox =
+    document.getElementById("status");
+
+  const downloadLink =
+    document.getElementById("downloadLink");
+
+
+  /*
+  ==========================================================
+  UTILIDADES
+  ==========================================================
+  */
+
+  function base64UrlEncode(buffer) {
+
+    let bytes = new Uint8Array(buffer);
+
+    let binary = "";
+
+    bytes.forEach(byte => {
+      binary += String.fromCharCode(byte);
+    });
+
+    return btoa(binary)
+      .replace(/\+/g, "-")
+      .replace(/\//g, "_")
+      .replace(/=+$/, "");
+  }
+
+
+  function randomString(length = 64) {
+
+    const chars =
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~";
+
+    const values =
+      new Uint8Array(length);
+
+    crypto.getRandomValues(values);
+
+    return Array.from(values)
+      .map(v => chars[v % chars.length])
+      .join("");
+  }
+
+
+  async function createCodeChallenge(verifier) {
+
+    const data =
+      new TextEncoder().encode(verifier);
+
+    const digest =
+      await crypto.subtle.digest("SHA-256", data);
+
+    return base64UrlEncode(digest);
+  }
+
+
+  function showStatus(message) {
+
+    statusBox.textContent = message;
+
+    statusBox.classList.add("show");
+  }
+
+
+  function hideStatus() {
+
+    statusBox.classList.remove("show");
+
+  }
+
+
+  function escapeHtml(text) {
+
+    const div = document.createElement("div");
+
+    div.textContent = text;
+
+    return div.innerHTML;
+  }
+
+
+  /*
+  ==========================================================
+  LOGIN / OAUTH
+  ==========================================================
+  */
+
+  async function login() {
+
+    if (
+      !CLIENT_ID ||
+      CLIENT_ID === "COLOQUE_SUA_PK_AQUI"
+    ) {
+
+      alert(
+        "Primeiro coloque seu pk_ do Pollinations na constante CLIENT_ID do código."
+      );
+
+      return;
+    }
+
+
+    const verifier =
+      randomString(96);
+
+    const challenge =
+      await createCodeChallenge(verifier);
+
+    const state =
+      randomString(40);
+
+
+    sessionStorage.setItem(
+      "pollinations_pkce_verifier",
+      verifier
+    );
+
+    sessionStorage.setItem(
+      "pollinations_oauth_state",
+      state
+    );
+
+
+    const params =
+      new URLSearchParams({
+
+        response_type: "code",
+
+        client_id: CLIENT_ID,
+
+        redirect_uri: REDIRECT_URI,
+
+        scope: "profile usage",
+
+        state: state,
+
+        code_challenge: challenge,
+
+        code_challenge_method: "S256"
+
+      });
+
+
+    window.location.href =
+      AUTH_BASE +
+      "/authorize?" +
+      params.toString();
+
+  }
+
+
+  async function handleOAuthCallback() {
+
+    const params =
+      new URLSearchParams(
+        window.location.search
+      );
+
+    const error =
+      params.get("error");
+
+    const code =
+      params.get("code");
+
+    const returnedState =
+      params.get("state");
+
+
+    if (error) {
+
+      showStatus(
+        "Erro na autorização: " +
+        error
+      );
+
+      cleanUrl();
+
+      return;
+    }
+
+
+    if (!code) {
+      return;
+    }
+
+
+    const savedState =
+      sessionStorage.getItem(
+        "pollinations_oauth_state"
+      );
+
+    const verifier =
+      sessionStorage.getItem(
+        "pollinations_pkce_verifier"
+      );
+
+
+    if (
+      !savedState ||
+      savedState !== returnedState
+    ) {
+
+      showStatus(
+        "Erro de segurança: estado OAuth inválido."
+      );
+
+      cleanUrl();
+
+      return;
+    }
+
+
+    if (!verifier) {
+
+      showStatus(
+        "Código PKCE não encontrado."
+      );
+
+      cleanUrl();
+
+      return;
+    }
+
+
+    showStatus(
+      "🔐 Finalizando conexão com Pollinations..."
+    );
+
+
+    try {
+
+      const response =
+        await fetch(
+          AUTH_BASE +
+          "/api/oauth/token",
+          {
+
+            method: "POST",
+
+            headers: {
+              "Content-Type":
+                "application/x-www-form-urlencoded"
+            },
+
+            body:
+              new URLSearchParams({
+
+                grant_type:
+                  "authorization_code",
+
+                code: code,
+
+                client_id:
+                  CLIENT_ID,
+
+                redirect_uri:
+                  REDIRECT_URI,
+
+                code_verifier:
+                  verifier
+
+              })
+
+          }
+        );
+
+
+      const data =
+        await response.json();
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          data.error_description ||
+          data.error ||
+          "Falha ao obter token."
+        );
+
+      }
+
+
+      accessToken =
+        data.access_token;
+
+
+      sessionStorage.setItem(
+        "pollinations_access_token",
+        accessToken
+      );
+
+
+      sessionStorage.removeItem(
+        "pollinations_oauth_state"
+      );
+
+      sessionStorage.removeItem(
+        "pollinations_pkce_verifier"
+      );
+
+
+      cleanUrl();
+
+      updateLoginUI();
+
+      showStatus(
+        "✅ IA conectada com sucesso!"
+      );
+
+
+      setTimeout(
+        hideStatus,
+        3000
+      );
+
+
+    } catch (error) {
+
+      showStatus(
+        "❌ Erro ao conectar: " +
+        error.message
+      );
+
+      cleanUrl();
+
+    }
+
+  }
+
+
+  function cleanUrl() {
+
+    window.history.replaceState(
+      {},
+      document.title,
+      REDIRECT_URI
+    );
+
+  }
+
+
+  function logout() {
+
+    accessToken = null;
+
+    sessionStorage.removeItem(
+      "pollinations_access_token"
+    );
+
+    updateLoginUI();
+
+    showStatus(
+      "Você foi desconectado."
+    );
+
+  }
+
+
+  function updateLoginUI() {
+
+    if (accessToken) {
+
+      loginStatus.textContent =
+        "● Conectado à IA";
+
+      loginStatus.classList.add(
+        "connected"
+      );
+
+      loginButton.style.display =
+        "none";
+
+      logoutButton.style.display =
+        "inline-block";
+
+    } else {
+
+      loginStatus.textContent =
+        "Não conectado";
+
+      loginStatus.classList.remove(
+        "connected"
+      );
+
+      loginButton.style.display =
+        "inline-block";
+
+      logoutButton.style.display =
+        "none";
+
+    }
+
+  }
+
+
+  /*
+  ==========================================================
+  MODOS
+  ==========================================================
+  */
+
+  const modeButtons =
+    document.querySelectorAll(
+      ".mode"
+    );
+
+
+  modeButtons.forEach(button => {
+
+    button.addEventListener(
+      "click",
+      () => {
+
+        modeButtons.forEach(b =>
+          b.classList.remove("active")
+        );
+
+        button.classList.add(
+          "active"
+        );
+
+        currentMode =
+          button.dataset.mode;
+
+        updateOptions();
+
+      }
+    );
+
+  });
+
+
+  function updateOptions() {
+
+    document.getElementById(
+      "imageOptions"
+    ).style.display =
+      currentMode === "image"
+        ? "block"
+        : "none";
+
+
+    document.getElementById(
+      "videoOptions"
+    ).style.display =
+      currentMode === "video"
+        ? "block"
+        : "none";
+
+
+    document.getElementById(
+      "durationOptions"
+    ).style.display =
+      currentMode === "video"
+        ? "block"
+        : "none";
+
+
+    document.getElementById(
+      "voiceOptions"
+    ).style.display =
+      currentMode === "audio"
+        ? "block"
+        : "none";
+
+
+    if (currentMode === "image") {
+
+      promptInput.placeholder =
+        "Descreva a imagem que você quer criar...";
+
+    }
+
+
+    if (currentMode === "video") {
+
+      promptInput.placeholder =
+        "Descreva o vídeo que você quer criar...";
+
+    }
+
+
+    if (currentMode === "audio") {
+
+      promptInput.placeholder =
+        "Digite o texto que a IA deve falar...";
+
+    }
+
+
+    if (currentMode === "text") {
+
+      promptInput.placeholder =
+        "Digite o que você quer que a IA escreva...";
+
+    }
+
+  }
+
+
+  /*
+  ==========================================================
+  GERAÇÃO
+  ==========================================================
+  */
+
+  async function generate() {
+
+    const prompt =
+      promptInput.value.trim();
+
+
+    if (!prompt) {
+
+      alert(
+        "Digite primeiro o que você quer criar."
+      );
+
+      return;
+    }
+
+
+    if (!accessToken) {
+
+      alert(
+        "Conecte a IA primeiro."
+      );
+
+      return;
+    }
+
+
+    lastPrompt = prompt;
+
+    againButton.style.display =
+      "inline-block";
+
+    generateButton.disabled =
+      true;
+
+
+    result.innerHTML =
+      '<div class="empty">⏳ A IA está criando...</div>';
+
+    downloadLink.style.display =
+      "none";
+
+
+    try {
+
+      if (currentMode === "image") {
+
+        await generateImage(prompt);
+
+      }
+
+      else if (currentMode === "video") {
+
+        await generateVideo(prompt);
+
+      }
+
+      else if (currentMode === "audio") {
+
+        await generateAudio(prompt);
+
+      }
+
+      else if (currentMode === "text") {
+
+        await generateText(prompt);
+
+      }
+
+
+    } catch (error) {
+
+      console.error(error);
+
+      result.innerHTML =
+        `<div class="empty">
+          ❌ Não foi possível gerar.
+          <br><br>
+          ${escapeHtml(error.message)}
+        </div>`;
+
+      showStatus(
+        "Erro durante a geração."
+      );
+
+    }
+
+
+    generateButton.disabled =
+      false;
+
+  }
+
+
+  /*
+  ==========================================================
+  IMAGEM
+  ==========================================================
+  */
+
+  async function generateImage(prompt) {
+
+    showStatus(
+      "🖼️ Criando sua imagem..."
+    );
+
+
+    const response =
+      await fetch(
+        API_BASE +
+        "/v1/images/generations",
+        {
+
+          method: "POST",
+
+          headers: {
+
+            "Authorization":
+              "Bearer " + accessToken,
+
+            "Content-Type":
+              "application/json"
+
+          },
+
+          body: JSON.stringify({
+
+            model:
+              document.getElementById(
+                "imageModel"
+              ).value,
+
+            prompt:
+              prompt,
+
+            n: 1,
+
+            size:
+              "1024x1024",
+
+            response_format:
+              "url"
+
+          })
+
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        data.error?.message ||
+        data.error ||
+        "Erro ao gerar imagem."
+      );
+
+    }
+
+
+    let imageUrl =
+      data.data?.[0]?.url;
+
+
+    if (!imageUrl) {
+
+      const b64 =
+        data.data?.[0]?.b64_json;
+
+      if (b64) {
+
+        imageUrl =
+          "data:image/png;base64," +
+          b64;
+
+      }
+
+    }
+
+
+    if (!imageUrl) {
+
+      throw new Error(
+        "A API não retornou a imagem."
+      );
+
+    }
+
+
+    result.innerHTML =
+      `<img
+        src="${imageUrl}"
+        alt="Imagem criada pela IA"
+      >`;
+
+
+    setDownload(
+      imageUrl,
+      "criacao-ia.png"
+    );
+
+
+    showStatus(
+      "✅ Imagem criada!"
+    );
+
+  }
+
+
+  /*
+  ==========================================================
+  VÍDEO
+  ==========================================================
+  */
+
+  async function generateVideo(prompt) {
+
+    showStatus(
+      "🎬 Criando o vídeo... isso pode demorar."
+    );
+
+
+    const model =
+      document.getElementById(
+        "videoModel"
+      ).value;
+
+
+    const duration =
+      document.getElementById(
+        "videoDuration"
+      ).value;
+
+
+    const params =
+      new URLSearchParams({
+
+        model:
+          model,
+
+        duration:
+          duration,
+
+        key:
+          accessToken
+
+      });
+
+
+    const url =
+      API_BASE +
+      "/video/" +
+      encodeURIComponent(prompt) +
+      "?" +
+      params.toString();
+
+
+    result.innerHTML =
+      `<video
+        controls
+        autoplay
+        playsinline
+      >
+        <source
+          src="${url}"
+          type="video/mp4"
+        >
+        Seu navegador não consegue reproduzir este vídeo.
+      </video>`;
+
+
+    downloadLink.href =
+      url;
+
+    downloadLink.download =
+      "criacao-ia.mp4";
+
+    downloadLink.textContent =
+      "⬇️ Abrir/salvar vídeo";
+
+    downloadLink.style.display =
+      "block";
+
+
+    showStatus(
+      "🎬 O vídeo foi solicitado. Aguarde o carregamento."
+    );
+
+  }
+
+
+  /*
+  ==========================================================
+  ÁUDIO
+  ==========================================================
+  */
+
+  async function generateAudio(prompt) {
+
+    showStatus(
+      "🔊 Criando áudio..."
+    );
+
+
+    const response =
+      await fetch(
+        API_BASE +
+        "/v1/audio/speech",
+        {
+
+          method: "POST",
+
+          headers: {
+
+            "Authorization":
+              "Bearer " + accessToken,
+
+            "Content-Type":
+              "application/json"
+
+          },
+
+          body: JSON.stringify({
+
+            model:
+              "tts-1",
+
+            input:
+              prompt,
+
+            voice:
+              document.getElementById(
+                "voice"
+              ).value,
+
+            response_format:
+              "mp3"
+
+          })
+
+        }
+      );
+
+
+    if (!response.ok) {
+
+      let message =
+        "Erro ao gerar áudio.";
+
+      try {
+
+        const error =
+          await response.json();
+
+        message =
+          error.error?.message ||
+          error.error ||
+          message;
+
+      } catch (_) {}
+
+      throw new Error(message);
+
+    }
+
+
+    const blob =
+      await response.blob();
+
+
+    const audioUrl =
+      URL.createObjectURL(blob);
+
+
+    result.innerHTML =
+      `<audio
+        controls
+        autoplay
+      >
+      </audio>`;
+
+
+    const audio =
+      result.querySelector(
+        "audio"
+      );
+
+    audio.src =
+      audioUrl;
+
+
+    setDownload(
+      audioUrl,
+      "criacao-ia.mp3"
+    );
+
+
+    showStatus(
+      "✅ Áudio criado!"
+    );
+
+  }
+
+
+  /*
+  ==========================================================
+  TEXTO
+  ==========================================================
+  */
+
+  async function generateText(prompt) {
+
+    showStatus(
+      "📝 A IA está escrevendo..."
+    );
+
+
+    const response =
+      await fetch(
+        API_BASE +
+        "/v1/chat/completions",
+        {
+
+          method: "POST",
+
+          headers: {
+
+            "Authorization":
+              "Bearer " + accessToken,
+
+            "Content-Type":
+              "application/json"
+
+          },
+
+          body: JSON.stringify({
+
+            model:
+              "openai/gpt-5.4-nano",
+
+            messages: [
+
+              {
+                role: "system",
+
+                content:
+                  "Você é um assistente criativo. Responda em português do Brasil de forma clara e útil."
+              },
+
+              {
+                role: "user",
+
+                content:
+                  prompt
+              }
+
+            ]
+
+          })
+
+        }
+      );
+
+
+    const data =
+      await response.json();
+
+
+    if (!response.ok) {
+
+      throw new Error(
+        data.error?.message ||
+        data.error ||
+        "Erro ao gerar texto."
+      );
+
+    }
+
+
+    const text =
+      data.choices?.[0]?.message?.content;
+
+
+    if (!text) {
+
+      throw new Error(
+        "A IA não retornou texto."
+      );
+
+    }
+
+
+    result.innerHTML =
+      `<div class="result-text">
+        ${escapeHtml(text)}
+      </div>`;
+
+
+    showStatus(
+      "✅ Texto criado!"
+    );
+
+  }
+
+
+  /*
+  ==========================================================
+  DOWNLOAD
+  ==========================================================
+  */
+
+  function setDownload(url, filename) {
+
+    downloadLink.href =
+      url;
+
+    downloadLink.download =
+      filename;
+
+    downloadLink.textContent =
+      "⬇️ Abrir/salvar resultado";
+
+    downloadLink.style.display =
+      "block";
+
+  }
+
+
+  /*
+  ==========================================================
+  BOTÕES
+  ==========================================================
+  */
+
+  loginButton.addEventListener(
+    "click",
+    login
+  );
+
+
+  logoutButton.addEventListener(
+    "click",
+    logout
+  );
+
+
+  generateButton.addEventListener(
+    "click",
+    generate
+  );
+
+
+  againButton.addEventListener(
+    "click",
+    () => {
+
+      if (lastPrompt) {
+
+        promptInput.value =
+          lastPrompt;
+
+        generate();
+
+      }
+
+    }
+  );
+
+
+  clearButton.addEventListener(
+    "click",
+    () => {
+
+      promptInput.value = "";
+
+      result.innerHTML =
+        `<div class="empty">
+          Seu resultado aparecerá aqui.
+        </div>`;
+
+      downloadLink.style.display =
+        "none";
+
+      hideStatus();
+
+    }
+  );
+
+
+  /*
+  ==========================================================
+  INICIALIZAÇÃO
+  ==========================================================
+  */
+
+  handleOAuthCallback();
+
+  updateLoginUI();
+
+  updateOptions();
+
+
+  /*
+  ==========================================================
+  SERVICE WORKER
+  ==========================================================
+  */
+
+  if ("serviceWorker" in navigator) {
+
+    window.addEventListener(
+      "load",
+      () => {
+
+        navigator.serviceWorker
+          .register("./sw.js")
+          .catch(error =>
+            console.log(
+              "Service Worker:",
+              error
+            )
+          );
+
+      }
+    );
+
+  }
+
+</script>
+
+</body>
+  </html>
